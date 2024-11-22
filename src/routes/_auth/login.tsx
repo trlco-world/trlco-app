@@ -47,7 +47,6 @@ function LoginPage() {
     onSuccess: (data) => {
       setError(null)
       setCookies('trlco-at', data.access_token, {
-        httpOnly: import.meta.env.PROD,
         secure: import.meta.env.PROD,
         sameSite: import.meta.env.PROD ? 'strict' : 'lax',
         maxAge: 24 * 60 * 60,
