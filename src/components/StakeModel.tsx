@@ -16,45 +16,50 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract,
 } from 'wagmi'
-import { Slider } from './Slider'
+// import { Slider } from './Slider'
 
 const stakingContractAddress = import.meta.env.VITE_FIXED_STAKING_SC_ADDRESS
 const stakingTokenAddress = import.meta.env.VITE_TRLCO_SC_ADDRESS
 
 export default function StakeModal({ children }: React.PropsWithChildren) {
-  const [month, setMonth] = useState(1) // Single duration value
+  // const [month, setMonth] = useState(1) // Single duration value
   const [amount, setAmount] = useState('') // Input amount
 
   const { data: hash, isPending, writeContractAsync } = useWriteContract()
 
   const { address } = useAccount()
 
-  const { data: allowance } = useReadContract({
+  const { data: allowance, refetch: refetchAllowance } = useReadContract({
     address: stakingTokenAddress,
     abi: erc20Abi,
     functionName: 'allowance',
     args: [address!, stakingContractAddress],
   })
 
-  const handleApprovalAndStake = async () => {
+  const handleApprove = async () => {
+    try {
+      // Proceed with Approving amount
+      await writeContractAsync({
+        address: stakingTokenAddress,
+        abi: erc20Abi,
+        functionName: 'approve',
+        args: [stakingContractAddress, parseEther(amount)],
+      })
+      refetchAllowance()
+      alert('Approve successful!')
+    } catch (error) {
+      console.error('Error during staking:', error)
+      alert(`Error: ${error || 'Failed to process your stake.'}`)
+    }
+  }
+
+  const handleStake = async () => {
     if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
       alert('Please enter a valid amount to stake.')
       return
     }
 
-    const adjustedAmount = parseEther(amount)
-
     try {
-      // Check if allowance is sufficient before approval
-      if (allowance! < adjustedAmount) {
-        await writeContractAsync({
-          address: stakingTokenAddress,
-          abi: erc20Abi,
-          functionName: 'approve',
-          args: [stakingContractAddress, adjustedAmount],
-        })
-      }
-
       // Proceed with staking
       await writeContractAsync({
         address: stakingContractAddress,
@@ -70,9 +75,9 @@ export default function StakeModal({ children }: React.PropsWithChildren) {
           },
         ],
         functionName: 'stake',
-        args: [adjustedAmount],
+        args: [parseEther(amount)],
       })
-
+      window.location.reload()
       alert('Stake successful!')
     } catch (error) {
       console.error('Error during staking:', error)
@@ -84,9 +89,9 @@ export default function StakeModal({ children }: React.PropsWithChildren) {
     hash,
   })
 
-  const handleChangeMonth = (value: number[]) => {
-    if (value.length > 0) setMonth(value[0]) // Ensure single value
-  }
+  // const handleChangeMonth = (value: number[]) => {
+  //   if (value.length > 0) setMonth(value[0]) // Ensure single value
+  // }
 
   return (
     <Dialog>
@@ -109,11 +114,12 @@ export default function StakeModal({ children }: React.PropsWithChildren) {
         </DialogHeader>
         <div className='space-y-8'>
           <Separator />
+
           <div className='space-y-4'>
             <div className='flex items-center justify-between text-sm'>
               <span className='font-medium text-gray-600'>Amount</span>
               <span className='font-light text-gray-600'>
-                Available:{' '}
+                Available Limit:{' '}
                 <span className='font-medium'>
                   {formatEther(allowance! ?? 0)} TRLCO
                 </span>
@@ -132,7 +138,8 @@ export default function StakeModal({ children }: React.PropsWithChildren) {
               <span className='mr-2 text-gray-500'>0.00 USD</span>
             </div>
           </div>
-          <div className='space-y-4'>
+
+          {/* <div className='space-y-4'>
             <div>
               <div className='flex items-center justify-between text-sm'>
                 <div className='font-medium text-gray-600'>Duration</div>
@@ -155,20 +162,36 @@ export default function StakeModal({ children }: React.PropsWithChildren) {
                 ),
               )}
             </div>
-          </div>
+          </div> */}
         </div>
         <DialogFooter className='pt-6'>
-          <button
-            onClick={handleApprovalAndStake}
-            className='bg-red-500 text-white mx-auto rounded-full p-2.5 px-10'
-            disabled={isPending || isConfirming}
-          >
-            {isPending
-              ? 'Staking...'
-              : isConfirming
-                ? 'Confirming...'
-                : 'Stake'}
-          </button>
+          {allowance && Number(formatEther(allowance)) >= Number(amount) ? (
+            // Show Stake Button
+            <button
+              onClick={handleStake} // Stake when allowance is sufficient
+              className='bg-red-500 text-white mx-auto rounded-full p-2.5 px-10'
+              disabled={isPending || isConfirming}
+            >
+              {isPending
+                ? 'Staking...'
+                : isConfirming
+                  ? 'Confirming...'
+                  : `Stake`}
+            </button>
+          ) : (
+            // Show Approve Button
+            <button
+              onClick={handleApprove} // Approve when allowance is insufficient
+              className='bg-red-500 text-white mx-auto rounded-full p-2.5 px-10'
+              disabled={isPending || isConfirming}
+            >
+              {isPending
+                ? 'Approving...'
+                : isConfirming
+                  ? 'Confirming...'
+                  : `Approve`}
+            </button>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -104,13 +104,15 @@ function LoginPage() {
           <p>Join us today to revolutionize property transactions.</p>
         </div>
 
-        <Link
-          href='https://api-stg.trlco.world/auth/'
+        <button
+          onClick={() =>
+            (window.location.href = 'https://api-stg.trlco.world/auth/google')
+          }
           className='flex items-center justify-center gap-3 py-3 text-lg font-medium rounded-full bg-neutral-100 text-neutral-500'
         >
           <FcGoogle className='w-6 h-6' />
           Continue with Google
-        </Link>
+        </button>
 
         <div className='relative'>
           <div className='absolute inset-0 flex items-center'>
