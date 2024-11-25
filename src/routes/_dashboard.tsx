@@ -5,6 +5,7 @@ import Topbar from '@/components/Topbar'
 
 const isAuthenticated = async () => {
   const token = document.cookie.split('=')[1]
+  if (!token) return false
   const user = await getUserFn(token)
   return Boolean(user)
 }
