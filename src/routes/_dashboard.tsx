@@ -4,13 +4,9 @@ import { getUserFn } from '@/lib/api'
 import Topbar from '@/components/Topbar'
 
 const isAuthenticated = async () => {
-  try {
-    const token = document.cookie.split('=')[1]
-    const user = await getUserFn(token)
-    return user ? true : false
-  } catch (error) {
-    return false
-  }
+  const token = document.cookie.split('=')[1]
+  const user = await getUserFn(token)
+  return Boolean(user)
 }
 
 export const Route = createFileRoute('/_dashboard')({
@@ -21,6 +17,7 @@ export const Route = createFileRoute('/_dashboard')({
         search: {
           redirectTo: location.href,
         },
+        replace: true,
       })
     }
   },

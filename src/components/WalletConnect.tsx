@@ -14,9 +14,14 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from './ui/dialog'
 import { Link } from '@tanstack/react-router'
+import {
+  AlertDialogDescription,
+  AlertDialogTitle,
+} from '@radix-ui/react-alert-dialog'
 
 const walletIcon: { [key: string]: string } = {
   MetaMask: '/metamask.svg',
@@ -59,7 +64,8 @@ const WalletConnect = () => {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader className='text-2xl font-semibold !text-center'>
-              Connect your wallet
+              <DialogTitle>Connect your wallet</DialogTitle>
+              <DialogDescription></DialogDescription>
             </DialogHeader>
             <DialogDescription className='!text-center'>
               Select a wallet type to continue
@@ -105,7 +111,8 @@ const WalletConnect = () => {
         </AlertDialogTrigger>
         <AlertDialogContent className='p-10 !rounded-3xl'>
           <AlertDialogHeader className='!text-center text-2xl font-semibold'>
-            Your wallet account
+            <AlertDialogTitle>Your wallet account</AlertDialogTitle>
+            <AlertDialogDescription></AlertDialogDescription>
           </AlertDialogHeader>
           <div className='grid gap-4 p-6 border rounded-3xl md:grid-cols-3'>
             <div className='flex flex-col gap-1'>

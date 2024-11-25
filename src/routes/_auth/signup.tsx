@@ -1,36 +1,62 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { useForm } from '@tanstack/react-form'
+import { useMutation } from '@tanstack/react-query'
+import { signUpFn } from '@/lib/api'
+import { encryptData } from '@/lib/encrypt'
+import { useState } from 'react'
+import { useCookies } from 'react-cookie'
 
 export const Route = createFileRoute('/_auth/signup')({
   component: SignUpPage,
 })
 
-function SignUpButton() {
-  // const { pending } = useFormStatus();
-
-  // if (pending) {
-  //   return (
-  //     <button
-  //       className='flex items-center justify-center gap-2 py-3 text-white bg-red-300 rounded-full '
-  //       type='submit'
-  //       disabled
-  //     >
-  //       Signing Up <LoaderCircle className='duration-300 animate-spin' />
-  //     </button>
-  //   );
-  // } else {
-  return (
-    <button
-      className='px-6 py-3 font-medium text-white bg-red-500 rounded-full'
-      type='submit'
-    >
-      Sign Up
-    </button>
-  )
-  // }
-}
-
 export default function SignUpPage() {
-  //   const [status, formAction] = useFormState(handleSignUp, null)
+  const [error, setError] = useState<string | null>(null)
+  const [_, setCookies] = useCookies(['trlco-at'])
+  const navigate = useNavigate()
+
+  const signUpMutation = useMutation({
+    mutationFn: async (data: {
+      name: string
+      email: string
+      password: Record<string, string>
+      password_confirmation: Record<string, string>
+    }) => await signUpFn(data),
+    onError: (error: any) => {
+      console.log(error)
+      setError(error.response?.data?.message || 'An unexpected error occurred')
+    },
+    onSuccess: (data) => {
+      setError(null)
+      setCookies('trlco-at', data.access_token, {
+        secure: import.meta.env.PROD,
+        sameSite: import.meta.env.PROD ? 'strict' : 'lax',
+        maxAge: 24 * 60 * 60,
+        path: '/',
+      })
+      navigate({ to: '/verify', search: { email: data.username } })
+    },
+  })
+
+  const form = useForm({
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+    onSubmit: async ({ value }) => {
+      const password = encryptData(value.password)
+      const password_confirmation = encryptData(value.confirmPassword)
+
+      signUpMutation.mutate({
+        name: value.name,
+        email: value.email,
+        password,
+        password_confirmation,
+      })
+    },
+  })
 
   return (
     <div className='grid min-h-screen grid-cols-2 mx-auto max-w-7xl'>
@@ -52,54 +78,92 @@ export default function SignUpPage() {
             Join us today to revolutionize property transactions.
           </p>
         </div>
-        <form className='grid gap-4'>
-          <input
-            type='name'
-            id='name'
+        <form
+          className='grid gap-4'
+          onSubmit={(e) => {
+            e.preventDefault(), e.stopPropagation(), form.handleSubmit()
+          }}
+        >
+          <form.Field
             name='name'
-            className='px-6 py-3 border rounded-full bg-neutral-100'
-            placeholder='Enter your name'
-            required
+            children={(field) => (
+              <input
+                type='text'
+                name={field.name}
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                className='px-6 py-3 border rounded-full bg-neutral-100'
+                placeholder='Enter your name'
+                required
+              />
+            )}
           />
-          <input
-            type='email'
-            id='email'
+          <form.Field
             name='email'
-            className='px-6 py-3 border rounded-full bg-neutral-100'
-            placeholder='Enter your email'
-            required
+            children={(field) => (
+              <input
+                type='email'
+                name={field.name}
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                className='px-6 py-3 border rounded-full bg-neutral-100'
+                placeholder='Enter your email'
+                required
+              />
+            )}
           />
-          <input
-            type='password'
-            id='password'
+          <form.Field
             name='password'
-            className='px-6 py-3 border rounded-full bg-neutral-100'
-            placeholder='Enter your password'
-            required
+            children={(field) => (
+              <input
+                type='password'
+                name={field.name}
+                value={field.state.value}
+                onChange={(e) => field.handleChange(e.target.value)}
+                className='px-6 py-3 border rounded-full bg-neutral-100'
+                placeholder='Enter your password'
+                required
+              />
+            )}
           />
-          <input
-            type='password'
-            id='password'
-            name='password'
-            className='px-6 py-3 border rounded-full bg-neutral-100'
-            placeholder='Confirm your password'
-            required
+          <form.Field
+            name='confirmPassword'
+            children={(field) => (
+              <input
+                type='password'
+                name={field.name}
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                className='px-6 py-3 border rounded-full bg-neutral-100'
+                placeholder='Confirm your password'
+                required
+              />
+            )}
           />
-          <SignUpButton />
-          {/* {status && (
-            <div className='flex flex-col items-center justify-center py-4 text-red-500 bg-red-100'>
-              <div>{status.message}</div>
-              {status.errors && (
-                <ul className='mt-2 text-left'>
-                  {Object.entries(status.errors).map(([field, messages]) => (
-                    <li key={field} className='text-red-700'>
-                      <strong>{field}:</strong> {messages?.toString()}
-                    </li>
-                  ))}
-                </ul>
-              )}
+          {signUpMutation.isPending ? (
+            <button
+              className='px-6 py-3 font-medium text-white bg-gray-500 rounded-full'
+              disabled
+            >
+              Signing Up...
+            </button>
+          ) : (
+            <button
+              className='px-6 py-3 font-medium text-white bg-red-500 rounded-full'
+              type='submit'
+            >
+              Sign Up
+            </button>
+          )}
+          {/* Display error messages */}
+          {error && (
+            <div className='p-4 text-red-500 bg-red-100'>
+              <p>{error}</p>
             </div>
-          )} */}
+          )}
         </form>
 
         <div className='space-y-3 text-sm text-center'>

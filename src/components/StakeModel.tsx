@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { useState } from 'react'
-import { erc20Abi, parseEther } from 'viem'
+import { erc20Abi, formatEther, parseEther } from 'viem'
 import {
   useAccount,
   useReadContract,
@@ -113,7 +113,10 @@ export default function StakeModal({ children }: React.PropsWithChildren) {
             <div className='flex items-center justify-between text-sm'>
               <span className='font-medium text-gray-600'>Amount</span>
               <span className='font-light text-gray-600'>
-                Available: <span className='font-medium'>1200 TRLCO</span>
+                Available:{' '}
+                <span className='font-medium'>
+                  {formatEther(allowance! ?? 0)} TRLCO
+                </span>
               </span>
             </div>
             <div className='flex items-center border border-gray-300 rounded-full p-2.5'>

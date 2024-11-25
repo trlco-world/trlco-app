@@ -1,4 +1,4 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { createRootRoute, Outlet, redirect } from '@tanstack/react-router'
 
 import React, { Suspense } from 'react'
 
@@ -11,6 +11,11 @@ const TanStackRouterDevTools = import.meta.env.DEV
   : () => null
 
 export const Route = createRootRoute({
+  beforeLoad: ({ location }) => {
+    if (location.href === '/') {
+      throw redirect({ to: '/dashboard' })
+    }
+  },
   component: () => (
     <>
       <Outlet />

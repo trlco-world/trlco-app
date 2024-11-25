@@ -11,11 +11,6 @@ export const config = createConfig({
   connectors: [
     coinbaseWallet({ appName: 'TRLCO' }),
     walletConnect({ projectId: import.meta.env.VITE_PROJECT_ID }),
-    metaMask({
-      dappMetadata: {
-        name: 'TRLCO',
-        url: 'https://app.trlco.world',
-      },
-    }),
+    metaMask(),
   ],
 })

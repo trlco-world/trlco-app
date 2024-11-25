@@ -1,5 +1,6 @@
 import { loginFn } from '@/lib/api'
 import { encryptData } from '@/lib/encrypt'
+import { useForm } from '@tanstack/react-form'
 import { useMutation } from '@tanstack/react-query'
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
@@ -60,26 +61,28 @@ function LoginPage() {
     },
   })
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const form = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    onSubmit: async ({ value }) => {
+      const { email, password } = value
 
-    const formData = new FormData(e.target as HTMLFormElement)
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
+      if (!email || !password) {
+        setError('Email and password are required')
+        return
+      }
 
-    if (!email || !password) {
-      setError('Email and password are required')
-      return
-    }
+      const encryptedEmail = encryptData(email)
+      const encryptedPassword = encryptData(password)
 
-    const encryptedEmail = encryptData(email)
-    const encryptedPassword = encryptData(password)
-
-    loginMutation.mutate({
-      email: encryptedEmail,
-      password: encryptedPassword,
-    })
-  }
+      loginMutation.mutate({
+        email: encryptedEmail,
+        password: encryptedPassword,
+      })
+    },
+  })
 
   return (
     <div className='grid min-h-screen grid-cols-2 mx-auto max-w-7xl'>
@@ -118,20 +121,41 @@ function LoginPage() {
           </div>
         </div>
 
-        <form onSubmit={onSubmit} className='flex flex-col gap-4'>
-          <input
-            type='email'
-            id='email'
+        <form
+          onSubmit={(e) => {
+            e.preventDefault(), e.stopPropagation(), form.handleSubmit()
+          }}
+          className='flex flex-col gap-4'
+        >
+          <form.Field
             name='email'
-            className='px-6 py-3 border rounded-full bg-neutral-100'
-            placeholder='Enter your email'
+            children={(field) => (
+              <input
+                type='email'
+                name={field.name}
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                className='px-6 py-3 border rounded-full bg-neutral-100'
+                placeholder='Enter your email'
+                autoComplete='username'
+              />
+            )}
           />
-          <input
-            type='password'
-            id='password'
+          <form.Field
             name='password'
-            className='px-6 py-3 border rounded-full bg-neutral-100'
-            placeholder='Enter your password'
+            children={(field) => (
+              <input
+                type='password'
+                name={field.name}
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                className='px-6 py-3 border rounded-full bg-neutral-100'
+                placeholder='Enter your password'
+                autoComplete='current-password'
+              />
+            )}
           />
 
           <LoginButton isLoading={loginMutation.isPending} />
@@ -139,7 +163,7 @@ function LoginPage() {
 
         {/* Display error messages */}
         {error && (
-          <div className='py-4 text-red-500 bg-red-100'>
+          <div className='p-4 text-red-500 bg-red-100'>
             <p>{error}</p>
           </div>
         )}
