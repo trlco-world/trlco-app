@@ -84,6 +84,15 @@ function LoginPage() {
     },
   })
 
+  const handleOAuth = async () => {
+    const response = await fetch('https://api-stg.trlco.world/auth/google', {
+      method: 'GET',
+    })
+    console.log(response)
+    const data = await response.json()
+    console.log(data)
+  }
+
   return (
     <div className='grid min-h-screen grid-cols-2 mx-auto max-w-7xl'>
       {/* Left column */}
@@ -105,9 +114,7 @@ function LoginPage() {
         </div>
 
         <button
-          onClick={() =>
-            (window.location.href = 'https://api-stg.trlco.world/auth/google')
-          }
+          onClick={handleOAuth}
           className='flex items-center justify-center gap-3 py-3 text-lg font-medium rounded-full bg-neutral-100 text-neutral-500'
         >
           <FcGoogle className='w-6 h-6' />

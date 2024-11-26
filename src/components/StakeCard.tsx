@@ -1,44 +1,23 @@
 import { Separator } from '@/components/ui/separator'
 import { RadialChart } from './RadialChart'
-import StakeModal from './StakeModel'
-import { useWriteContract } from 'wagmi'
-import { parseEther } from 'viem'
+import { lazy } from 'react'
+import { useTRLContract } from '@/hooks/use-contract'
+import { formatEther } from 'viem'
 
-const stakingContractAddress = import.meta.env.VITE_FIXED_STAKING_SC_ADDRESS
+const UnstakeModel = lazy(() =>
+  import('./UnstakeModel').then((module) => ({ default: module.default })),
+)
 
-export default function StakeCard({ stakes }: { stakes: string }) {
-  const { writeContractAsync } = useWriteContract()
+const StakeModel = lazy(() =>
+  import('./StakeModel').then((module) => ({ default: module.default })),
+)
 
-  const handleUnStake = async () => {
-    try {
-      // Proceed with staking
-      await writeContractAsync({
-        address: stakingContractAddress,
-        abi: [
-          {
-            inputs: [
-              {
-                internalType: 'uint256',
-                name: '_amount',
-                type: 'uint256',
-              },
-            ],
-            name: 'withdrawStake',
-            outputs: [],
-            stateMutability: 'nonpayable',
-            type: 'function',
-          },
-        ],
-        functionName: 'withdrawStake',
-        args: [parseEther(stakes)],
-      })
+const ClaimModel = lazy(() =>
+  import('./ClaimModel').then((module) => ({ default: module.default })),
+)
 
-      alert('Unstake successful!')
-    } catch (error) {
-      console.error('Error during staking:', error)
-      alert(`Error: ${error || 'Failed to process your transaction.'}`)
-    }
-  }
+export default function StakeCard() {
+  const { stakes, reward, allowance } = useTRLContract()
   return (
     <div className='flex gap-6 p-6 border rounded-3xl'>
       <div className='flex-1 space-y-6'>
@@ -72,26 +51,36 @@ export default function StakeCard({ stakes }: { stakes: string }) {
       </div>
       <div className='grid'>
         <div className='flex items-center gap-3'>
-          <StakeModal>
+          <StakeModel>
             <button className='py-2 text-sm font-medium text-center text-white bg-red-500 rounded-full min-w-24'>
               Stake
             </button>
-          </StakeModal>
+          </StakeModel>
           <div className='flex flex-col text-xs font-light text-neutral-500'>
-            <span>Your staked:</span>
-            <span>$TRLCO {stakes}</span>
+            <span>Available to stake:</span>
+            <span>$TRLCO {formatEther(allowance ?? 0n)}</span>
           </div>
         </div>
         <div className='flex items-center gap-3'>
-          <button
-            onClick={() => handleUnStake()}
-            className='py-2 text-sm font-medium text-center text-red-500 border border-red-500 rounded-full min-w-24'
-          >
-            Unstake All
-          </button>
+          <UnstakeModel>
+            <button className='py-2 text-sm font-medium text-center text-red-500 border border-red-500 rounded-full min-w-24'>
+              Un-Stake
+            </button>
+          </UnstakeModel>
           <div className='flex flex-col text-xs font-light text-neutral-500'>
-            <span>Available to stake:</span>
-            <span>$TRLCO 1000</span>
+            <span>Your staked:</span>
+            <span>$TRLCO {formatEther(stakes.amount ?? 0n)}</span>
+          </div>
+        </div>
+        <div className='flex items-center gap-3'>
+          <ClaimModel>
+            <button className='py-2 text-sm font-medium text-center text-red-500 border border-red-500 rounded-full min-w-24'>
+              Claim
+            </button>
+          </ClaimModel>
+          <div className='flex flex-col text-xs font-light text-neutral-500'>
+            <span>Available to claim:</span>
+            <span>$TRLCO {formatEther(reward ?? 0n)}</span>
           </div>
         </div>
       </div>

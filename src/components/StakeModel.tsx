@@ -8,44 +8,23 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
+import { useTRLContract } from '@/hooks/use-contract'
 import { useState } from 'react'
-import { erc20Abi, formatEther, parseEther } from 'viem'
-import {
-  useAccount,
-  useReadContract,
-  useWaitForTransactionReceipt,
-  useWriteContract,
-} from 'wagmi'
-// import { Slider } from './Slider'
-
-const stakingContractAddress = import.meta.env.VITE_FIXED_STAKING_SC_ADDRESS
-const stakingTokenAddress = import.meta.env.VITE_TRLCO_SC_ADDRESS
+import { formatEther } from 'viem'
 
 export default function StakeModal({ children }: React.PropsWithChildren) {
   // const [month, setMonth] = useState(1) // Single duration value
   const [amount, setAmount] = useState('') // Input amount
+  const [open, setOpen] = useState<boolean>()
 
-  const { data: hash, isPending, writeContractAsync } = useWriteContract()
-
-  const { address } = useAccount()
-
-  const { data: allowance, refetch: refetchAllowance } = useReadContract({
-    address: stakingTokenAddress,
-    abi: erc20Abi,
-    functionName: 'allowance',
-    args: [address!, stakingContractAddress],
-  })
+  const { stake, approve, refetch, isConfirming, isPending, allowance } =
+    useTRLContract()
 
   const handleApprove = async () => {
     try {
       // Proceed with Approving amount
-      await writeContractAsync({
-        address: stakingTokenAddress,
-        abi: erc20Abi,
-        functionName: 'approve',
-        args: [stakingContractAddress, parseEther(amount)],
-      })
-      refetchAllowance()
+      await approve()
+      refetch()
       alert('Approve successful!')
     } catch (error) {
       console.error('Error during staking:', error)
@@ -61,23 +40,9 @@ export default function StakeModal({ children }: React.PropsWithChildren) {
 
     try {
       // Proceed with staking
-      await writeContractAsync({
-        address: stakingContractAddress,
-        abi: [
-          {
-            inputs: [
-              { internalType: 'uint256', name: '_amount', type: 'uint256' },
-            ],
-            name: 'stake',
-            outputs: [],
-            stateMutability: 'nonpayable',
-            type: 'function',
-          },
-        ],
-        functionName: 'stake',
-        args: [parseEther(amount)],
-      })
-      window.location.reload()
+      await stake(amount)
+      refetch()
+      setOpen(false)
       alert('Stake successful!')
     } catch (error) {
       console.error('Error during staking:', error)
@@ -85,32 +50,19 @@ export default function StakeModal({ children }: React.PropsWithChildren) {
     }
   }
 
-  const { isLoading: isConfirming } = useWaitForTransactionReceipt({
-    hash,
-  })
-
   // const handleChangeMonth = (value: number[]) => {
   //   if (value.length > 0) setMonth(value[0]) // Ensure single value
   // }
 
   return (
-    <Dialog>
+    <Dialog open={open}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='sm:max-w-[500px]'>
         <DialogHeader className='flex flex-col items-center gap-2'>
           <DialogTitle className='text-3xl font-semibold text-gray-700'>
             Stake - Fixed Term
           </DialogTitle>
-          <DialogDescription className='flex gap-4'>
-            <div className='flex items-center gap-2'>
-              <div className='w-6 h-6 rounded-full bg-neutral-200'></div>
-              <span className='font-medium text-neutral-900'>$TRLCO Pool</span>
-            </div>
-            <div className='flex items-center gap-2 font-light text-gray-600'>
-              30-day APY{' '}
-              <span className='font-medium text-neutral-900'>30%</span>
-            </div>
-          </DialogDescription>
+          <DialogDescription className='flex gap-4'></DialogDescription>
         </DialogHeader>
         <div className='space-y-8'>
           <Separator />
