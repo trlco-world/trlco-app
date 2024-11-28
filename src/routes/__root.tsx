@@ -1,5 +1,4 @@
 import { createRootRoute, Outlet, redirect } from '@tanstack/react-router'
-
 import React, { Suspense } from 'react'
 
 const TanStackRouterDevTools = import.meta.env.DEV
