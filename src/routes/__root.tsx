@@ -15,12 +15,16 @@ export const Route = createRootRoute({
       throw redirect({ to: '/dashboard' })
     }
   },
-  component: () => (
+  component: RootLayout,
+})
+
+function RootLayout() {
+  return (
     <>
       <Outlet />
       <Suspense>
         <TanStackRouterDevTools />
       </Suspense>
     </>
-  ),
-})
+  )
+}

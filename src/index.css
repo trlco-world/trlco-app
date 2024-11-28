@@ -96,7 +96,17 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Outfit Variable', sans-serif;
+    transition-property: opacity, background, transform, filter;
+    transition-timing-function: ease-in-out;
+    transition-duration: 500ms;
   }
+}
+
+.page-transition {
+  opacity: 0;
+  background: black;
+  transform: translateY(40px);
+  filter: blur(12px);
 }
 
 .menu-active {
