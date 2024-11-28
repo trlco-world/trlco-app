@@ -17,13 +17,15 @@ import { Route as DashboardWalletImport } from './routes/_dashboard/wallet'
 import { Route as DashboardTradeImport } from './routes/_dashboard/trade'
 import { Route as DashboardSwapImport } from './routes/_dashboard/swap'
 import { Route as DashboardPortfolioImport } from './routes/_dashboard/portfolio'
-import { Route as DashboardExploreImport } from './routes/_dashboard/explore'
 import { Route as DashboardDashboardImport } from './routes/_dashboard/dashboard'
 import { Route as AuthVerifyImport } from './routes/_auth/verify'
 import { Route as AuthSignupImport } from './routes/_auth/signup'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as DashboardStakeIndexImport } from './routes/_dashboard/stake/index'
+import { Route as DashboardMarketplaceIndexImport } from './routes/_dashboard/marketplace/index'
 import { Route as DashboardStakeIdImport } from './routes/_dashboard/stake/$id'
+import { Route as DashboardPropertyPropertyIdImport } from './routes/_dashboard/property/$propertyId'
+import { Route as DashboardMarketplaceMarketplaceIdImport } from './routes/_dashboard/marketplace/$marketplaceId'
 
 // Create/Update Routes
 
@@ -62,12 +64,6 @@ const DashboardPortfolioRoute = DashboardPortfolioImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
-const DashboardExploreRoute = DashboardExploreImport.update({
-  id: '/explore',
-  path: '/explore',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
 const DashboardDashboardRoute = DashboardDashboardImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -98,11 +94,31 @@ const DashboardStakeIndexRoute = DashboardStakeIndexImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
+const DashboardMarketplaceIndexRoute = DashboardMarketplaceIndexImport.update({
+  id: '/marketplace/',
+  path: '/marketplace/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
 const DashboardStakeIdRoute = DashboardStakeIdImport.update({
   id: '/stake/$id',
   path: '/stake/$id',
   getParentRoute: () => DashboardRoute,
 } as any)
+
+const DashboardPropertyPropertyIdRoute =
+  DashboardPropertyPropertyIdImport.update({
+    id: '/property/$propertyId',
+    path: '/property/$propertyId',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+
+const DashboardMarketplaceMarketplaceIdRoute =
+  DashboardMarketplaceMarketplaceIdImport.update({
+    id: '/marketplace/$marketplaceId',
+    path: '/marketplace/$marketplaceId',
+    getParentRoute: () => DashboardRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -150,13 +166,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardDashboardImport
       parentRoute: typeof DashboardImport
     }
-    '/_dashboard/explore': {
-      id: '/_dashboard/explore'
-      path: '/explore'
-      fullPath: '/explore'
-      preLoaderRoute: typeof DashboardExploreImport
-      parentRoute: typeof DashboardImport
-    }
     '/_dashboard/portfolio': {
       id: '/_dashboard/portfolio'
       path: '/portfolio'
@@ -185,11 +194,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardWalletImport
       parentRoute: typeof DashboardImport
     }
+    '/_dashboard/marketplace/$marketplaceId': {
+      id: '/_dashboard/marketplace/$marketplaceId'
+      path: '/marketplace/$marketplaceId'
+      fullPath: '/marketplace/$marketplaceId'
+      preLoaderRoute: typeof DashboardMarketplaceMarketplaceIdImport
+      parentRoute: typeof DashboardImport
+    }
+    '/_dashboard/property/$propertyId': {
+      id: '/_dashboard/property/$propertyId'
+      path: '/property/$propertyId'
+      fullPath: '/property/$propertyId'
+      preLoaderRoute: typeof DashboardPropertyPropertyIdImport
+      parentRoute: typeof DashboardImport
+    }
     '/_dashboard/stake/$id': {
       id: '/_dashboard/stake/$id'
       path: '/stake/$id'
       fullPath: '/stake/$id'
       preLoaderRoute: typeof DashboardStakeIdImport
+      parentRoute: typeof DashboardImport
+    }
+    '/_dashboard/marketplace/': {
+      id: '/_dashboard/marketplace/'
+      path: '/marketplace'
+      fullPath: '/marketplace'
+      preLoaderRoute: typeof DashboardMarketplaceIndexImport
       parentRoute: typeof DashboardImport
     }
     '/_dashboard/stake/': {
@@ -206,23 +236,28 @@ declare module '@tanstack/react-router' {
 
 interface DashboardRouteChildren {
   DashboardDashboardRoute: typeof DashboardDashboardRoute
-  DashboardExploreRoute: typeof DashboardExploreRoute
   DashboardPortfolioRoute: typeof DashboardPortfolioRoute
   DashboardSwapRoute: typeof DashboardSwapRoute
   DashboardTradeRoute: typeof DashboardTradeRoute
   DashboardWalletRoute: typeof DashboardWalletRoute
+  DashboardMarketplaceMarketplaceIdRoute: typeof DashboardMarketplaceMarketplaceIdRoute
+  DashboardPropertyPropertyIdRoute: typeof DashboardPropertyPropertyIdRoute
   DashboardStakeIdRoute: typeof DashboardStakeIdRoute
+  DashboardMarketplaceIndexRoute: typeof DashboardMarketplaceIndexRoute
   DashboardStakeIndexRoute: typeof DashboardStakeIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardDashboardRoute: DashboardDashboardRoute,
-  DashboardExploreRoute: DashboardExploreRoute,
   DashboardPortfolioRoute: DashboardPortfolioRoute,
   DashboardSwapRoute: DashboardSwapRoute,
   DashboardTradeRoute: DashboardTradeRoute,
   DashboardWalletRoute: DashboardWalletRoute,
+  DashboardMarketplaceMarketplaceIdRoute:
+    DashboardMarketplaceMarketplaceIdRoute,
+  DashboardPropertyPropertyIdRoute: DashboardPropertyPropertyIdRoute,
   DashboardStakeIdRoute: DashboardStakeIdRoute,
+  DashboardMarketplaceIndexRoute: DashboardMarketplaceIndexRoute,
   DashboardStakeIndexRoute: DashboardStakeIndexRoute,
 }
 
@@ -237,12 +272,14 @@ export interface FileRoutesByFullPath {
   '/signup': typeof AuthSignupRoute
   '/verify': typeof AuthVerifyRoute
   '/dashboard': typeof DashboardDashboardRoute
-  '/explore': typeof DashboardExploreRoute
   '/portfolio': typeof DashboardPortfolioRoute
   '/swap': typeof DashboardSwapRoute
   '/trade': typeof DashboardTradeRoute
   '/wallet': typeof DashboardWalletRoute
+  '/marketplace/$marketplaceId': typeof DashboardMarketplaceMarketplaceIdRoute
+  '/property/$propertyId': typeof DashboardPropertyPropertyIdRoute
   '/stake/$id': typeof DashboardStakeIdRoute
+  '/marketplace': typeof DashboardMarketplaceIndexRoute
   '/stake': typeof DashboardStakeIndexRoute
 }
 
@@ -253,12 +290,14 @@ export interface FileRoutesByTo {
   '/signup': typeof AuthSignupRoute
   '/verify': typeof AuthVerifyRoute
   '/dashboard': typeof DashboardDashboardRoute
-  '/explore': typeof DashboardExploreRoute
   '/portfolio': typeof DashboardPortfolioRoute
   '/swap': typeof DashboardSwapRoute
   '/trade': typeof DashboardTradeRoute
   '/wallet': typeof DashboardWalletRoute
+  '/marketplace/$marketplaceId': typeof DashboardMarketplaceMarketplaceIdRoute
+  '/property/$propertyId': typeof DashboardPropertyPropertyIdRoute
   '/stake/$id': typeof DashboardStakeIdRoute
+  '/marketplace': typeof DashboardMarketplaceIndexRoute
   '/stake': typeof DashboardStakeIndexRoute
 }
 
@@ -270,12 +309,14 @@ export interface FileRoutesById {
   '/_auth/signup': typeof AuthSignupRoute
   '/_auth/verify': typeof AuthVerifyRoute
   '/_dashboard/dashboard': typeof DashboardDashboardRoute
-  '/_dashboard/explore': typeof DashboardExploreRoute
   '/_dashboard/portfolio': typeof DashboardPortfolioRoute
   '/_dashboard/swap': typeof DashboardSwapRoute
   '/_dashboard/trade': typeof DashboardTradeRoute
   '/_dashboard/wallet': typeof DashboardWalletRoute
+  '/_dashboard/marketplace/$marketplaceId': typeof DashboardMarketplaceMarketplaceIdRoute
+  '/_dashboard/property/$propertyId': typeof DashboardPropertyPropertyIdRoute
   '/_dashboard/stake/$id': typeof DashboardStakeIdRoute
+  '/_dashboard/marketplace/': typeof DashboardMarketplaceIndexRoute
   '/_dashboard/stake/': typeof DashboardStakeIndexRoute
 }
 
@@ -288,12 +329,14 @@ export interface FileRouteTypes {
     | '/signup'
     | '/verify'
     | '/dashboard'
-    | '/explore'
     | '/portfolio'
     | '/swap'
     | '/trade'
     | '/wallet'
+    | '/marketplace/$marketplaceId'
+    | '/property/$propertyId'
     | '/stake/$id'
+    | '/marketplace'
     | '/stake'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -303,12 +346,14 @@ export interface FileRouteTypes {
     | '/signup'
     | '/verify'
     | '/dashboard'
-    | '/explore'
     | '/portfolio'
     | '/swap'
     | '/trade'
     | '/wallet'
+    | '/marketplace/$marketplaceId'
+    | '/property/$propertyId'
     | '/stake/$id'
+    | '/marketplace'
     | '/stake'
   id:
     | '__root__'
@@ -318,12 +363,14 @@ export interface FileRouteTypes {
     | '/_auth/signup'
     | '/_auth/verify'
     | '/_dashboard/dashboard'
-    | '/_dashboard/explore'
     | '/_dashboard/portfolio'
     | '/_dashboard/swap'
     | '/_dashboard/trade'
     | '/_dashboard/wallet'
+    | '/_dashboard/marketplace/$marketplaceId'
+    | '/_dashboard/property/$propertyId'
     | '/_dashboard/stake/$id'
+    | '/_dashboard/marketplace/'
     | '/_dashboard/stake/'
   fileRoutesById: FileRoutesById
 }
@@ -365,12 +412,14 @@ export const routeTree = rootRoute
       "filePath": "_dashboard.tsx",
       "children": [
         "/_dashboard/dashboard",
-        "/_dashboard/explore",
         "/_dashboard/portfolio",
         "/_dashboard/swap",
         "/_dashboard/trade",
         "/_dashboard/wallet",
+        "/_dashboard/marketplace/$marketplaceId",
+        "/_dashboard/property/$propertyId",
         "/_dashboard/stake/$id",
+        "/_dashboard/marketplace/",
         "/_dashboard/stake/"
       ]
     },
@@ -390,10 +439,6 @@ export const routeTree = rootRoute
       "filePath": "_dashboard/dashboard.tsx",
       "parent": "/_dashboard"
     },
-    "/_dashboard/explore": {
-      "filePath": "_dashboard/explore.tsx",
-      "parent": "/_dashboard"
-    },
     "/_dashboard/portfolio": {
       "filePath": "_dashboard/portfolio.tsx",
       "parent": "/_dashboard"
@@ -410,8 +455,20 @@ export const routeTree = rootRoute
       "filePath": "_dashboard/wallet.tsx",
       "parent": "/_dashboard"
     },
+    "/_dashboard/marketplace/$marketplaceId": {
+      "filePath": "_dashboard/marketplace/$marketplaceId.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/property/$propertyId": {
+      "filePath": "_dashboard/property/$propertyId.tsx",
+      "parent": "/_dashboard"
+    },
     "/_dashboard/stake/$id": {
       "filePath": "_dashboard/stake/$id.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/marketplace/": {
+      "filePath": "_dashboard/marketplace/index.tsx",
       "parent": "/_dashboard"
     },
     "/_dashboard/stake/": {

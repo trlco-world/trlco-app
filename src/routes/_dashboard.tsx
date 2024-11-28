@@ -29,9 +29,11 @@ function RouteComponent() {
   return (
     <div className='flex h-dvh'>
       <Sidebar />
-      <div className='flex-1 px-6 overflow-y-scroll'>
+      <div className='flex-1 grid grid-rows-[auto_1fr] px-12 bg-[#f6f6f2]'>
         <Topbar />
-        <Outlet />
+        <div className='overflow-y-scroll'>
+          <Outlet />
+        </div>
       </div>
     </div>
   )

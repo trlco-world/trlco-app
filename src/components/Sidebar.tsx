@@ -1,4 +1,4 @@
-import { Link, useRouterState } from '@tanstack/react-router'
+import { Link, useLocation } from '@tanstack/react-router'
 import { Icon } from './icon'
 import logo from '/logo.svg'
 
@@ -11,11 +11,11 @@ const items = [
     href: '/dashboard',
   },
   {
-    title: 'Explore',
-    key: 'explore',
+    title: 'Marketplace',
+    key: 'marketplace',
     icon: <Icon.Search />,
     iconActive: <Icon.SearchActive />,
-    href: '/explore',
+    href: '/marketplace',
   },
   {
     title: 'Wallet',
@@ -65,8 +65,7 @@ const profileItems = [
 ]
 
 export default function Sidebar() {
-  const routerState = useRouterState()
-  const pathname = routerState.location.pathname
+  const location = useLocation()
   return (
     <div className='min-w-[270px] h-full rounded-r-[40px] bg-white'>
       <div className='p-5'>
@@ -78,10 +77,14 @@ export default function Sidebar() {
             key={item.key}
             href={item.href}
             className={`relative pl-5 py-3 font-medium rounded-l-full flex items-center space-x-3 ${
-              pathname.includes(item.href) ? 'menu-active' : 'text-gray-700'
+              location.pathname.includes(item.href)
+                ? 'menu-active'
+                : 'text-gray-700'
             }`}
           >
-            {pathname.includes(item.href) ? item.iconActive : item.icon}
+            {location.pathname.includes(item.href)
+              ? item.iconActive
+              : item.icon}
             <span>{item.title}</span>
           </Link>
         ))}
@@ -101,10 +104,14 @@ export default function Sidebar() {
             key={item.key}
             href={item.href}
             className={`relative pl-5 py-3 font-medium rounded-l-full flex items-center space-x-3 ${
-              pathname.includes(item.href) ? 'menu-active' : 'text-gray-700'
+              location.pathname.includes(item.href)
+                ? 'menu-active'
+                : 'text-gray-700'
             }`}
           >
-            {pathname.includes(item.href) ? item.iconActive : item.icon}
+            {location.pathname.includes(item.href)
+              ? item.iconActive
+              : item.icon}
             <span>{item.title}</span>
           </Link>
         ))}

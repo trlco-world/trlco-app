@@ -5,32 +5,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { getUserFn, logoutFn } from '@/lib/api'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { useLocation, useNavigate } from '@tanstack/react-router'
-
+import { useAuth } from '@/hooks/user-auth'
 import { LogOut } from 'lucide-react'
-import { useCookies } from 'react-cookie'
 
 export default function UserButton() {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const [cookies, _, removeCookie] = useCookies(['trlco-at'])
-  const token = cookies['trlco-at']
-  const { data: user } = useQuery({
-    queryKey: ['user'],
-    queryFn: async () => await getUserFn(token),
-  })
+  const { user, logout } = useAuth()
 
-  const logoutMutation = useMutation({
-    mutationFn: async () => logoutFn(token),
-    onSuccess: (data) => {
-      if (data.status === 200) {
-        removeCookie('trlco-at')
-        navigate({ to: '/login', search: { redirectTo: location.href } })
-      }
-    },
-  })
+  const handleLogout = async (e: React.MouseEvent) => {
+    e.preventDefault(), e.stopPropagation(), logout()
+  }
 
   return (
     <DropdownMenu>
@@ -44,9 +27,7 @@ export default function UserButton() {
         <form>
           <DropdownMenuItem>
             <button
-              onClick={(e) => {
-                e.preventDefault(), e.stopPropagation(), logoutMutation.mutate()
-              }}
+              onClick={handleLogout}
               type='submit'
               className='flex items-center w-full'
             >
