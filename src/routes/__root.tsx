@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/sonner'
 import { createRootRoute, Outlet, redirect } from '@tanstack/react-router'
 import React, { Suspense } from 'react'
 
@@ -25,6 +26,7 @@ function RootLayout() {
       <Suspense>
         <TanStackRouterDevTools />
       </Suspense>
+      <Toaster />
     </>
   )
 }

@@ -27,7 +27,7 @@ export function useTRLContract() {
     hash,
   })
 
-  const { data, refetch } = useReadContracts({
+  const { data, refetch, isLoading } = useReadContracts({
     contracts: [
       {
         ...stakingConfig,
@@ -52,11 +52,11 @@ export function useTRLContract() {
     ],
   })
 
-  const approve = async () => {
+  const approve = async (amount: string) => {
     await writeContractAsync({
       ...RewardTokenConfig,
       functionName: 'approve',
-      args: [address!, StakingContract],
+      args: [StakingContract, parseEther(amount)],
     })
   }
 
@@ -99,5 +99,6 @@ export function useTRLContract() {
     unstake,
     isPending,
     isConfirming,
+    isLoading,
   }
 }

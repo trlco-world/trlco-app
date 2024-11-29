@@ -16,6 +16,7 @@ import { Route as DashboardImport } from './routes/_dashboard'
 import { Route as DashboardWalletImport } from './routes/_dashboard/wallet'
 import { Route as DashboardTradeImport } from './routes/_dashboard/trade'
 import { Route as DashboardSwapImport } from './routes/_dashboard/swap'
+import { Route as DashboardPreferenceImport } from './routes/_dashboard/preference'
 import { Route as DashboardPortfolioImport } from './routes/_dashboard/portfolio'
 import { Route as DashboardDashboardImport } from './routes/_dashboard/dashboard'
 import { Route as AuthVerifyImport } from './routes/_auth/verify'
@@ -55,6 +56,12 @@ const DashboardTradeRoute = DashboardTradeImport.update({
 const DashboardSwapRoute = DashboardSwapImport.update({
   id: '/swap',
   path: '/swap',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardPreferenceRoute = DashboardPreferenceImport.update({
+  id: '/preference',
+  path: '/preference',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -173,6 +180,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardPortfolioImport
       parentRoute: typeof DashboardImport
     }
+    '/_dashboard/preference': {
+      id: '/_dashboard/preference'
+      path: '/preference'
+      fullPath: '/preference'
+      preLoaderRoute: typeof DashboardPreferenceImport
+      parentRoute: typeof DashboardImport
+    }
     '/_dashboard/swap': {
       id: '/_dashboard/swap'
       path: '/swap'
@@ -237,6 +251,7 @@ declare module '@tanstack/react-router' {
 interface DashboardRouteChildren {
   DashboardDashboardRoute: typeof DashboardDashboardRoute
   DashboardPortfolioRoute: typeof DashboardPortfolioRoute
+  DashboardPreferenceRoute: typeof DashboardPreferenceRoute
   DashboardSwapRoute: typeof DashboardSwapRoute
   DashboardTradeRoute: typeof DashboardTradeRoute
   DashboardWalletRoute: typeof DashboardWalletRoute
@@ -250,6 +265,7 @@ interface DashboardRouteChildren {
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardDashboardRoute: DashboardDashboardRoute,
   DashboardPortfolioRoute: DashboardPortfolioRoute,
+  DashboardPreferenceRoute: DashboardPreferenceRoute,
   DashboardSwapRoute: DashboardSwapRoute,
   DashboardTradeRoute: DashboardTradeRoute,
   DashboardWalletRoute: DashboardWalletRoute,
@@ -273,6 +289,7 @@ export interface FileRoutesByFullPath {
   '/verify': typeof AuthVerifyRoute
   '/dashboard': typeof DashboardDashboardRoute
   '/portfolio': typeof DashboardPortfolioRoute
+  '/preference': typeof DashboardPreferenceRoute
   '/swap': typeof DashboardSwapRoute
   '/trade': typeof DashboardTradeRoute
   '/wallet': typeof DashboardWalletRoute
@@ -291,6 +308,7 @@ export interface FileRoutesByTo {
   '/verify': typeof AuthVerifyRoute
   '/dashboard': typeof DashboardDashboardRoute
   '/portfolio': typeof DashboardPortfolioRoute
+  '/preference': typeof DashboardPreferenceRoute
   '/swap': typeof DashboardSwapRoute
   '/trade': typeof DashboardTradeRoute
   '/wallet': typeof DashboardWalletRoute
@@ -310,6 +328,7 @@ export interface FileRoutesById {
   '/_auth/verify': typeof AuthVerifyRoute
   '/_dashboard/dashboard': typeof DashboardDashboardRoute
   '/_dashboard/portfolio': typeof DashboardPortfolioRoute
+  '/_dashboard/preference': typeof DashboardPreferenceRoute
   '/_dashboard/swap': typeof DashboardSwapRoute
   '/_dashboard/trade': typeof DashboardTradeRoute
   '/_dashboard/wallet': typeof DashboardWalletRoute
@@ -330,6 +349,7 @@ export interface FileRouteTypes {
     | '/verify'
     | '/dashboard'
     | '/portfolio'
+    | '/preference'
     | '/swap'
     | '/trade'
     | '/wallet'
@@ -347,6 +367,7 @@ export interface FileRouteTypes {
     | '/verify'
     | '/dashboard'
     | '/portfolio'
+    | '/preference'
     | '/swap'
     | '/trade'
     | '/wallet'
@@ -364,6 +385,7 @@ export interface FileRouteTypes {
     | '/_auth/verify'
     | '/_dashboard/dashboard'
     | '/_dashboard/portfolio'
+    | '/_dashboard/preference'
     | '/_dashboard/swap'
     | '/_dashboard/trade'
     | '/_dashboard/wallet'
@@ -413,6 +435,7 @@ export const routeTree = rootRoute
       "children": [
         "/_dashboard/dashboard",
         "/_dashboard/portfolio",
+        "/_dashboard/preference",
         "/_dashboard/swap",
         "/_dashboard/trade",
         "/_dashboard/wallet",
@@ -441,6 +464,10 @@ export const routeTree = rootRoute
     },
     "/_dashboard/portfolio": {
       "filePath": "_dashboard/portfolio.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/preference": {
+      "filePath": "_dashboard/preference.tsx",
       "parent": "/_dashboard"
     },
     "/_dashboard/swap": {

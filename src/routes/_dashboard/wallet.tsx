@@ -1,10 +1,10 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import { transactionHistory } from '@/data'
+import { useTRLContract } from '@/hooks/use-contract'
 import { cn } from '@/lib/utils'
 import { createFileRoute } from '@tanstack/react-router'
 import { GoInfo } from 'react-icons/go'
 import { formatEther } from 'viem'
-import { useAccount, useBalance } from 'wagmi'
 
 export const Route = createFileRoute('/_dashboard/wallet')({
   component: WalletPage,
@@ -20,17 +20,10 @@ interface TableHistoryProps {
 }
 
 function WalletPage() {
-  const account = useAccount()
+  const { balance, stakes, isLoading } = useTRLContract()
 
   const TRLCOBalance = () => {
-    const { data, isLoading } = useBalance({
-      address: account.address,
-      token: import.meta.env.VITE_TRLCO_SC_ADDRESS,
-    })
-
-    console.log(data)
-
-    if (isLoading || !data)
+    if (isLoading)
       return (
         <div className='grid gap-1'>
           <Skeleton className='w-48 h-8' />
@@ -38,24 +31,49 @@ function WalletPage() {
         </div>
       )
 
-    if (data && data.value) {
-      const balance = +formatEther(data.value)
-      const balancePrice = balance * 0.0198263
+    const FormattedBalance = +formatEther(balance ?? 0n)
+    const balancePrice = FormattedBalance * 0.0198263
 
-      return (
-        <div className='grid'>
-          <div className='flex items-end gap-2'>
-            <span className='font-medium'>$TRLCO</span>
-            <span className='text-2xl'>
-              {new Intl.NumberFormat().format(balance)}
-            </span>
-          </div>
-          <span className='text-sm text-neutral-500'>
-            ~ {new Intl.NumberFormat().format(balancePrice)} USD
+    return (
+      <div className='grid'>
+        <div className='flex items-end gap-2'>
+          <span className='font-medium'>$TRLCO</span>
+          <span className='text-2xl'>
+            {new Intl.NumberFormat().format(FormattedBalance)}
           </span>
         </div>
+        <span className='text-sm text-neutral-500'>
+          ~ {new Intl.NumberFormat().format(balancePrice)} USD
+        </span>
+      </div>
+    )
+  }
+
+  const TRLCOStakes = () => {
+    if (isLoading)
+      return (
+        <div className='grid gap-1'>
+          <Skeleton className='w-48 h-8' />
+          <Skeleton className='w-48 h-4' />
+        </div>
       )
-    }
+
+    const FormattedStakes = +formatEther(stakes.amount ?? 0n)
+    const totalPrice = FormattedStakes * 0.0198263
+
+    return (
+      <div className='grid'>
+        <div className='flex items-end gap-2'>
+          <span className='font-medium'>$TRLCO</span>
+          <span className='text-2xl'>
+            {new Intl.NumberFormat().format(FormattedStakes)}
+          </span>
+        </div>
+        <span className='text-sm text-neutral-500'>
+          ~ {new Intl.NumberFormat().format(totalPrice)} USD
+        </span>
+      </div>
+    )
   }
 
   return (
@@ -78,6 +96,16 @@ function WalletPage() {
         <div className='p-4 space-y-6 border rounded-3xl'>
           <div className='flex items-center justify-between'>
             <span className='flex items-center gap-2 text-sm text-neutral-600'>
+              Total staked tokens <GoInfo />
+            </span>
+          </div>
+          <div>
+            <TRLCOStakes />
+          </div>
+        </div>
+        <div className='p-4 space-y-6 border rounded-3xl'>
+          <div className='flex items-center justify-between'>
+            <span className='flex items-center gap-2 text-sm text-neutral-600'>
               Total interest earned from staking
               <GoInfo />
             </span>
@@ -85,19 +113,6 @@ function WalletPage() {
           <div>
             <div className='font-medium'>
               $TRLCO <span className='text-2xl'>10,000</span>
-            </div>
-            <span className='text-sm text-neutral-500'>~ 50.00 USD</span>
-          </div>
-        </div>
-        <div className='p-4 space-y-6 border rounded-3xl'>
-          <div className='flex items-center justify-between'>
-            <span className='flex items-center gap-2 text-sm text-neutral-600'>
-              Total staked tokens <GoInfo />
-            </span>
-          </div>
-          <div>
-            <div className='font-medium'>
-              $TRLCO <span className='text-2xl'>200,000</span>
             </div>
             <span className='text-sm text-neutral-500'>~ 50.00 USD</span>
           </div>

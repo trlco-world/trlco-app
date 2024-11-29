@@ -23,7 +23,7 @@ export default function StakeModal({ children }: React.PropsWithChildren) {
   const handleApprove = async () => {
     try {
       // Proceed with Approving amount
-      await approve()
+      await approve(amount)
       refetch()
       alert('Approve successful!')
     } catch (error) {
