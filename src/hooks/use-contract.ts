@@ -1,5 +1,5 @@
 import { abi } from '@/lib/abi'
-import { erc20Abi, GetBlockNumberErrorType, parseEther } from 'viem'
+import { erc20Abi, parseEther } from 'viem'
 import {
   useAccount,
   useReadContracts,
