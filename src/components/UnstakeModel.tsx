@@ -57,7 +57,7 @@ export default function UnstakeModel({ children }: PropsWithChildren) {
   }, [isSuccess, isPending, isConfirming])
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='sm:max-w-[500px]'>
         <DialogHeader className='flex flex-col items-center gap-2'>

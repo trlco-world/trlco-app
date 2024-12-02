@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 import UnstakeModel from '@/components/UnstakeModel'
 import { useTRLContract } from '@/hooks/use-contract'
 import { createFileRoute } from '@tanstack/react-router'
@@ -51,7 +52,8 @@ function StakeDetailsPage() {
             <CardTitle>Staking</CardTitle>
             <CardDescription>Stake TRLCO, Get TRLCO</CardDescription>
           </CardHeader>
-          <CardContent className='flex-1 space-y-2'>
+          <Separator className='mb-3' />
+          <CardContent className='flex-1 space-y-2 text-sm font-medium'>
             <div className='flex items-center justify-between'>
               <span>Stake Limit</span>
               <span>{formatEther(bc.allowance ?? 0n)}</span>
@@ -75,7 +77,8 @@ function StakeDetailsPage() {
             <CardTitle>Rewards</CardTitle>
             <CardDescription>Rewards generated from staking</CardDescription>
           </CardHeader>
-          <CardContent className='flex-1 space-y-2'>
+          <Separator className='mb-3' />
+          <CardContent className='flex-1 space-y-2 text-sm font-medium'>
             <div className='flex items-center justify-between'>
               <span>Stake Base APY</span>
               <span>{bc.baseRate?.toString()}%</span>

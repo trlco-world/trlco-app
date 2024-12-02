@@ -20,7 +20,6 @@ export default function StakeModal({ children }: React.PropsWithChildren) {
 
   const {
     stake,
-    stakes,
     balance,
     approve,
     refetch,
@@ -52,8 +51,7 @@ export default function StakeModal({ children }: React.PropsWithChildren) {
         return
       }
       // Proceed with staking
-      await stake(amount)
-      setOpen(false)
+      await stake(amount).then(() => setOpen(false))
     } catch (error) {
       console.error('Error during staking:', error)
       toast.error(`Error: ${'Failed to process your stake.'}`)
@@ -85,7 +83,7 @@ export default function StakeModal({ children }: React.PropsWithChildren) {
   }, [isSuccess, isPending, isConfirming])
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className='sm:max-w-[500px]'>
         <DialogHeader className='flex flex-col items-center gap-2'>

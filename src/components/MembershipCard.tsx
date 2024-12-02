@@ -131,10 +131,11 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
 
   const progress = useMemo(() => {
     const range = membershipDetail.max - membershipDetail.min
+    if (membership === 'Platinum') return '100'
     return Math.min(
       100,
       Math.max(0, ((stakedAmount - membershipDetail.min) / range) * 100),
-    )
+    ).toString()
   }, [membershipDetail, stakedAmount])
 
   if (isMobile) {
@@ -164,7 +165,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
                 className='h-full duration-500 ease-in-out'
                 style={{
                   width: `${progress}%`,
-                  background: `linear-gradient(to right, ${membershipStyle.primary})`,
+                  background: membershipStyle.primary,
                 }}
               ></div>
             </div>
@@ -268,7 +269,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
               className='h-full duration-500 ease-in-out'
               style={{
                 width: `${progress}%`,
-                background: `linear-gradient(to right, ${membershipStyle.primary})`,
+                background: membershipStyle.primary,
               }}
             ></div>
           </div>
