@@ -9,11 +9,13 @@ export default function ToggleChain() {
   const { chain, isConnected } = useAccount()
 
   function handleToggleNetwork() {
-    toast(`Switching Network`)
     const targetNetwork = chains.find((value) => value.id !== chain?.id)?.id
-    switchChainAsync({ chainId: targetNetwork ?? 8453 }).then((chain) =>
-      toast(`Network changed to ${chain.name}`),
-    )
+
+    toast.promise(switchChainAsync({ chainId: targetNetwork ?? 8453 }), {
+      loading: 'Switching Network',
+      success: (chain) => `Network changed to ${chain.name}`,
+      error: 'Error in Switching Network',
+    })
   }
 
   if (isConnected) {
