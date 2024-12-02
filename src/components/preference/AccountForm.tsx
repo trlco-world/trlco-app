@@ -27,7 +27,7 @@ export default function AccountForm() {
     <div className='p-10'>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='grid grid-cols-2 gap-10'
+        className='grid gap-10 sm:grid-cols-4'
       >
         <label htmlFor='firstName' className='flex flex-col gap-3'>
           <span className='before:content-["*"] before:text-red-500'>
@@ -35,7 +35,8 @@ export default function AccountForm() {
           </span>
           <input
             className='border border-gray-400 focus:outline-none focus:ring-red-500 focus:ring-1 focus:border-red-500 rounded-full py-2.5 px-6'
-            placeholder={user?.first_name ?? 'Enter your first name'}
+            value={user?.first_name ?? ''}
+            placeholder={'Enter your first name'}
             {...register('firstName')}
           />
         </label>
@@ -45,7 +46,8 @@ export default function AccountForm() {
           </span>
           <input
             className='border border-gray-400 focus:outline-none focus:ring-red-500 focus:ring-1 focus:border-red-500 rounded-full py-2.5 px-6'
-            placeholder={user?.last_name ?? 'Enter your first name'}
+            value={user?.last_name ?? ''}
+            placeholder={'Enter your first name'}
             {...register('lastName')}
           />
         </label>
@@ -59,7 +61,7 @@ export default function AccountForm() {
             {...register('phone')}
           />
         </label> */}
-        <Separator className='col-span-2' />
+        <Separator className='col-span-4' />
         <label htmlFor='document' className='flex flex-col gap-3'>
           <span className='after:content-["(Optional)"] after:text-gray-500 after:ml-1'>
             Submit KYC and accreditation
@@ -75,7 +77,7 @@ export default function AccountForm() {
             </div>
           </div>
         </label>
-        <div className='flex items-end justify-between col-span-2'>
+        <div className='flex items-end justify-between col-span-4'>
           <span className='before:content-["*"] text-red-400 text-sm'>
             Mandatory fields
           </span>
