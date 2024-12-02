@@ -1,4 +1,7 @@
+import { useTRLContract } from '@/hooks/use-contract'
+import type { WriteContractErrorType } from '@wagmi/core'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 const data = {
   valuation: '3,000,000 USD',
@@ -10,7 +13,36 @@ const data = {
 }
 
 export default function InvestCard() {
-  const [amount, setAmount] = useState<string>()
+  const [amount, setAmount] = useState<string>('')
+  const { invest, isPending, isConfirming } = useTRLContract()
+
+  async function handleInvest() {
+    if (!amount || +amount <= 0)
+      return toast.warning(`You can't invest 0 token`)
+
+    toast.promise(invest(amount), {
+      loading: 'Processing Investment',
+      description: `Investing ${amount} of tokens into porfolio`,
+      success: (data) => {
+        setAmount('')
+        return (
+          <a
+            href={`${import.meta.env.VITE_EXPLORER_LINK}/tx/${data}`}
+            target='_blank'
+            className='flex flex-col gap-2'
+          >
+            <h6>Investment Successful</h6>
+            <span className='underline'>{data}</span>
+          </a>
+        )
+      },
+
+      error: (e: WriteContractErrorType) => {
+        const errorMessage = e.message.split('\n')[0]
+        return errorMessage
+      },
+    })
+  }
 
   return (
     <div className='rounded-3xl overflow-clip bg-[radial-gradient(309.36%_167.4%_at_173.5%_96.42%,_#F36C24_0%,_#E96E2A_1.85%,_#D67536_4.93%,_#B67C4A_8.85%,_#868463_13.47%,_#288B7F_18.63%,_#088B82_19.12%,_#088AB5_28.13%,_#3189AF_30.43%,_#5D879F_34.24%,_#898384_39.11%,_#B97C60_44.84%,_#EF6D28_51.23%,_#F36C24_51.51%,_#EF3F36_76.99%,_#088B82_99.44%)] bg-clip-border border h-[500px] border-transparent'>
@@ -20,7 +52,7 @@ export default function InvestCard() {
           <span className='text-2xl font-medium'>{data.valuation}</span>
         </div>
       </div>
-      <div className='w-full h-full p-6 bg-white'>
+      <div className='w-full h-full p-6 space-y-6 bg-white'>
         {/* Progress Card */}
         <div className='bg-[#FFF1E9] p-3 rounded-xl space-y-3'>
           <div className='flex items-center justify-between'>
@@ -43,7 +75,7 @@ export default function InvestCard() {
             ></div>
           </div>
         </div>
-        <div>
+        <div className='space-y-3'>
           <div className='flex items-center justify-between'>
             <h6>Buy amount</h6>
             <span>
@@ -60,8 +92,24 @@ export default function InvestCard() {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
-            <span className='mr-2 text-gray-500'>0.00 USD</span>
+            <button
+              className='mr-2 text-black'
+              onClick={() => setAmount('2000')}
+            >
+              MAX
+            </button>
           </div>
+          <button
+            className='px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-full'
+            onClick={handleInvest}
+            disabled={isPending || isConfirming}
+          >
+            {isPending
+              ? 'Processig...'
+              : isConfirming
+                ? 'Comfirming...'
+                : 'Invest'}
+          </button>
         </div>
       </div>
     </div>

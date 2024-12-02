@@ -1,5 +1,5 @@
 import { abi } from '@/lib/abi'
-import { erc20Abi, parseEther } from 'viem'
+import { erc20Abi, GetBlockNumberErrorType, parseEther } from 'viem'
 import {
   useAccount,
   useReadContracts,
@@ -9,6 +9,7 @@ import {
 
 const StakingContract = import.meta.env.VITE_FIXED_STAKING_SC_ADDRESS
 const RewardToken = import.meta.env.VITE_TRLCO_SC_ADDRESS
+const InvestReceiverAddress = import.meta.env.VITE_INVEST_WALLET
 
 const RewardTokenConfig = {
   abi: erc20Abi,
@@ -91,6 +92,14 @@ export function useTRLContract() {
     })
   }
 
+  const invest = async (amount: string) => {
+    return await writeContractAsync({
+      ...RewardTokenConfig,
+      functionName: 'transfer',
+      args: [InvestReceiverAddress, parseEther(amount)],
+    })
+  }
+
   return {
     stakes: {
       amount: data?.[0].result?.[0],
@@ -107,9 +116,11 @@ export function useTRLContract() {
     stake,
     claim,
     unstake,
+    invest,
     isPending,
     isConfirming,
     isLoading,
     isSuccess,
+    hash,
   }
 }
