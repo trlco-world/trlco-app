@@ -46,6 +46,7 @@ export default function MarketplaceCard(props: MarketplaceProps) {
 
   return (
     <Link
+      disabled={props.isLocked}
       to='/marketplace/$marketplaceId'
       params={{ marketplaceId: props.id }}
       className='flex flex-col text-sm shadow rounded-3xl overflow-clip'
@@ -65,12 +66,14 @@ export default function MarketplaceCard(props: MarketplaceProps) {
           </span>
         </div>
         <div className='relative'>
-          <div className='absolute inset-0 grid place-items-center'>
-            <span className='flex items-center gap-2 text-lg'>
-              <IoLockClosed />
-              Coming Soon
-            </span>
-          </div>
+          {props.isLocked ? (
+            <div className='absolute inset-0 grid place-items-center'>
+              <span className='flex items-center gap-2 text-lg'>
+                <IoLockClosed />
+                Coming Soon
+              </span>
+            </div>
+          ) : null}
           <div className={`space-y-3 ${props.isLocked ? 'blur' : ''}`}>
             <Info
               props={{ label: 'No. of Properties', value: props.properties }}
