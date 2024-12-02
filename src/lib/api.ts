@@ -98,11 +98,22 @@ export const getUserFn = async (
   }
 }
 
-export const updateUserFn = async (authorization: string) => {
+export const updateUserFn = async (
+  authorization: string,
+  first_name: string,
+  last_name: string,
+) => {
   try {
-    const response = await request.post('/users/me/update', {
-      headers: { Authorization: `Bearer ${authorization}` },
-    })
+    const response = await request.post(
+      '/users/me/update',
+      {
+        first_name,
+        last_name,
+      },
+      {
+        headers: { Authorization: `Bearer ${authorization}` },
+      },
+    )
 
     if (response.data?.data) {
       return response.data?.data

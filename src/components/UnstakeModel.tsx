@@ -11,7 +11,7 @@ import { Separator } from '@/components/ui/separator'
 import { useTRLContract } from '@/hooks/use-contract'
 import { PropsWithChildren, useEffect, useState } from 'react'
 import { toast } from 'sonner'
-import { formatEther } from 'viem'
+import { formatEther, WriteContractErrorType } from 'viem'
 
 export default function UnstakeModel({ children }: PropsWithChildren) {
   const [open, setOpen] = useState<boolean>()
@@ -27,9 +27,11 @@ export default function UnstakeModel({ children }: PropsWithChildren) {
     try {
       await unstake(amount)
       setOpen(false)
-    } catch (error) {
-      console.error('Error during staking:', error)
-      toast.error(`Error: ${'Failed to process your stake.'}`)
+    } catch (e) {
+      toast.dismiss('loading')
+      const error = e as WriteContractErrorType
+      const errorMessage = error.message.split('\n')[0]
+      return toast.error(errorMessage)
     }
   }
 

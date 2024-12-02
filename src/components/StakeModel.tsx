@@ -12,6 +12,7 @@ import { useTRLContract } from '@/hooks/use-contract'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { formatEther } from 'viem'
+import type { WriteContractErrorType } from '@wagmi/core'
 
 export default function StakeModal({ children }: React.PropsWithChildren) {
   // const [month, setMonth] = useState(1) // Single duration value
@@ -36,11 +37,12 @@ export default function StakeModal({ children }: React.PropsWithChildren) {
         return
       }
       // Proceed with Approving amount
-      approve(amount)
-      toast('Approve successful!')
-    } catch (error) {
-      console.error('Error during staking:', error)
-      toast.error(`Error: ${error || 'Failed to process your stake.'}`)
+      await approve(amount)
+    } catch (e) {
+      toast.dismiss('loading')
+      const error = e as WriteContractErrorType
+      const errorMessage = error.message.split('\n')[0]
+      return toast.error(errorMessage)
     }
   }
 
@@ -52,9 +54,11 @@ export default function StakeModal({ children }: React.PropsWithChildren) {
       }
       // Proceed with staking
       await stake(amount).then(() => setOpen(false))
-    } catch (error) {
-      console.error('Error during staking:', error)
-      toast.error(`Error: ${'Failed to process your stake.'}`)
+    } catch (e) {
+      toast.dismiss('loading')
+      const error = e as WriteContractErrorType
+      const errorMessage = error.message.split('\n')[0]
+      return toast.error(errorMessage)
     }
   }
 

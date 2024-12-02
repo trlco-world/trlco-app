@@ -14,7 +14,7 @@ export const Route = createFileRoute('/_dashboard/preference')({
 function PreferencePage() {
   return (
     <div className='overflow-hidden bg-white rounded-3xl'>
-      <Tabs.Root defaultValue='security'>
+      <Tabs.Root defaultValue='account'>
         <Tabs.List>
           <Tabs.Trigger className={triggerStyle} value='account'>
             Account information

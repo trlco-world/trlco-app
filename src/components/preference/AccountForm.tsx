@@ -1,13 +1,26 @@
 import { Separator } from '@/components/ui/separator'
 import { useAuth } from '@/hooks/user-auth'
+import { updateUserFn } from '@/lib/api'
+import { useCookies } from 'react-cookie'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 export default function AccountForm() {
   const { user } = useAuth()
   const { register, handleSubmit } = useForm()
+  const [cookies] = useCookies(['trlco-at'])
+  const authorization = cookies['trlco-at']
 
-  const onSubmit = (e: any) => {
-    console.log(e)
+  const onSubmit = async (e: any) => {
+    if (!e.firstName || !e.lastName) {
+      return toast.info('Nothing to update')
+    }
+
+    toast.promise(updateUserFn(authorization, e.firstName, e.lastName), {
+      loading: 'Updating Your Profile',
+      success: 'Your profile is updated',
+      error: 'Unable to Update',
+    })
   }
 
   return (
@@ -36,7 +49,7 @@ export default function AccountForm() {
             {...register('lastName')}
           />
         </label>
-        <label htmlFor='phone' className='flex flex-col gap-3'>
+        {/* <label htmlFor='phone' className='flex flex-col gap-3'>
           <span className='before:content-["*"] before:text-red-500'>
             Phone number
           </span>
@@ -45,7 +58,7 @@ export default function AccountForm() {
             placeholder={'Enter your first name'}
             {...register('phone')}
           />
-        </label>
+        </label> */}
         <Separator className='col-span-2' />
         <label htmlFor='document' className='flex flex-col gap-3'>
           <span className='after:content-["(Optional)"] after:text-gray-500 after:ml-1'>
