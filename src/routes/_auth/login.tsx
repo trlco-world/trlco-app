@@ -31,7 +31,7 @@ function LoginButton({ isLoading }: { isLoading: boolean }) {
 
 function LoginPage() {
   const [error, setError] = useState<string | null>(null)
-  const [_, setCookies] = useCookies(['trlco-at'])
+  const [cookie, setCookie, removeCookie] = useCookies(['trlco-at'])
   const { redirectTo } = Route.useSearch()
   const navigate = useNavigate()
 
@@ -46,8 +46,12 @@ function LoginPage() {
       setError(error.response?.data?.message || 'An unexpected error occurred')
     },
     onSuccess: (data) => {
+      if (cookie['trlco-at']) {
+        removeCookie('trlco-at')
+      }
+
       setError(null)
-      setCookies('trlco-at', data.access_token, {
+      setCookie('trlco-at', data.access_token, {
         secure: import.meta.env.PROD,
         sameSite: import.meta.env.PROD ? 'strict' : 'lax',
         maxAge: 24 * 60 * 60,
