@@ -35,8 +35,7 @@ export default function AccountForm() {
           </span>
           <input
             className='border border-gray-400 focus:outline-none focus:ring-red-500 focus:ring-1 focus:border-red-500 rounded-full py-2.5 px-6'
-            value={user?.first_name ?? ''}
-            placeholder={'Enter your first name'}
+            placeholder={user?.first_name ?? 'Enter your first name'}
             {...register('firstName')}
           />
         </label>
@@ -46,8 +45,7 @@ export default function AccountForm() {
           </span>
           <input
             className='border border-gray-400 focus:outline-none focus:ring-red-500 focus:ring-1 focus:border-red-500 rounded-full py-2.5 px-6'
-            value={user?.last_name ?? ''}
-            placeholder={'Enter your first name'}
+            placeholder={user?.last_name ?? 'Enter your first name'}
             {...register('lastName')}
           />
         </label>
