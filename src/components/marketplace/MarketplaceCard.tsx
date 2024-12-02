@@ -1,7 +1,8 @@
 import { Link } from '@tanstack/react-router'
 import { AspectRatio } from '../ui/aspect-ratio'
+import { IoLockClosed } from 'react-icons/io5'
 
-interface MarketplaceProps {
+export interface MarketplaceProps {
   id: string
   name: string
   imgUrl: string
@@ -12,6 +13,7 @@ interface MarketplaceProps {
   valuation: string
   tokenAvailable: string
   tokenUnavailable: string
+  isLocked: boolean
 }
 
 export default function MarketplaceCard(props: MarketplaceProps) {
@@ -62,19 +64,29 @@ export default function MarketplaceCard(props: MarketplaceProps) {
             {props.symbol}
           </span>
         </div>
-        <div className='space-y-3'>
-          <Info
-            props={{ label: 'No. of Properties', value: props.properties }}
-          />
-          <Info props={{ label: 'Price per token', value: props.tokenPrice }} />
-          <Info
-            props={{ label: 'Yearly investment return', value: props.roi }}
-          />
-          <Info
-            props={{ label: 'Current valuation', value: props.valuation }}
-          />
+        <div className='relative'>
+          <div className='absolute inset-0 grid place-items-center'>
+            <span className='flex items-center gap-2 text-lg'>
+              <IoLockClosed />
+              Coming Soon
+            </span>
+          </div>
+          <div className={`space-y-3 ${props.isLocked ? 'blur' : ''}`}>
+            <Info
+              props={{ label: 'No. of Properties', value: props.properties }}
+            />
+            <Info
+              props={{ label: 'Price per token', value: props.tokenPrice }}
+            />
+            <Info
+              props={{ label: 'Yearly investment return', value: props.roi }}
+            />
+            <Info
+              props={{ label: 'Current valuation', value: props.valuation }}
+            />
+            <ProgressCard />
+          </div>
         </div>
-        <ProgressCard />
       </div>
     </Link>
   )
