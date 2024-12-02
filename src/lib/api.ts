@@ -149,3 +149,12 @@ export const completeUserProfileFn = async (args: {
     return response.data
   }
 }
+
+export const userKYCFn = async (
+  authorization: string,
+): Promise<{ refId: string }> => {
+  const response = await request.get('/users/me/get-kyc-record', {
+    headers: { Authorization: `Bearer ${authorization}` },
+  })
+  return response.data.refId
+}

@@ -1,4 +1,5 @@
 import { CompleteProfileModal } from '@/components/CompleteProfileModal'
+import KYCConnect from '@/components/KYCConnect'
 import MembershipCard from '@/components/MembershipCard'
 import WalletConnect from '@/components/WalletConnect'
 import { useTRLContract } from '@/hooks/use-contract'
@@ -84,14 +85,14 @@ function RouteComponent() {
           <p className='mb-3 text-neutral-500'>
             Complete our onboarding tasks required to start lending.
           </p>
-          <button
-            className='px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-full'
-            disabled
-          >
-            Upload documents
-          </button>
+
+          <KYCConnect>
+            <button className='px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-full'>
+              Connect with Blockpass
+            </button>
+          </KYCConnect>
         </div>
-        {/* deactive state */}
+
         <div
           className={`flex flex-col p-6  rounded-3xl ${isConnected ? 'bg-red-50' : 'bg-red-100'}`}
         >

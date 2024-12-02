@@ -1,4 +1,4 @@
-import { getUserFn, logoutFn } from '@/lib/api'
+import { getUserFn, logoutFn, userKYCFn } from '@/lib/api'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useCookies } from 'react-cookie'
@@ -14,6 +14,11 @@ export function useAuth() {
     queryFn: async () => await getUserFn(authorization),
   })
 
+  const { data: refId } = useQuery({
+    queryKey: ['refId'],
+    queryFn: async () => await userKYCFn(authorization),
+  })
+
   const { mutateAsync: logout } = useMutation({
     mutationFn: async () => await logoutFn(authorization),
     onSuccess: (data) => {
@@ -27,5 +32,6 @@ export function useAuth() {
   return {
     user,
     logout,
+    refId,
   }
 }
