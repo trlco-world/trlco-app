@@ -9,18 +9,52 @@ import {
 } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { useTRLContract } from '@/hooks/use-contract'
-import { PropsWithChildren, useState } from 'react'
+import { PropsWithChildren, useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { formatEther } from 'viem'
 
 export default function UnstakeModel({ children }: PropsWithChildren) {
   const [open, setOpen] = useState<boolean>()
   const [amount, setAmount] = useState<string>('')
-  const { refetch, unstake, isConfirming, isPending, stakes } = useTRLContract()
+  const { refetch, unstake, isConfirming, isPending, stakes, isSuccess } =
+    useTRLContract()
 
   async function handleUnstake() {
-    await unstake(amount).then(() => refetch())
-    setOpen(false)
+    if (!amount) {
+      toast.warning('Cannot withdraw 0 token')
+      return
+    }
+    try {
+      await unstake(amount)
+      setOpen(false)
+    } catch (error) {
+      console.error('Error during staking:', error)
+      toast.error(`Error: ${'Failed to process your stake.'}`)
+    }
   }
+
+  function handleMaxAmount() {
+    if (stakes.amount && stakes.amount > 0) {
+      setAmount(formatEther(stakes.amount))
+    } else {
+      toast.error('Cannot withdraw 0 token')
+    }
+  }
+
+  useEffect(() => {
+    if (isPending || isConfirming) {
+      toast.loading('Processing your transaction...', {
+        id: 'loading',
+        duration: Infinity,
+      })
+    }
+
+    if (isSuccess) {
+      toast.dismiss('loading')
+      toast.success('Transaction successful!')
+      refetch()
+    }
+  }, [isSuccess, isPending, isConfirming])
 
   return (
     <Dialog open={open}>
@@ -28,7 +62,7 @@ export default function UnstakeModel({ children }: PropsWithChildren) {
       <DialogContent className='sm:max-w-[500px]'>
         <DialogHeader className='flex flex-col items-center gap-2'>
           <DialogTitle className='text-3xl font-semibold text-gray-700'>
-            Un-stake - Fixed Term
+            Withdraw - Fixed Term
           </DialogTitle>
           <DialogDescription className='flex gap-4'></DialogDescription>
         </DialogHeader>
@@ -49,13 +83,16 @@ export default function UnstakeModel({ children }: PropsWithChildren) {
               <span className='mr-auto text-gray-800'>TRLCO</span>
               <input
                 type='number'
+                min={0}
                 placeholder='0'
                 className='flex-grow pl-2 text-gray-700 text-start focus:outline-none'
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
               />
               <div className='w-px h-6 mx-3 bg-gray-300' />
-              <span className='mr-2 text-gray-500'>0.00 USD</span>
+              <button className='mr-2 text-black' onClick={handleMaxAmount}>
+                MAX
+              </button>
             </div>
           </div>
         </div>
@@ -66,10 +103,10 @@ export default function UnstakeModel({ children }: PropsWithChildren) {
             disabled={isPending || isConfirming}
           >
             {isPending
-              ? 'Un-staking...'
+              ? 'Withdawing...'
               : isConfirming
                 ? 'Confirming...'
-                : `Un-stake`}
+                : `Withdraw`}
           </button>
         </DialogFooter>
       </DialogContent>

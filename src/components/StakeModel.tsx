@@ -9,7 +9,8 @@ import {
 } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { useTRLContract } from '@/hooks/use-contract'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { formatEther } from 'viem'
 
 export default function StakeModal({ children }: React.PropsWithChildren) {
@@ -17,42 +18,71 @@ export default function StakeModal({ children }: React.PropsWithChildren) {
   const [amount, setAmount] = useState('') // Input amount
   const [open, setOpen] = useState<boolean>()
 
-  const { stake, approve, refetch, isConfirming, isPending, allowance } =
-    useTRLContract()
+  const {
+    stake,
+    stakes,
+    balance,
+    approve,
+    refetch,
+    isConfirming,
+    isPending,
+    allowance,
+    isSuccess,
+  } = useTRLContract()
 
   const handleApprove = async () => {
     try {
+      if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
+        toast.warning('Please enter a valid amount to stake.')
+        return
+      }
       // Proceed with Approving amount
-      await approve(amount)
-      refetch()
-      alert('Approve successful!')
+      approve(amount)
+      toast('Approve successful!')
     } catch (error) {
       console.error('Error during staking:', error)
-      alert(`Error: ${error || 'Failed to process your stake.'}`)
+      toast.error(`Error: ${error || 'Failed to process your stake.'}`)
     }
   }
 
-  const handleStake = async () => {
-    if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
-      alert('Please enter a valid amount to stake.')
-      return
-    }
-
+  async function handleStake() {
     try {
+      if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
+        toast.warning('Please enter a valid amount to stake.')
+        return
+      }
       // Proceed with staking
       await stake(amount)
-      refetch()
       setOpen(false)
-      alert('Stake successful!')
     } catch (error) {
       console.error('Error during staking:', error)
-      alert(`Error: ${error || 'Failed to process your stake.'}`)
+      toast.error(`Error: ${'Failed to process your stake.'}`)
     }
   }
 
-  // const handleChangeMonth = (value: number[]) => {
-  //   if (value.length > 0) setMonth(value[0]) // Ensure single value
-  // }
+  function handleMaxAmount() {
+    if (balance && balance > 0) {
+      setAmount(formatEther(balance))
+    } else {
+      toast.error('Cannot stake 0 token')
+    }
+  }
+
+  // effect for all transaction
+  useEffect(() => {
+    if (isPending || isConfirming) {
+      toast.loading('Processing your transaction...', {
+        id: 'loading',
+        duration: Infinity,
+      })
+    }
+
+    if (isSuccess) {
+      toast.dismiss('loading')
+      toast.success('Transaction successful!')
+      refetch()
+    }
+  }, [isSuccess, isPending, isConfirming])
 
   return (
     <Dialog open={open}>
@@ -81,13 +111,16 @@ export default function StakeModal({ children }: React.PropsWithChildren) {
               <span className='mr-auto text-gray-800'>TRLCO</span>
               <input
                 type='number'
+                min={0}
                 placeholder='0'
                 className='flex-grow pl-2 text-gray-700 text-start focus:outline-none'
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
               />
               <div className='w-px h-6 mx-3 bg-gray-300' />
-              <span className='mr-2 text-gray-500'>0.00 USD</span>
+              <button className='mr-2 text-black' onClick={handleMaxAmount}>
+                MAX
+              </button>
             </div>
           </div>
 

@@ -9,17 +9,38 @@ import { DialogFooter, DialogHeader } from './ui/dialog'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import { formatEther } from 'viem'
 import { useTRLContract } from '@/hooks/use-contract'
-import { PropsWithChildren, useState } from 'react'
+import { PropsWithChildren, useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 export default function ClaimModel({ children }: PropsWithChildren) {
   const [open, setOpen] = useState<boolean>()
-  const { reward, isConfirming, isPending, claim, refetch } = useTRLContract()
+  const { reward, isConfirming, isPending, claim, refetch, isSuccess } =
+    useTRLContract()
 
   async function handleClaim() {
-    await claim()
-    refetch()
-    setOpen(false)
+    try {
+      await claim()
+      setOpen(false)
+    } catch (error) {
+      console.error('Error during staking:', error)
+      toast.error(`Error: ${'Failed to process your stake.'}`)
+    }
   }
+
+  useEffect(() => {
+    if (isPending || isConfirming) {
+      toast.loading('Processing your transaction...', {
+        id: 'loading',
+        duration: Infinity,
+      })
+    }
+
+    if (isSuccess) {
+      toast.dismiss('loading')
+      toast.success('Transaction successful!')
+      refetch()
+    }
+  }, [isSuccess, isPending, isConfirming])
 
   return (
     <Dialog open={open}>
@@ -35,9 +56,9 @@ export default function ClaimModel({ children }: PropsWithChildren) {
           <Separator />
 
           <div className='space-y-4'>
-            <div className='flex items-center justify-center text-sm'>
-              <span className='font-light text-gray-600'>
-                Available Limit:{' '}
+            <div className='flex items-center justify-center'>
+              <span className='grid font-light text-center text-gray-600'>
+                Available to claim
                 <span className='font-medium'>
                   {formatEther(reward ?? 0n)} TRLCO
                 </span>

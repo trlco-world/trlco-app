@@ -23,7 +23,7 @@ export function useTRLContract() {
   const { address } = useAccount()
 
   const { writeContractAsync, data: hash, isPending } = useWriteContract()
-  const { isLoading: isConfirming } = useWaitForTransactionReceipt({
+  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
     hash,
   })
 
@@ -40,6 +40,10 @@ export function useTRLContract() {
         args: [address!],
       },
       {
+        ...stakingConfig,
+        functionName: 'baseRate',
+      },
+      {
         ...RewardTokenConfig,
         functionName: 'balanceOf',
         args: [address!],
@@ -48,6 +52,10 @@ export function useTRLContract() {
         ...RewardTokenConfig,
         functionName: 'allowance',
         args: [address!, StakingContract],
+      },
+      {
+        ...stakingConfig,
+        functionName: 'totalStaked',
       },
     ],
   })
@@ -90,8 +98,10 @@ export function useTRLContract() {
       lastClaimed: data?.[0].result?.[2],
     },
     reward: data?.[1].result,
-    balance: data?.[2].result,
-    allowance: data?.[3].result,
+    baseRate: data?.[2].result,
+    balance: data?.[3].result,
+    allowance: data?.[4].result,
+    totalStaked: data?.[5].result,
     refetch,
     approve,
     stake,
@@ -100,5 +110,6 @@ export function useTRLContract() {
     isPending,
     isConfirming,
     isLoading,
+    isSuccess,
   }
 }

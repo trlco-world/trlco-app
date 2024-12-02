@@ -46,7 +46,7 @@ const WalletConnect = () => {
   //   Display loading State when connecting or reconencting
   if (isConnecting || isReconnecting) {
     return (
-      <div className='py-1.5 px-4 rounded-full bg-red-500 text-white w-full flex items-center'>
+      <div className='py-1.5 px-4 rounded-full bg-red-500 text-white inline-flex items-center'>
         Connecting <LoaderCircle className='ml-1 animate-spin' />
       </div>
     )
@@ -58,7 +58,7 @@ const WalletConnect = () => {
       return (
         <Dialog>
           <DialogTrigger asChild>
-            <button className='py-1.5 px-4 rounded-full bg-red-500 text-white w-full'>
+            <button className='py-1.5 px-4 rounded-full bg-red-500 text-white'>
               Connect Wallet
             </button>
           </DialogTrigger>

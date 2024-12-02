@@ -1,6 +1,8 @@
 import { tokenSvg } from '@/assets/membership'
 import { cn } from '@/lib/utils'
-import { FaCrown } from 'react-icons/fa6'
+import { useMemo } from 'react'
+import { FaCrown, FaLock } from 'react-icons/fa6'
+import { FaRegCheckCircle } from 'react-icons/fa'
 
 type Membership = 'Basic' | 'Bronze' | 'Silver' | 'Gold' | 'Platinum'
 
@@ -8,112 +10,266 @@ interface MembershipCardProps {
   membership?: Membership
   stakedAmount: number
   isActive?: boolean
+  isMobile?: boolean
 }
 
-const membershipDetails = {
+type Styles = Record<
+  Membership,
+  {
+    primary: `#${string}`
+    secondary: `#${string}`
+    iconSmall: string
+    iconBig: string
+  }
+>
+
+type Details = Record<
+  Membership,
+  {
+    min: number
+    max: number
+    trlcoRate: number
+    trlxRate: number
+    revenueShare: number
+    isMarketplace: boolean
+  }
+>
+
+const styles: Styles = {
   Basic: {
-    textColor: '#F36C24',
-    bgColor: '#FFF1E9',
-    iconColor: '#F36C24',
-    icon: tokenSvg.basic,
+    primary: '#F36C24',
+    secondary: '#FFF1E9',
+    iconSmall: tokenSvg.basic,
+    iconBig: tokenSvg.basicFull,
+  },
+  Bronze: {
+    primary: '#C97112',
+    secondary: '#FAEBDD',
+    iconSmall: tokenSvg.bronze,
+    iconBig: tokenSvg.bronzeFull,
+  },
+  Silver: {
+    primary: '#737373',
+    secondary: '#EDEEEC',
+    iconSmall: tokenSvg.silver,
+    iconBig: tokenSvg.silverFull,
+  },
+  Gold: {
+    primary: '#9F7500',
+    secondary: '#FCEFC3',
+    iconSmall: tokenSvg.gold,
+    iconBig: tokenSvg.goldFull,
+  },
+  Platinum: {
+    primary: '#143854',
+    secondary: '#E7F7FE',
+    iconSmall: tokenSvg.platinum,
+    iconBig: tokenSvg.platinumFull,
+  },
+}
+
+const details: Details = {
+  Basic: {
     min: 1,
     max: 999,
     trlcoRate: 0,
     trlxRate: 0,
-    revenueSharing: 0,
-    assetMarketplace: false,
+    revenueShare: 0,
+    isMarketplace: false,
   },
   Bronze: {
-    textColor: '#C97112',
-    bgColor: '#FAEBDD',
-    iconColor: '#C97112',
-    icon: tokenSvg.bronze,
     min: 1000,
     max: 1999,
     trlcoRate: 1.1,
     trlxRate: 1.1,
-    revenueSharing: 0,
-    assetMarketplace: false,
+    revenueShare: 0,
+    isMarketplace: false,
   },
   Silver: {
-    textColor: '#737373',
-    bgColor: '#EDEEEC',
-    iconColor: '#737373',
-    icon: tokenSvg.silver,
-    min: 5000,
-    max: 9999,
+    min: 2000,
+    max: 4999,
     trlcoRate: 1.15,
     trlxRate: 1.15,
-    revenueSharing: 5,
-    assetMarketplace: false,
+    revenueShare: 5,
+    isMarketplace: false,
   },
   Gold: {
-    textColor: '#9F7500',
-    bgColor: '#FCEFC3',
-    iconColor: '#9F7500',
-    icon: tokenSvg.gold,
-    min: 10000,
-    max: 3999,
+    min: 5000,
+    max: 9999,
     trlcoRate: 1.2,
     trlxRate: 1.2,
-    revenueSharing: 10,
-    assetMarketplace: false,
+    revenueShare: 10,
+    isMarketplace: false,
   },
   Platinum: {
-    textColor: '#143854',
-    bgColor: '#E7F7FE',
-    iconColor: '#088AB5',
-    icon: tokenSvg.platinum,
-    min: 4000,
-    max: 4999,
+    min: 10000,
+    max: Infinity,
     trlcoRate: 1.2,
     trlxRate: 1.2,
-    revenueSharing: 15,
-    assetMarketplace: true,
+    revenueShare: 15,
+    isMarketplace: true,
   },
 }
 
 const MembershipCard: React.FC<MembershipCardProps> = ({
   stakedAmount,
   isActive,
+  isMobile = false,
 }) => {
-  const membership = Object.keys(membershipDetails).find((key) => {
-    const details = membershipDetails[key as Membership]
-    return stakedAmount >= details.min && stakedAmount <= details.max
-  }) as Membership
+  const membership: Membership = useMemo(() => {
+    return (
+      (Object.entries(details).find(
+        ([, value]) =>
+          stakedAmount >= value.min &&
+          (value.max === Infinity || stakedAmount < value.max),
+      )?.[0] as Membership) || 'Basic'
+    )
+  }, [stakedAmount])
 
-  const details = membershipDetails[membership ?? 'Basic']
+  const membershipDetail = details[membership]
+  const membershipStyle = styles[membership]
 
-  const progress = Math.min(
-    100,
-    Math.max(
-      0,
-      ((stakedAmount - details.min) / (details.max - details.min)) * 100,
-    ),
-  )
+  const progress = useMemo(() => {
+    const range = membershipDetail.max - membershipDetail.min
+    return Math.min(
+      100,
+      Math.max(0, ((stakedAmount - membershipDetail.min) / range) * 100),
+    )
+  }, [membershipDetail, stakedAmount])
+
+  if (isMobile) {
+    return (
+      <div className='grid gap-6 sm:grid-cols-2'>
+        <div
+          className='flex rounded-3xl overflow-clip'
+          style={{ backgroundColor: membershipStyle.secondary }}
+        >
+          <div className='flex flex-col flex-1 p-6'>
+            <span
+              className='text-sm'
+              style={{ color: membershipStyle.primary }}
+            >
+              Membership
+            </span>
+            <span
+              className='flex items-center gap-2 text-2xl font-medium'
+              style={{ color: membershipStyle.primary }}
+            >
+              {membership}
+              <FaCrown className='w-4 h-4' />
+            </span>
+            {/* Progress Bar */}
+            <div className='h-1.5 mb-4 overflow-hidden bg-gray-300 rounded-full mt-auto'>
+              <div
+                className='h-full duration-500 ease-in-out'
+                style={{
+                  width: `${progress}%`,
+                  background: `linear-gradient(to right, ${membershipStyle.primary})`,
+                }}
+              ></div>
+            </div>
+            {/* Stats */}
+            <div className='flex items-center justify-between text-xs'>
+              <span className='text-gray-600'># of TRLCO staked</span>
+              <span
+                className='font-semibold'
+                style={{ color: membershipStyle.primary }}
+              >
+                {new Intl.NumberFormat('en-US').format(stakedAmount)}
+              </span>
+            </div>
+          </div>
+          <img src={membershipStyle.iconBig} />
+        </div>
+        {/* Benefits card */}
+        <div className='p-6 border rounded-3xl space-y-1 *:flex *:justify-between *:items-center'>
+          <div>
+            <span className='text-xs'>Membership Benefits</span>
+            <button className='text-sm font-medium text-red-500'>
+              View details
+            </button>
+          </div>
+          <div>
+            <h6 className='text-sm text-[#17271F]'>
+              Staking Multiplier{' '}
+              <span
+                style={{
+                  backgroundColor: membershipStyle.secondary,
+                  color: membershipStyle.primary,
+                  fontSize: 12,
+                  padding: '0 5px',
+                  borderRadius: 4,
+                }}
+              >
+                $TRLCO
+              </span>
+            </h6>
+            <span>{membershipDetail.trlcoRate}</span>
+          </div>
+          <div>
+            <h6 className='text-sm text-[#17271F]'>
+              Staking Multiplier{' '}
+              <span
+                style={{
+                  backgroundColor: membershipStyle.secondary,
+                  color: membershipStyle.primary,
+                  fontSize: 12,
+                  padding: '0 5px',
+                  borderRadius: 4,
+                }}
+              >
+                $TRLX
+              </span>
+            </h6>
+            <span>{membershipDetail.trlcoRate}</span>
+          </div>
+          <div>
+            <h6 className='text-sm text-[#17271F]'>Revenue sharing</h6>
+            <span>{membershipDetail.revenueShare}%</span>
+          </div>
+          <div>
+            <h6 className='text-sm text-[#17271F]'>Asset marketplace</h6>
+            <span>
+              {membershipDetail.isMarketplace ? (
+                <FaRegCheckCircle className='text-green-500' />
+              ) : (
+                <span className='flex items-center gap-2'>
+                  <FaLock />
+                  Locked
+                </span>
+              )}
+            </span>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div
       className={cn(
         isActive ? 'border-red-500' : 'border-[#E0E0E0]',
-        'border-2 rounded-3xl overflow-clip w-[300px]',
+        'border-2 rounded-3xl overflow-clip',
       )}
     >
       <div
         className='flex gap-6 p-5'
-        style={{ backgroundColor: details.bgColor }}
+        style={{ backgroundColor: membershipStyle.secondary }}
       >
         <div className='flex-grow'>
           {/* Title */}
           <div className='flex items-center gap-3 mb-4'>
             <h5 className='text-xl font-semibold'>{membership}</h5>
-            <FaCrown style={{ color: details.iconColor }} />
+            <FaCrown style={{ color: membershipStyle.primary }} />
           </div>
           {/* Progress Bar */}
           <div className='h-1.5 mb-4 overflow-hidden bg-gray-300 rounded-full'>
             <div
-              className='h-full duration-500 ease-in-out bg-red-500'
-              style={{ width: `${progress}%` }}
+              className='h-full duration-500 ease-in-out'
+              style={{
+                width: `${progress}%`,
+                background: `linear-gradient(to right, ${membershipStyle.primary})`,
+              }}
             ></div>
           </div>
           {/* Stats */}
@@ -121,7 +277,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
             <span className='text-gray-600'># of TRLCO staked</span>
             <span
               className='font-semibold'
-              style={{ color: details.textColor }}
+              style={{ color: membershipStyle.primary }}
             >
               {stakedAmount}
             </span>
@@ -129,7 +285,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
         </div>
         <div className='flex items-center justify-center flex-auto'>
           <img
-            src={details.icon}
+            src={membershipStyle.iconSmall}
             alt={`${membership} icon`}
             className='object-contain w-auto h-full'
           />
@@ -139,7 +295,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
         <div>
           <span># of TRLCO staked</span>
           <span>
-            {details.min} - {details.max}
+            {membershipDetail.min} - {membershipDetail.max}
           </span>
         </div>
         <div>
@@ -148,8 +304,8 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
         <div>
           <span
             style={{
-              backgroundColor: details.bgColor,
-              color: details.textColor,
+              backgroundColor: membershipStyle.secondary,
+              color: membershipStyle.primary,
               fontSize: 12,
               padding: '0 5px',
               borderRadius: 4,
@@ -157,13 +313,13 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
           >
             $TRLCO
           </span>
-          <span>{details.trlcoRate}x</span>
+          <span>{membershipDetail.trlcoRate}x</span>
         </div>
         <div>
           <span
             style={{
-              backgroundColor: details.bgColor,
-              color: details.textColor,
+              backgroundColor: membershipStyle.secondary,
+              color: membershipStyle.primary,
               fontSize: 12,
               padding: '0 5px',
               borderRadius: 4,
@@ -171,11 +327,11 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
           >
             $TRLX
           </span>
-          <span>{details.trlxRate}x</span>
+          <span>{membershipDetail.trlxRate}x</span>
         </div>
         <div>
           <span>Revenue sharing</span>
-          <span>{details.revenueSharing}%</span>
+          <span>{membershipDetail.revenueShare}%</span>
         </div>
         <div>
           <span>Asset Marketplace</span>

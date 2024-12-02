@@ -26,7 +26,7 @@ function RootLayout() {
       <Suspense>
         <TanStackRouterDevTools />
       </Suspense>
-      <Toaster />
+      <Toaster richColors />
     </>
   )
 }

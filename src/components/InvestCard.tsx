@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 const data = {
   valuation: '3,000,000 USD',
   roi: '15%',
@@ -8,6 +10,8 @@ const data = {
 }
 
 export default function InvestCard() {
+  const [amount, setAmount] = useState<string>()
+
   return (
     <div className='rounded-3xl overflow-clip bg-[radial-gradient(309.36%_167.4%_at_173.5%_96.42%,_#F36C24_0%,_#E96E2A_1.85%,_#D67536_4.93%,_#B67C4A_8.85%,_#868463_13.47%,_#288B7F_18.63%,_#088B82_19.12%,_#088AB5_28.13%,_#3189AF_30.43%,_#5D879F_34.24%,_#898384_39.11%,_#B97C60_44.84%,_#EF6D28_51.23%,_#F36C24_51.51%,_#EF3F36_76.99%,_#088B82_99.44%)] bg-clip-border border h-[500px] border-transparent'>
       <div className='p-6 bg-[radial-gradient(309.36%_167.4%_at_173.5%_96.42%,_#F36C24_0%,_#E96E2A_1.85%,_#D67536_4.93%,_#B67C4A_8.85%,_#868463_13.47%,_#288B7F_18.63%,_#088B82_19.12%,_#088AB5_28.13%,_#3189AF_30.43%,_#5D879F_34.24%,_#898384_39.11%,_#B97C60_44.84%,_#EF6D28_51.23%,_#F36C24_51.51%,_#EF3F36_76.99%,_#088B82_99.44%)]'>
@@ -16,7 +20,50 @@ export default function InvestCard() {
           <span className='text-2xl font-medium'>{data.valuation}</span>
         </div>
       </div>
-      <div className='w-full h-full bg-white'></div>
+      <div className='w-full h-full p-6 bg-white'>
+        {/* Progress Card */}
+        <div className='bg-[#FFF1E9] p-3 rounded-xl space-y-3'>
+          <div className='flex items-center justify-between'>
+            <h6 className='text-[#565656] text-sm'>
+              Price per token{' '}
+              <span className='font-medium text-black'>50 USD</span>
+            </h6>
+            <h6 className='text-[#565656] text-sm'>
+              Collected: <span className='font-medium'>27.32 %</span>
+            </h6>
+          </div>
+          {/* progress bar */}
+          <div className='h-1.5 overflow-hidden bg-white rounded-full'>
+            <div
+              className='h-full duration-500 ease-in-out'
+              style={{
+                width: `27%`,
+                background: `#FF4A3F`,
+              }}
+            ></div>
+          </div>
+        </div>
+        <div>
+          <div className='flex items-center justify-between'>
+            <h6>Buy amount</h6>
+            <span>
+              Available: <span>2,000 USD</span>
+            </span>
+          </div>
+          <div className='flex items-center border border-gray-300 rounded-full p-2.5'>
+            <span className='mr-auto text-gray-800'>TRLCO</span>
+            <input
+              type='number'
+              min={0}
+              placeholder='0'
+              className='flex-grow pl-2 text-gray-700 text-start focus:outline-none'
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+            <span className='mr-2 text-gray-500'>0.00 USD</span>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
