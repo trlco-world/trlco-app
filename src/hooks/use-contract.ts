@@ -3,6 +3,7 @@ import { erc20Abi, parseEther } from 'viem'
 import {
   useAccount,
   useReadContracts,
+  useTransactionCount,
   useWaitForTransactionReceipt,
   useWriteContract,
 } from 'wagmi'
@@ -26,6 +27,10 @@ export function useTRLContract() {
   const { writeContractAsync, data: hash, isPending } = useWriteContract()
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
     hash,
+  })
+
+  const result = useTransactionCount({
+    address,
   })
 
   const { data, refetch, isLoading } = useReadContracts({
@@ -122,5 +127,6 @@ export function useTRLContract() {
     isLoading,
     isSuccess,
     hash,
+    result,
   }
 }

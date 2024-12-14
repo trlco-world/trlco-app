@@ -77,9 +77,9 @@ function WalletPage() {
   }
 
   return (
-    <div className='flex flex-col gap-3 p-10 text-black bg-white rounded-3xl'>
+    <div className='flex flex-col gap-3 p-6 text-black bg-white sm:p-10 rounded-3xl'>
       <h4 className='text-2xl font-semibold'>Account overview</h4>
-      <div className='grid grid-cols-3 gap-6'>
+      <div className='grid gap-6 sm:grid-cols-3'>
         <div className='p-4 space-y-6 border rounded-3xl'>
           <div className='flex items-center justify-between'>
             <span className='flex items-center gap-2 text-sm text-neutral-600'>

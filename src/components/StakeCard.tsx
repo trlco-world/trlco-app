@@ -42,9 +42,9 @@ export default function StakeCard() {
     <Link
       to='/stake/$stakeId'
       params={{ stakeId: 'fixed-staking' }}
-      className='flex items-center gap-6 p-6 border rounded-3xl'
+      className='flex flex-col items-center gap-6 p-6 border sm:flex-row rounded-3xl'
     >
-      <div className='flex-1 space-y-6'>
+      <div className='w-full space-y-6 sm:w-8/12'>
         <div className='flex items-center gap-3'>
           <div className='w-8 h-8 rounded-full bg-neutral-300'>
             <img src='./trlco.svg' className='w-full h-full' />
@@ -54,7 +54,7 @@ export default function StakeCard() {
             Fixed Term
           </span>
         </div>
-        <div className='flex flex-auto gap-6'>
+        <div className='flex flex-col flex-auto gap-6 sm:flex-row'>
           <div className='flex flex-col gap-1 grow'>
             <BaseRate />
           </div>
@@ -67,14 +67,16 @@ export default function StakeCard() {
           </div>
         </div>
       </div>
-      <FixedTermProgress />
+      <div className='w-full sm:w-auto'>
+        <FixedTermProgress />
+      </div>
     </Link>
   )
 }
 
 const FixedTermProgress = () => {
   return (
-    <div className='rounded-3xl bg-[#FFF1E9] overflow-clip'>
+    <div className='rounded-3xl bg-[#FFF1E9] overflow-clip w-full'>
       <div className='flex justify-between px-4 py-3'>
         <div className='flex flex-col gap-1'>
           <span className='text-sm text-neutral-500'>Remaining</span>

@@ -37,15 +37,15 @@ function StakeDetailsPage() {
     <div className='min-h-full overflow-hidden bg-white rounded-3xl'>
       <Banner>
         <BackButton />
-        <h2 className='text-2xl font-semibold text-white'>
+        <h2 className='text-lg font-semibold text-white sm:text-2xl'>
           {stakeId.toUpperCase()}
         </h2>
-        <p className='text-neutral-200'>
+        <p className='text-sm text-neutral-200 sm:text-base'>
           Enjoy yield by staking ${stakeId} through a flexible or a locked pool.
         </p>
       </Banner>
 
-      <div className='grid grid-cols-4 gap-6 p-6'>
+      <div className='grid gap-6 p-6 sm:grid-cols-4'>
         <MembershipCard stakedAmount={stakedAmount} />
         <Card className='flex flex-col shadow-none rounded-3xl'>
           <CardHeader>

@@ -19,8 +19,8 @@ function RouteComponent() {
   const { isConnected } = useAccount()
 
   return (
-    <div className='flex flex-col gap-6 p-10 bg-white rounded-3xl'>
-      <div className='flex'>
+    <div className='flex flex-col gap-6 p-6 bg-white sm:p-10 rounded-3xl'>
+      <div className='grid sm:flex'>
         <div className='flex-1'>
           <h2 className='text-2xl font-semibold text-neutral-800'>
             Welcome to TRL, {user?.name}
@@ -37,7 +37,7 @@ function RouteComponent() {
 
       {/* steps card */}
 
-      <div className='grid grid-cols-3 gap-6'>
+      <div className='grid gap-6 sm:grid-cols-3'>
         {/* active state */}
         <div
           className={`flex flex-col p-6  rounded-3xl ${user?.is_profile_filled ? 'bg-red-50' : 'bg-red-100'}`}
@@ -175,10 +175,14 @@ function RouteComponent() {
             View more
           </Link>
         </div>
-        <div className='grid grid-cols-2 gap-6'>
-          <div className='flex overflow-hidden border rounded-3xl'>
-            <div className='relative min-w-[200px]'>
-              <img src='/images/learn-placeholder.png' alt='image' />
+        <div className='grid gap-6 sm:grid-cols-2'>
+          <div className='flex flex-col overflow-hidden border sm:flex-row rounded-3xl'>
+            <div className='relative min-w-[200px] h-[200px]'>
+              <img
+                src='/images/learn-placeholder.png'
+                className='object-cover w-full h-full'
+                alt='image'
+              />
             </div>
             <div className='p-6 space-y-3'>
               <div className='text-sm text-neutral-500 text-normal'>
@@ -195,9 +199,13 @@ function RouteComponent() {
               </div>
             </div>
           </div>
-          <div className='flex overflow-hidden border rounded-3xl'>
-            <div className='relative min-w-[200px]'>
-              <img src='/images/learn-placeholder.png' alt='image' />
+          <div className='flex flex-col overflow-hidden border sm:flex-row rounded-3xl'>
+            <div className='relative min-w-[200px] h-[200px]'>
+              <img
+                src='/images/learn-placeholder.png'
+                className='object-cover w-full h-full'
+                alt='image'
+              />
             </div>
             <div className='p-6 space-y-3'>
               <div className='text-sm text-neutral-500 text-normal'>

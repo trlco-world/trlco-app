@@ -15,8 +15,7 @@ import { formatEther } from 'viem'
 import type { WriteContractErrorType } from '@wagmi/core'
 
 export default function StakeModal({ children }: React.PropsWithChildren) {
-  // const [month, setMonth] = useState(1) // Single duration value
-  const [amount, setAmount] = useState('') // Input amount
+  const [amount, setAmount] = useState('')
   const [open, setOpen] = useState<boolean>()
 
   const {

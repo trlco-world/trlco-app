@@ -60,11 +60,11 @@ const tabTriggerStyle =
 
 function MarketplacePage() {
   return (
-    <div className='p-10 space-y-6 overflow-hidden bg-white rounded-3xl'>
-      <h4 className='text-2xl font-semibold'>Properties</h4>
+    <div className='p-6 space-y-6 overflow-hidden bg-white sm:p-10 rounded-3xl'>
+      <h4 className='text-lg font-semibold sm:text-2xl'>Properties</h4>
       <div>
         <Tabs.Root defaultValue='progress'>
-          <Tabs.List className='flex gap-3'>
+          <Tabs.List className='flex gap-3 overflow-x-auto text-sm sm:text-base text-nowrap'>
             <Tabs.Trigger value='progress' className={tabTriggerStyle}>
               In Progress
             </Tabs.Trigger>
@@ -76,7 +76,7 @@ function MarketplacePage() {
             </Tabs.Trigger>
           </Tabs.List>
           <Tabs.Content value='progress'>
-            <div className='grid grid-cols-4 gap-6 py-6'>
+            <div className='grid gap-6 py-6 sm:grid-cols-4'>
               {inProgress ? (
                 inProgress.map((u, i) => <MarketplaceCard key={i} {...u} />)
               ) : (
@@ -85,7 +85,7 @@ function MarketplacePage() {
             </div>
           </Tabs.Content>
           <Tabs.Content value='coming'>
-            <div className='grid grid-cols-4 gap-6 py-6'>
+            <div className='grid gap-6 py-6 sm:grid-cols-4'>
               {comingSoon ? (
                 comingSoon.map((u, i) => <MarketplaceCard key={i} {...u} />)
               ) : (
