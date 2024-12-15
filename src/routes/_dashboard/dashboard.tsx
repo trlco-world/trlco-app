@@ -122,7 +122,11 @@ function RouteComponent() {
                 Connected
               </button>
             ) : (
-              <WalletConnect />
+              <WalletConnect>
+                <button className='py-1.5 px-4 rounded-full bg-red-500 text-white'>
+                  Connect Wallet
+                </button>
+              </WalletConnect>
             )}
           </div>
         </div>

@@ -5,6 +5,7 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTrigger,
 } from './ui/alert-dialog'
@@ -22,6 +23,7 @@ import {
   AlertDialogDescription,
   AlertDialogTitle,
 } from '@radix-ui/react-alert-dialog'
+import { PropsWithChildren } from 'react'
 
 const walletIcon: { [key: string]: string } = {
   MetaMask: '/metamask.svg',
@@ -29,7 +31,7 @@ const walletIcon: { [key: string]: string } = {
   'Coinbase Wallet': '/coinbase.svg',
 }
 
-const WalletConnect = () => {
+const WalletConnect = ({ children }: PropsWithChildren) => {
   const {
     isConnected,
     isConnecting,
@@ -57,11 +59,7 @@ const WalletConnect = () => {
     if (connectors) {
       return (
         <Dialog>
-          <DialogTrigger asChild>
-            <button className='py-1.5 px-4 rounded-full bg-red-500 text-white'>
-              Connect Wallet
-            </button>
-          </DialogTrigger>
+          <DialogTrigger asChild>{children}</DialogTrigger>
           <DialogContent>
             <DialogHeader className='text-2xl font-semibold !text-center'>
               <DialogTitle>Connect your wallet</DialogTitle>
@@ -70,7 +68,7 @@ const WalletConnect = () => {
             <DialogDescription className='!text-center'>
               Select a wallet type to continue
             </DialogDescription>
-            <div className='grid grid-cols-3 gap-6'>
+            <div className='grid gap-6 sm:grid-cols-3'>
               {connectors.map((connector) => (
                 <button
                   key={connector.uid}
@@ -78,7 +76,7 @@ const WalletConnect = () => {
                   className='relative flex items-center justify-center h-12 border rounded-xl'
                 >
                   <img
-                    className='object-contain p-3'
+                    className='object-contain w-auto h-12 p-3'
                     src={walletIcon[connector.name] || ''}
                     alt={connector.name}
                   />
@@ -110,11 +108,13 @@ const WalletConnect = () => {
           </button>
         </AlertDialogTrigger>
         <AlertDialogContent className='p-10 !rounded-3xl'>
-          <AlertDialogHeader className='!text-center text-2xl font-semibold'>
-            <AlertDialogTitle>Your wallet account</AlertDialogTitle>
+          <AlertDialogHeader>
+            <AlertDialogTitle className='text-lg font-semibold sm:text-2xl'>
+              Your wallet account
+            </AlertDialogTitle>
             <AlertDialogDescription></AlertDialogDescription>
           </AlertDialogHeader>
-          <div className='grid gap-4 p-6 border rounded-3xl md:grid-cols-3'>
+          <div className='grid gap-4 p-6 border rounded-3xl sm:grid-cols-3'>
             <div className='flex flex-col gap-1'>
               <span className='text-sm text-gray-500'>Status</span>
               <span className='capitalize'>{status}</span>
@@ -145,12 +145,12 @@ const WalletConnect = () => {
             </Link>
           </div>
           <div className='border rounded-full px-6 py-2.5 flex justify-between'>
-            <span className='text-sm text-gray-500'>{address}</span>
+            <div className='text-sm text-gray-500'>{address}</div>
             <button onClick={() => navigator.clipboard.writeText(address)}>
               <CopyIcon className='w-4 h-4' />
             </button>
           </div>
-          <div className='!flex justify-center gap-6 !w-full'>
+          <AlertDialogFooter>
             <AlertDialogAction
               className='bg-red-500 rounded-full px-6 py-2.5 text-white font-medium'
               onClick={() => disconnect()}
@@ -160,7 +160,7 @@ const WalletConnect = () => {
             <AlertDialogCancel className='border-red-500 text-red-500 rounded-full px-6 py-2.5 font-medium'>
               Cancel
             </AlertDialogCancel>
-          </div>
+          </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
     )

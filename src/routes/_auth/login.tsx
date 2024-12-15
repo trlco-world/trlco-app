@@ -89,9 +89,9 @@ function LoginPage() {
   })
 
   return (
-    <div className='grid min-h-screen grid-cols-2 mx-auto max-w-7xl'>
+    <div className='grid min-h-screen mx-auto sm:grid-cols-2 max-w-7xl'>
       {/* Left column */}
-      <div className='relative grid place-content-center'>
+      <div className='relative hidden place-content-center sm:grid'>
         <img
           className='object-contain'
           src='/images/auth.png'
