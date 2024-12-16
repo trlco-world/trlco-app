@@ -5,6 +5,8 @@ import Topbar from '@/components/Topbar'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { MobileTopbar } from '@/components/mobile/MobileTopbar'
 import { MobileNav } from '@/components/mobile/MobileNav'
+import { MobileMenuProvider, useMobileMenu } from '@/hooks/use-mobile-menu'
+import MobileProfileMenu from '@/components/mobile/MobileProfileMenu'
 
 const isAuthenticated = async () => {
   const token = document.cookie.split('=')[1]
@@ -31,15 +33,17 @@ export const Route = createFileRoute('/_dashboard')({
 function RouteComponent() {
   const isMobile = useIsMobile()
 
+  console.log(isMobile)
+
   if (isMobile) {
     return (
-      <div className='grid grid-rows-[auto_1fr_auto] h-dvh'>
-        <MobileTopbar />
-        <div className='h-full p-6 overflow-y-scroll bg-[#F6F6F2]'>
-          <Outlet />
+      <MobileMenuProvider>
+        <div className='grid grid-rows-[auto_1fr_auto] h-dvh'>
+          <MobileTopbar />
+          <MobileOutlet />
+          <MobileNav />
         </div>
-        <MobileNav />
-      </div>
+      </MobileMenuProvider>
     )
   }
 
@@ -52,6 +56,19 @@ function RouteComponent() {
           <Outlet />
         </div>
       </div>
+    </div>
+  )
+}
+
+// This component intercept the state to display nav menu while in mobile viewport
+function MobileOutlet() {
+  const { isProfileOpen } = useMobileMenu()
+
+  if (isProfileOpen) return <MobileProfileMenu />
+
+  return (
+    <div className='h-full p-6 overflow-y-scroll bg-[#F6F6F2]'>
+      <Outlet />
     </div>
   )
 }
