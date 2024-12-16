@@ -24,6 +24,8 @@ import {
   AlertDialogTitle,
 } from '@radix-ui/react-alert-dialog'
 import { PropsWithChildren } from 'react'
+import { toast } from 'sonner'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 const walletIcon: { [key: string]: string } = {
   MetaMask: '/metamask.svg',
@@ -44,6 +46,7 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
   } = useAccount()
   const { connectors, connect } = useConnect()
   const { disconnect } = useDisconnect()
+  const isMobile = useIsMobile()
 
   //   Display loading State when connecting or reconencting
   if (isConnecting || isReconnecting) {
@@ -107,9 +110,9 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
             <span className='text-sm font-bold text-red-500'>{`0x...${address.slice(-4)}`}</span>
           </button>
         </AlertDialogTrigger>
-        <AlertDialogContent className='p-10 !rounded-3xl'>
+        <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle className='text-lg font-semibold sm:text-2xl'>
+            <AlertDialogTitle className='font-medium'>
               Your wallet account
             </AlertDialogTitle>
             <AlertDialogDescription></AlertDialogDescription>
@@ -144,13 +147,24 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
               View on Basescan
             </Link>
           </div>
-          <div className='border rounded-full px-6 py-2.5 flex justify-between'>
-            <div className='text-sm text-gray-500'>{address}</div>
-            <button onClick={() => navigator.clipboard.writeText(address)}>
+          <div className='border rounded-3xl px-6 py-2.5 space-x-3 flex items-center justify-between'>
+            <span className='text-sm text-gray-500'>
+              {isMobile
+                ? `${address.slice(0, 12)}...${address.slice(-4)}`
+                : address}
+            </span>
+            <button
+              className='flex items-center gap-1'
+              onClick={() => {
+                navigator.clipboard.writeText(address),
+                  toast.success('Copied Wallet Address')
+              }}
+            >
               <CopyIcon className='w-4 h-4' />
+              Copy
             </button>
           </div>
-          <AlertDialogFooter>
+          <AlertDialogFooter className='gap-3'>
             <AlertDialogAction
               className='bg-red-500 rounded-full px-6 py-2.5 text-white font-medium'
               onClick={() => disconnect()}
