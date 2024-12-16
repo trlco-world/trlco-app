@@ -59,9 +59,9 @@ export default function SignUpPage() {
   })
 
   return (
-    <div className='grid min-h-screen grid-cols-2 mx-auto max-w-7xl'>
+    <div className='grid min-h-screen mx-auto sm:grid-cols-2 max-w-7xl'>
       {/* left column */}
-      <div className='relative grid place-content-center'>
+      <div className='relative hidden sm:grid place-content-center'>
         <img
           className='object-contain'
           src='/images/auth.png'
