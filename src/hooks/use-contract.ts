@@ -64,6 +64,9 @@ export function useTRLContract() {
         functionName: 'totalStaked',
       },
     ],
+    query: {
+      refetchInterval: 5_000,
+    },
   })
 
   const approve = async (amount: string) => {
