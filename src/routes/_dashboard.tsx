@@ -33,8 +33,6 @@ export const Route = createFileRoute('/_dashboard')({
 function RouteComponent() {
   const isMobile = useIsMobile()
 
-  console.log(isMobile)
-
   if (isMobile) {
     return (
       <MobileMenuProvider>
