@@ -1,3 +1,4 @@
+import BackButton from '@/components/BackButton'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -16,7 +17,8 @@ export const Route = createFileRoute('/_dashboard/faucet')({
 function FaucetPage() {
   const { isConnected } = useAccount()
   return (
-    <div>
+    <div className='space-y-6'>
+      <BackButton />
       <Card className='max-w-sm'>
         <CardHeader>
           <CardTitle className='text-lg'>Redeem your test token</CardTitle>
