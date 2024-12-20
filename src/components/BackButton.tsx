@@ -7,9 +7,10 @@ const BackButton = () => {
     <button
       type='button'
       onClick={() => router.history.back()}
-      className='flex items-center justify-center w-8 h-8 text-white rounded-full bg-black/35'
+      className='flex items-center h-8 gap-1 px-3 text-sm text-white rounded-full bg-black/35'
     >
-      <IoChevronBack className='w-5 h-5' />
+      <IoChevronBack />
+      Back
     </button>
   )
 }
