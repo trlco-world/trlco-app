@@ -11,20 +11,6 @@ const items = [
     href: '/dashboard',
   },
   {
-    title: 'Marketplace',
-    key: 'marketplace',
-    icon: <Icon.Search />,
-    iconActive: <Icon.SearchActive />,
-    href: '/marketplace',
-  },
-  {
-    title: 'Wallet',
-    key: 'wallet',
-    icon: <Icon.Wallet />,
-    iconActive: <Icon.WalletActive />,
-    href: '/wallet',
-  },
-  {
     title: 'Stake',
     key: 'stake',
     icon: <Icon.Stake />,
@@ -39,7 +25,21 @@ const items = [
     href: '/swap',
   },
   {
-    title: 'Trade $TRLX',
+    title: 'Wallet',
+    key: 'wallet',
+    icon: <Icon.Wallet />,
+    iconActive: <Icon.WalletActive />,
+    href: '/wallet',
+  },
+  {
+    title: 'Marketplace',
+    key: 'marketplace',
+    icon: <Icon.Search />,
+    iconActive: <Icon.SearchActive />,
+    href: '/marketplace',
+  },
+  {
+    title: 'Secondary Marketplace',
     key: 'trade',
     icon: <Icon.Trade />,
     iconActive: <Icon.TradeActive />,
@@ -47,22 +47,22 @@ const items = [
   },
 ]
 
-const profileItems = [
-  {
-    title: 'Portfolio',
-    key: 'portfolio',
-    icon: <Icon.Portfolio />,
-    iconActive: <Icon.PortfolioActive />,
-    href: '/portfolio',
-  },
-  {
-    title: 'Preferences',
-    key: 'preferences',
-    icon: <Icon.Preference />,
-    iconActive: <Icon.PreferenceActive />,
-    href: '/preference',
-  },
-]
+// const profileItems = [
+//   {
+//     title: 'Portfolio',
+//     key: 'portfolio',
+//     icon: <Icon.Portfolio />,
+//     iconActive: <Icon.PortfolioActive />,
+//     href: '/portfolio',
+//   },
+//   {
+//     title: 'Preferences',
+//     key: 'preferences',
+//     icon: <Icon.Preference />,
+//     iconActive: <Icon.PreferenceActive />,
+//     href: '/preference',
+//   },
+// ]
 
 export default function Sidebar() {
   const location = useLocation()
@@ -91,14 +91,14 @@ export default function Sidebar() {
       </div>
 
       {/* Divider */}
-      <div className='mx-5 my-5 border-t border-gray-300'></div>
+      {/* <div className='mx-5 my-5 border-t border-gray-300'></div> */}
 
       {/* Profile Label */}
-      <div className='pb-2 pl-5 text-sm font-light text-gray-500'>
+      {/* <div className='pb-2 pl-5 text-sm font-light text-gray-500'>
         My profile
-      </div>
+      </div> */}
 
-      <div className='grid gap-5 pl-5'>
+      {/* <div className='grid gap-5 pl-5'>
         {profileItems.map((item) => (
           <Link
             key={item.key}
@@ -115,7 +115,7 @@ export default function Sidebar() {
             <span>{item.title}</span>
           </Link>
         ))}
-      </div>
+      </div> */}
     </div>
   )
 }

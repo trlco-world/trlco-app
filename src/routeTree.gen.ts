@@ -18,6 +18,7 @@ import { Route as DashboardTradeImport } from './routes/_dashboard/trade'
 import { Route as DashboardSwapImport } from './routes/_dashboard/swap'
 import { Route as DashboardPreferenceImport } from './routes/_dashboard/preference'
 import { Route as DashboardPortfolioImport } from './routes/_dashboard/portfolio'
+import { Route as DashboardFaucetImport } from './routes/_dashboard/faucet'
 import { Route as DashboardDashboardImport } from './routes/_dashboard/dashboard'
 import { Route as AuthVerifyImport } from './routes/_auth/verify'
 import { Route as AuthSignupImport } from './routes/_auth/signup'
@@ -68,6 +69,12 @@ const DashboardPreferenceRoute = DashboardPreferenceImport.update({
 const DashboardPortfolioRoute = DashboardPortfolioImport.update({
   id: '/portfolio',
   path: '/portfolio',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardFaucetRoute = DashboardFaucetImport.update({
+  id: '/faucet',
+  path: '/faucet',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -173,6 +180,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardDashboardImport
       parentRoute: typeof DashboardImport
     }
+    '/_dashboard/faucet': {
+      id: '/_dashboard/faucet'
+      path: '/faucet'
+      fullPath: '/faucet'
+      preLoaderRoute: typeof DashboardFaucetImport
+      parentRoute: typeof DashboardImport
+    }
     '/_dashboard/portfolio': {
       id: '/_dashboard/portfolio'
       path: '/portfolio'
@@ -250,6 +264,7 @@ declare module '@tanstack/react-router' {
 
 interface DashboardRouteChildren {
   DashboardDashboardRoute: typeof DashboardDashboardRoute
+  DashboardFaucetRoute: typeof DashboardFaucetRoute
   DashboardPortfolioRoute: typeof DashboardPortfolioRoute
   DashboardPreferenceRoute: typeof DashboardPreferenceRoute
   DashboardSwapRoute: typeof DashboardSwapRoute
@@ -264,6 +279,7 @@ interface DashboardRouteChildren {
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardDashboardRoute: DashboardDashboardRoute,
+  DashboardFaucetRoute: DashboardFaucetRoute,
   DashboardPortfolioRoute: DashboardPortfolioRoute,
   DashboardPreferenceRoute: DashboardPreferenceRoute,
   DashboardSwapRoute: DashboardSwapRoute,
@@ -288,6 +304,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof AuthSignupRoute
   '/verify': typeof AuthVerifyRoute
   '/dashboard': typeof DashboardDashboardRoute
+  '/faucet': typeof DashboardFaucetRoute
   '/portfolio': typeof DashboardPortfolioRoute
   '/preference': typeof DashboardPreferenceRoute
   '/swap': typeof DashboardSwapRoute
@@ -307,6 +324,7 @@ export interface FileRoutesByTo {
   '/signup': typeof AuthSignupRoute
   '/verify': typeof AuthVerifyRoute
   '/dashboard': typeof DashboardDashboardRoute
+  '/faucet': typeof DashboardFaucetRoute
   '/portfolio': typeof DashboardPortfolioRoute
   '/preference': typeof DashboardPreferenceRoute
   '/swap': typeof DashboardSwapRoute
@@ -327,6 +345,7 @@ export interface FileRoutesById {
   '/_auth/signup': typeof AuthSignupRoute
   '/_auth/verify': typeof AuthVerifyRoute
   '/_dashboard/dashboard': typeof DashboardDashboardRoute
+  '/_dashboard/faucet': typeof DashboardFaucetRoute
   '/_dashboard/portfolio': typeof DashboardPortfolioRoute
   '/_dashboard/preference': typeof DashboardPreferenceRoute
   '/_dashboard/swap': typeof DashboardSwapRoute
@@ -348,6 +367,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/verify'
     | '/dashboard'
+    | '/faucet'
     | '/portfolio'
     | '/preference'
     | '/swap'
@@ -366,6 +386,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/verify'
     | '/dashboard'
+    | '/faucet'
     | '/portfolio'
     | '/preference'
     | '/swap'
@@ -384,6 +405,7 @@ export interface FileRouteTypes {
     | '/_auth/signup'
     | '/_auth/verify'
     | '/_dashboard/dashboard'
+    | '/_dashboard/faucet'
     | '/_dashboard/portfolio'
     | '/_dashboard/preference'
     | '/_dashboard/swap'
@@ -434,6 +456,7 @@ export const routeTree = rootRoute
       "filePath": "_dashboard.tsx",
       "children": [
         "/_dashboard/dashboard",
+        "/_dashboard/faucet",
         "/_dashboard/portfolio",
         "/_dashboard/preference",
         "/_dashboard/swap",
@@ -460,6 +483,10 @@ export const routeTree = rootRoute
     },
     "/_dashboard/dashboard": {
       "filePath": "_dashboard/dashboard.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/faucet": {
+      "filePath": "_dashboard/faucet.tsx",
       "parent": "/_dashboard"
     },
     "/_dashboard/portfolio": {
