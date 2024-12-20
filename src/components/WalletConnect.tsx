@@ -1,31 +1,19 @@
-import { CopyIcon, LoaderCircle, WalletIcon } from 'lucide-react'
-import { useAccount, useConnect, useDisconnect } from 'wagmi'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTrigger,
-} from './ui/alert-dialog'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from './ui/dialog'
-import { Link } from '@tanstack/react-router'
-import {
-  AlertDialogDescription,
-  AlertDialogTitle,
-} from '@radix-ui/react-alert-dialog'
-import { PropsWithChildren } from 'react'
-import { toast } from 'sonner'
 import { useIsMobile } from '@/hooks/use-mobile'
+import { CopyIcon, LoaderCircle, WalletIcon } from 'lucide-react'
+import { PropsWithChildren } from 'react'
+import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import { Button } from './ui/button'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from './ui/drawer'
+import { toast } from 'sonner'
 
 const walletIcon: { [key: string]: string } = {
   MetaMask: '/metamask.svg',
@@ -61,41 +49,39 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
   if (isDisconnected) {
     if (connectors) {
       return (
-        <Dialog>
-          <DialogTrigger asChild>{children}</DialogTrigger>
-          <DialogContent>
-            <DialogHeader className='text-2xl font-semibold !text-center'>
-              <DialogTitle>Connect your wallet</DialogTitle>
-              <DialogDescription></DialogDescription>
-            </DialogHeader>
-            <DialogDescription className='!text-center'>
-              Select a wallet type to continue
-            </DialogDescription>
-            <div className='grid gap-6 sm:grid-cols-3'>
-              {connectors.map((connector) => (
-                <button
-                  key={connector.uid}
-                  onClick={() => connect({ connector })}
-                  className='relative flex items-center justify-center h-12 border rounded-xl'
-                >
-                  <img
-                    className='object-contain w-auto h-12 p-3'
-                    src={walletIcon[connector.name] || ''}
-                    alt={connector.name}
-                  />
-                </button>
-              ))}
-            </div>
-            <DialogFooter>
-              <div className='w-full text-sm text-center'>
-                Need help to get started?
-                <Link className='ml-1 font-medium text-red-500' href={''}>
-                  Contact us
-                </Link>
+        <Drawer>
+          <DrawerTrigger asChild>{children}</DrawerTrigger>
+          <DrawerContent>
+            <div className='w-full max-w-sm mx-auto'>
+              <DrawerHeader>
+                <DrawerTitle>Connect your wallet</DrawerTitle>
+                <DrawerDescription>
+                  Choose your connect method
+                </DrawerDescription>
+              </DrawerHeader>
+              <div className='grid gap-3 p-4 pb-0'>
+                {connectors.map((connector) => (
+                  <button
+                    key={connector.uid}
+                    onClick={() => connect({ connector })}
+                    className='relative flex items-center justify-center border h-14 rounded-xl'
+                  >
+                    <img
+                      className='object-contain w-auto h-12 p-3'
+                      src={walletIcon[connector.name] || ''}
+                      alt={connector.name}
+                    />
+                  </button>
+                ))}
+                <DrawerFooter>
+                  <DrawerClose asChild>
+                    <Button variant='destructive'>Cancel</Button>
+                  </DrawerClose>
+                </DrawerFooter>
               </div>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+            </div>
+          </DrawerContent>
+        </Drawer>
       )
     }
   }
@@ -103,80 +89,68 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
   //   Display Wallet Info when connected
   if (isConnected) {
     return (
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
+      <Drawer>
+        <DrawerTrigger asChild>
           <button className='py-1.5 px-4 rounded-full border border-red-500 flex items-center bg-white'>
             <WalletIcon className='w-4 h-4 mr-2' />
             <span className='text-sm font-bold text-red-500'>{`0x...${address.slice(-4)}`}</span>
           </button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle className='font-medium'>
-              Your wallet account
-            </AlertDialogTitle>
-            <AlertDialogDescription></AlertDialogDescription>
-          </AlertDialogHeader>
-          <div className='grid gap-4 p-6 border rounded-3xl sm:grid-cols-3'>
-            <div className='flex flex-col gap-1'>
-              <span className='text-sm text-gray-500'>Status</span>
-              <span className='capitalize'>{status}</span>
+        </DrawerTrigger>
+        <DrawerContent>
+          <div className='w-full max-w-sm mx-auto space-y-6'>
+            <DrawerHeader>
+              <DrawerTitle className='text-lg'>My Wallet</DrawerTitle>
+              <DrawerDescription>
+                Your wallet connection summary
+              </DrawerDescription>
+            </DrawerHeader>
+            <div className='grid gap-3'>
+              <div className='grid p-4 border rounded-xl'>
+                <span className='text-sm text-gray-500'>Status</span>
+                <span className='capitalize'>{status}</span>
+              </div>
+              <div className='grid p-4 border rounded-xl'>
+                <span className='text-sm text-gray-500'>Network</span>
+                <span className='capitalize'>{chain?.name}</span>
+              </div>
+              <div className='grid p-4 border rounded-xl'>
+                <span className='text-sm text-gray-500'>Address</span>
+                <div className='flex items-center justify-between'>
+                  <span className='text-sm text-gray-500'>
+                    {isMobile
+                      ? `${address.slice(0, 12)}...${address.slice(-4)}`
+                      : `${address.slice(0, 30)}...`}
+                  </span>
+                  <Button
+                    size='sm'
+                    onClick={() => {
+                      navigator.clipboard.writeText(address),
+                        toast.success('Copied Wallet Address')
+                    }}
+                  >
+                    <CopyIcon className='w-4 h-4' />
+                    Copy
+                  </Button>
+                </div>
+              </div>
+              <div className='grid p-4 border rounded-xl'>
+                <span className='text-sm text-gray-500'>Wallet type</span>
+                <img
+                  className='w-auto h-8 pt-2'
+                  src={walletIcon[connector.name]}
+                  alt={connector.name}
+                />
+              </div>
             </div>
-            <div className='flex flex-col gap-1'>
-              <span className='text-sm text-gray-500'>Network</span>
-              <span className='capitalize'>{chain?.name}</span>
-            </div>
-            <div className='flex flex-col gap-1'>
-              <span className='text-sm text-gray-500'>Wallet type</span>
-              <img
-                className='pt-1'
-                src={walletIcon[connector.name]}
-                width={200}
-                height={20}
-                alt={connector.name}
-              />
-            </div>
+            <DrawerFooter>
+              <Button onClick={() => disconnect()}>Disconnect</Button>
+              <DrawerClose asChild>
+                <Button variant='destructive'>Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
           </div>
-          <div className='flex items-end justify-between'>
-            <span className='font-medium'>Your wallet address</span>
-            <Link
-              href={`https://basescan.org/address/${address}`}
-              target='_blank'
-              className='text-sm font-medium text-red-500'
-            >
-              View on Basescan
-            </Link>
-          </div>
-          <div className='border rounded-3xl px-6 py-2.5 space-x-3 flex items-center justify-between'>
-            <span className='text-sm text-gray-500'>
-              {isMobile
-                ? `${address.slice(0, 12)}...${address.slice(-4)}`
-                : address}
-            </span>
-            <button
-              className='flex items-center gap-1'
-              onClick={() => {
-                navigator.clipboard.writeText(address),
-                  toast.success('Copied Wallet Address')
-              }}
-            >
-              <CopyIcon className='w-4 h-4' />
-              Copy
-            </button>
-          </div>
-          <AlertDialogFooter className='gap-3'>
-            <AlertDialogAction
-              className='bg-red-500 rounded-full px-6 py-2.5 text-white font-medium'
-              onClick={() => disconnect()}
-            >
-              Disconnect
-            </AlertDialogAction>
-            <AlertDialogCancel className='border-red-500 text-red-500 rounded-full px-6 py-2.5 font-medium'>
-              Cancel
-            </AlertDialogCancel>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+        </DrawerContent>
+      </Drawer>
     )
   }
 }

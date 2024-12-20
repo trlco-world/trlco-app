@@ -1,6 +1,6 @@
 import { base, baseSepolia } from '@wagmi/core/chains'
 import { createConfig, http } from 'wagmi'
-import { coinbaseWallet, metaMask, walletConnect } from 'wagmi/connectors'
+import { coinbaseWallet, walletConnect } from 'wagmi/connectors'
 
 export const config = createConfig({
   chains: [base, baseSepolia],
@@ -11,6 +11,5 @@ export const config = createConfig({
   connectors: [
     coinbaseWallet({ appName: 'TRLCO' }),
     walletConnect({ projectId: import.meta.env.VITE_PROJECT_ID }),
-    metaMask(),
   ],
 })

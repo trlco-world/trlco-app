@@ -1,7 +1,7 @@
 import { Skeleton } from '@/components/ui/skeleton'
-import { transactionHistory } from '@/data'
+// import { transactionHistory } from '@/data'
 import { useTRLContract } from '@/hooks/use-contract'
-import { cn } from '@/lib/utils'
+// import { cn } from '@/lib/utils'
 import { createFileRoute } from '@tanstack/react-router'
 import { GoInfo } from 'react-icons/go'
 import { formatEther } from 'viem'
@@ -10,14 +10,14 @@ export const Route = createFileRoute('/_dashboard/wallet')({
   component: WalletPage,
 })
 
-interface TableHistoryProps {
-  type: string
-  status: 'Pending' | 'Completed' | 'Declined'
-  amount: string
-  wallet: string
-  date: string
-  txid: string
-}
+// interface TableHistoryProps {
+//   type: string
+//   status: 'Pending' | 'Completed' | 'Declined'
+//   amount: string
+//   wallet: string
+//   date: string
+//   txid: string
+// }
 
 function WalletPage() {
   const { balance, stakes, isLoading } = useTRLContract()
@@ -118,7 +118,7 @@ function WalletPage() {
           </div>
         </div>
       </div>
-      <h4 className='text-lg font-semibold'>Transaction history</h4>
+      {/* <h4 className='text-lg font-semibold'>Transaction history</h4>
       <div className='grid grid-cols-[repeat(6,_minmax(0,_1fr)),50px] py-2 text-neutral-400'>
         <p className='flex justify-center'>Type</p>
         <p className='flex justify-center'>Status</p>
@@ -138,41 +138,41 @@ function WalletPage() {
           date={item.date}
           txid={item.txid}
         />
-      ))}
+      ))} */}
     </div>
   )
 }
 
-const TableHistory = ({
-  type,
-  status,
-  amount,
-  wallet,
-  date,
-  txid,
-}: TableHistoryProps) => (
-  <div className='grid grid-cols-[repeat(6,_minmax(0,_1fr)),50px] py-4 rounded-xl border-2 border-gray-200'>
-    <p className='flex justify-center'>{type}</p>
-    <div className='flex justify-center'>
-      <span
-        className={cn(
-          'px-2 rounded-sm',
-          status === 'Pending'
-            ? 'bg-yellow-100 text-yellow-600'
-            : status === 'Completed'
-              ? 'bg-emerald-100 text-emerald-600'
-              : 'bg-red-100 text-red-600',
-        )}
-      >
-        {status}
-      </span>
-    </div>
-    <p className='flex justify-center'>{amount}</p>
-    <p className='flex justify-center'>{wallet}</p>
-    <p className='flex justify-center'>{date}</p>
-    <p className='flex justify-center'>{txid}</p>
-    <span className='flex justify-start'>
-      <img src='/tx.svg' alt='tx' />
-    </span>
-  </div>
-)
+// const TableHistory = ({
+//   type,
+//   status,
+//   amount,
+//   wallet,
+//   date,
+//   txid,
+// }: TableHistoryProps) => (
+//   <div className='grid grid-cols-[repeat(6,_minmax(0,_1fr)),50px] py-4 rounded-xl border-2 border-gray-200'>
+//     <p className='flex justify-center'>{type}</p>
+//     <div className='flex justify-center'>
+//       <span
+//         className={cn(
+//           'px-2 rounded-sm',
+//           status === 'Pending'
+//             ? 'bg-yellow-100 text-yellow-600'
+//             : status === 'Completed'
+//               ? 'bg-emerald-100 text-emerald-600'
+//               : 'bg-red-100 text-red-600',
+//         )}
+//       >
+//         {status}
+//       </span>
+//     </div>
+//     <p className='flex justify-center'>{amount}</p>
+//     <p className='flex justify-center'>{wallet}</p>
+//     <p className='flex justify-center'>{date}</p>
+//     <p className='flex justify-center'>{txid}</p>
+//     <span className='flex justify-start'>
+//       <img src='/tx.svg' alt='tx' />
+//     </span>
+//   </div>
+// )

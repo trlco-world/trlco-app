@@ -7,16 +7,29 @@ export const Route = createFileRoute('/_dashboard/swap')({
 
 function SwapPage() {
   return (
-    <div className="overflow-hidden bg-white rounded-3xl">
+    <div className='overflow-hidden bg-white rounded-3xl'>
       <Banner>
-        <h2 className="text-2xl font-semibold text-white">Swap</h2>
-        <p className="font-light text-neutral-100">
+        <h2 className='text-2xl font-semibold text-white'>Swap</h2>
+        <p className='font-light text-neutral-100'>
           Trade your $TRLX and $TRLCO tokens via our Swap feature, powered by
           Uniswap.
         </p>
       </Banner>
-      <div className="grid gap-10 p-10 place-items-center">
-        <div className="w-[400px] space-y-6">
+      <div className=''>
+        <iframe
+          src='https://app.uniswap.org/#/swap?theme=light&outputCurrency=0xdAC17F958D2ee523a2206206994597C13D831ec7'
+          height='660px'
+          width='100%'
+          style={{
+            border: 0,
+            margin: '0 auto',
+            display: 'block',
+            borderRadius: '10px',
+            maxWidth: '600px',
+            minWidth: '300px',
+          }}
+        />
+        {/* <div className="w-[400px] space-y-6">
           <div className="p-6 space-y-3 border rounded-3xl">
             <div className="text-neutral-700">You pay</div>
             <div className="flex items-end justify-between">
@@ -52,7 +65,7 @@ function SwapPage() {
           <button className="px-32 py-4 text-xl text-white bg-red-500 rounded-full">
             Swap
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   )
