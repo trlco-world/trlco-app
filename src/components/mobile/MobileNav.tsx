@@ -10,20 +10,6 @@ const items = [
     href: '/dashboard',
   },
   {
-    title: 'Marketplace',
-    key: 'marketplace',
-    icon: <Icon.Search />,
-    iconActive: <Icon.SearchActive />,
-    href: '/marketplace',
-  },
-  {
-    title: 'Wallet',
-    key: 'wallet',
-    icon: <Icon.Wallet />,
-    iconActive: <Icon.WalletActive />,
-    href: '/wallet',
-  },
-  {
     title: 'Stake',
     key: 'stake',
     icon: <Icon.Stake />,
@@ -36,6 +22,20 @@ const items = [
     icon: <Icon.Swap />,
     iconActive: <Icon.SwapActive />,
     href: '/swap',
+  },
+  {
+    title: 'Marketplace',
+    key: 'marketplace',
+    icon: <Icon.Search />,
+    iconActive: <Icon.SearchActive />,
+    href: '/marketplace',
+  },
+  {
+    title: 'Wallet',
+    key: 'wallet',
+    icon: <Icon.Wallet />,
+    iconActive: <Icon.WalletActive />,
+    href: '/wallet',
   },
 ]
 
@@ -51,7 +51,7 @@ export const MobileNav = () => {
         >
           {location.pathname.includes(item.href) ? item.iconActive : item.icon}
           <span
-            className={`text-[10px] font-light ${location.pathname.includes(item.href) ? 'text-red-500' : null}`}
+            className={`text-xs ${location.pathname.includes(item.href) ? 'text-red-500' : null}`}
           >
             {item.title}
           </span>

@@ -1,4 +1,5 @@
 import { CompleteProfileModal } from '@/components/CompleteProfileModal'
+import FaucetBanner from '@/components/FaucetBanner'
 import KYCConnect from '@/components/KYCConnect'
 import MembershipCard from '@/components/MembershipCard'
 import WalletConnect from '@/components/WalletConnect'
@@ -20,6 +21,7 @@ function RouteComponent() {
 
   return (
     <div className='flex flex-col gap-6 p-6 bg-white sm:p-10 rounded-3xl'>
+      <FaucetBanner />
       <div className='grid sm:flex'>
         <div className='flex-1'>
           <h2 className='text-2xl font-semibold text-neutral-800'>
