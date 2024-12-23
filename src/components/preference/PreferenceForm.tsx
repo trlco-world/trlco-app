@@ -12,7 +12,7 @@ export default function PreferenceForm() {
     <div className='p-10'>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='grid grid-cols-2 gap-10'
+        className='flex flex-col max-w-sm gap-6'
       >
         <label htmlFor='language' className='flex flex-col gap-3'>
           Language

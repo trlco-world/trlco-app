@@ -8,7 +8,7 @@ export const Route = createFileRoute('/_dashboard/stake/')({
 
 function StakePage() {
   return (
-    <div className='h-full overflow-hidden bg-white rounded-3xl'>
+    <div className='h-full overflow-y-scroll bg-white rounded-3xl'>
       <Banner>
         <h2 className='text-lg font-semibold text-white sm:text-2xl'>
           Start staking to enjoy high earnings

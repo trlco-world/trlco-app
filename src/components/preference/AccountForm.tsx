@@ -27,7 +27,7 @@ export default function AccountForm() {
     <div className='p-10'>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='grid gap-10 sm:grid-cols-4'
+        className='flex flex-col max-w-sm gap-6'
       >
         <label htmlFor='firstName' className='flex flex-col gap-3'>
           <span className='before:content-["*"] before:text-red-500'>

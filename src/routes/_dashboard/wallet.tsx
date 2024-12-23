@@ -103,15 +103,15 @@ function WalletPage() {
         <div className='flex items-center justify-between'>
           <h5 className='text-2xl font-semibold'>$TRLCO</h5>
           <div className='space-x-2'>
-            <Button size='sm' asChild>
+            <Button size='sm'>
               <Link to='/stake/$stakeId' params={{ stakeId: 'fixed-staking' }}>
                 Stake
               </Link>
             </Button>
-            <Button size='sm' asChild>
+            <Button size='sm'>
               <Link to='/swap'>Swap</Link>
             </Button>
-            <Button size='sm' disabled asChild>
+            <Button size='sm' disabled>
               <Link to='.'>Buy</Link>
             </Button>
           </div>

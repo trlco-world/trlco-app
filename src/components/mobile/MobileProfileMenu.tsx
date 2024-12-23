@@ -15,13 +15,11 @@ const MobileProfileMenu = () => {
   return (
     <div className='flex-1 h-full p-4 space-y-3 bg-white'>
       <span className='text-sm font-light text-gray-500'>My Profile</span>
-      <div>
+      {/* <div>
         <button onClick={() => onClickNagivate('/portfolio')}>Portfolio</button>
-      </div>
+      </div> */}
       <div>
-        <button onClick={() => onClickNagivate('/preference')}>
-          Preferences
-        </button>
+        <button onClick={() => onClickNagivate('/preference')}>Settings</button>
       </div>
       <hr />
       <div className='flex flex-col gap-2'>
