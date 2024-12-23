@@ -11,7 +11,7 @@ export default function FaucetBanner() {
             Test token are used during test phrase for platform experience
           </p>
         </div>
-        <FaChevronRight className='w-6 h-6' />
+        <FaChevronRight />
       </div>
     </Link>
   )
