@@ -112,7 +112,7 @@ function WalletPage() {
               <Link to='/swap'>Swap</Link>
             </Button>
             <Button size='sm' asChild>
-              <Link to='/swap'>Buy</Link>
+              <Link to='.'>Buy</Link>
             </Button>
           </div>
         </div>
