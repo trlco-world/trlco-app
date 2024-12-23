@@ -111,7 +111,7 @@ function WalletPage() {
             <Button size='sm' asChild>
               <Link to='/swap'>Swap</Link>
             </Button>
-            <Button size='sm' asChild>
+            <Button size='sm' disabled asChild>
               <Link to='.'>Buy</Link>
             </Button>
           </div>
