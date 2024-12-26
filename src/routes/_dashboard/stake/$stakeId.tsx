@@ -1,8 +1,9 @@
 import BackButton from '@/components/BackButton'
 import Banner from '@/components/Banner'
-import ClaimModel from '@/components/ClaimModel'
+import ClaimDrawer from '@/components/blockchain/ClaimDrawer'
+import StakeDrawer from '@/components/blockchain/StakeDrawer'
+import WithdrawDrawer from '@/components/blockchain/WithdrawDrawer'
 import MembershipCard from '@/components/MembershipCard'
-import StakeModal from '@/components/StakeModel'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -13,7 +14,6 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import UnstakeModel from '@/components/UnstakeModel'
 import { useTRLContract } from '@/hooks/use-contract'
 import { createFileRoute } from '@tanstack/react-router'
 import { formatEther } from 'viem'
@@ -64,12 +64,12 @@ function StakeDetailsPage() {
             </div>
           </CardContent>
           <CardFooter className='grid grid-cols-2 gap-2'>
-            <StakeModal>
+            <StakeDrawer>
               <Button>Stake</Button>
-            </StakeModal>
-            <UnstakeModel>
+            </StakeDrawer>
+            <WithdrawDrawer>
               <Button variant='destructive'>Withdraw</Button>
-            </UnstakeModel>
+            </WithdrawDrawer>
           </CardFooter>
         </Card>
         <Card className='flex flex-col shadow-none rounded-3xl'>
@@ -97,9 +97,9 @@ function StakeDetailsPage() {
             </div>
           </CardContent>
           <CardFooter className='grid'>
-            <ClaimModel>
-              <Button>Claim Reward</Button>
-            </ClaimModel>
+            <ClaimDrawer>
+              <Button>Claim</Button>
+            </ClaimDrawer>
           </CardFooter>
         </Card>
       </div>
