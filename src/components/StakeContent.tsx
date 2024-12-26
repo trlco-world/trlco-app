@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dialog'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { fixedStaking, flexibleStaking } from '@/data'
-import StakeModal from './StakeModel'
+import StakeDrawer from './blockchain/StakeDrawer'
 
 interface FlexibleStakeProps {
   staked: string
@@ -42,11 +42,11 @@ function ManageStakeModel() {
           <button className='px-4 py-2 font-medium text-red-500 border border-red-500 rounded-full'>
             Redeem reward
           </button>
-          <StakeModal>
+          <StakeDrawer>
             <button className='px-4 py-2 font-medium text-red-500 border border-red-500 rounded-full'>
               Stake more
             </button>
-          </StakeModal>
+          </StakeDrawer>
         </div>
         <DialogFooter>
           <div className='flex items-end justify-center w-full gap-2 text-sm'>

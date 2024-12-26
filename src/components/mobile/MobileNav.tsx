@@ -42,7 +42,7 @@ const items = [
 export const MobileNav = () => {
   const location = useLocation()
   return (
-    <div className='h-[70px] border-t grid grid-cols-5 place-items-center'>
+    <div className='h-[65px] border-t grid grid-cols-5 place-items-center'>
       {items.map((item) => (
         <Link
           key={item.key}

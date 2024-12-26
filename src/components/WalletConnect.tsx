@@ -1,6 +1,7 @@
 import { useIsMobile } from '@/hooks/use-mobile'
-import { CopyIcon, LoaderCircle, WalletIcon } from 'lucide-react'
+import { CopyIcon, LoaderCircle, Wallet } from 'lucide-react'
 import { PropsWithChildren } from 'react'
+import { toast } from 'sonner'
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { Button } from './ui/button'
 import {
@@ -13,7 +14,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from './ui/drawer'
-import { toast } from 'sonner'
 
 const walletIcon: { [key: string]: string } = {
   MetaMask: '/metamask.svg',
@@ -92,7 +92,7 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
       <Drawer>
         <DrawerTrigger asChild>
           <button className='py-1.5 px-4 rounded-full border border-red-500 flex items-center bg-white'>
-            <WalletIcon className='w-4 h-4 mr-2' />
+            <Wallet className='w-4 h-4 mr-2' />
             <span className='text-sm font-bold text-red-500'>{`0x...${address.slice(-4)}`}</span>
           </button>
         </DrawerTrigger>

@@ -1,5 +1,5 @@
 import { useMobileMenu } from '@/hooks/use-mobile-menu'
-import { AiOutlineUser, AiOutlineWallet } from 'react-icons/ai'
+import { CircleUserRound, Wallet } from 'lucide-react'
 import WalletConnect from '../WalletConnect'
 
 export const MobileTopbar = () => {
@@ -7,15 +7,15 @@ export const MobileTopbar = () => {
 
   return (
     <div className='h-[60px] border-b flex items-center justify-between px-4'>
-      <img src='./logo.svg' className='w-auto h-auto' alt='TRL' />
+      <img src='./logo.svg' className='w-12 h-auto' alt='TRL' />
       <div className='flex items-center gap-3'>
         <WalletConnect>
           <button>
-            <AiOutlineWallet className='w-6 h-6' />
+            <Wallet className='w-6 h-6' />
           </button>
         </WalletConnect>
         <button onClick={toggleProfile}>
-          <AiOutlineUser className='w-6 h-6' />
+          <CircleUserRound className='w-6 h-6' />
         </button>
       </div>
     </div>
