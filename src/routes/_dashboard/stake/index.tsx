@@ -8,17 +8,17 @@ export const Route = createFileRoute('/_dashboard/stake/')({
 
 function StakePage() {
   return (
-    <div className='h-full overflow-y-scroll bg-white rounded-3xl'>
+    <div className='space-y-6'>
       <Banner>
-        <h2 className='text-lg font-semibold text-white sm:text-2xl'>
+        <h2 className='font-semibold text-white sm:text-lg'>
           Start staking to enjoy high earnings
         </h2>
-        <p className='text-sm text-neutral-200 sm:text-base'>
+        <p className='text-sm text-neutral-200'>
           Enjoy yield by staking $TRLCO and $TRLX through a flexible or
           <br /> a locked pool.
         </p>
       </Banner>
-      <div className='grid p-6 space-y-6 sm:p-10 sm:grid-cols-2'>
+      <div className='grid space-y-6 sm:grid-cols-2'>
         <StakeCard />
       </div>
     </div>

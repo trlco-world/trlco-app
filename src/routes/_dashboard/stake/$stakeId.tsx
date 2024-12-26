@@ -1,4 +1,3 @@
-import BackButton from '@/components/BackButton'
 import Banner from '@/components/Banner'
 import ClaimDrawer from '@/components/blockchain/ClaimDrawer'
 import StakeDrawer from '@/components/blockchain/StakeDrawer'
@@ -34,18 +33,17 @@ function StakeDetailsPage() {
   ).toFixed(8)
 
   return (
-    <div className='min-h-full overflow-hidden bg-white rounded-3xl'>
+    <div className='space-y-6'>
       <Banner>
-        <BackButton />
-        <h2 className='text-lg font-semibold text-white sm:text-2xl'>
+        <h2 className='font-semibold text-white sm:text-lg'>
           {stakeId.toUpperCase()}
         </h2>
-        <p className='text-sm text-neutral-200 sm:text-base'>
+        <p className='text-sm text-neutral-200'>
           Enjoy yield by staking ${stakeId} through a flexible or a locked pool.
         </p>
       </Banner>
 
-      <div className='grid gap-6 p-6 sm:grid-cols-4'>
+      <div className='grid gap-6 sm:grid-cols-4'>
         <MembershipCard stakedAmount={stakedAmount} />
         <Card className='flex flex-col shadow-none rounded-3xl'>
           <CardHeader>

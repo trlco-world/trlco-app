@@ -38,13 +38,13 @@ const items = [
     iconActive: <Icon.SearchActive />,
     href: '/marketplace',
   },
-  {
-    title: 'Secondary Marketplace',
-    key: 'trade',
-    icon: <Icon.Trade />,
-    iconActive: <Icon.TradeActive />,
-    href: '/trade',
-  },
+  // {
+  //   title: 'Secondary Marketplace',
+  //   key: 'trade',
+  //   icon: <Icon.Trade />,
+  //   iconActive: <Icon.TradeActive />,
+  //   href: '/trade',
+  // },
 ]
 
 // const profileItems = [

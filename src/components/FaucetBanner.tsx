@@ -1,18 +1,17 @@
 import { Link } from '@tanstack/react-router'
-import { FaChevronRight } from 'react-icons/fa6'
+import { CircleAlert } from 'lucide-react'
+import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 
 export default function FaucetBanner() {
   return (
     <Link to='/faucet'>
-      <div className='flex items-center justify-between p-4 border border-yellow-300 bg-yellow-50 rounded-xl'>
-        <div>
-          <h5 className='font-medium'>Redeem test token</h5>
-          <p className='text-sm text-gray-500'>
-            Test token are used during test phrase for platform experience
-          </p>
-        </div>
-        <FaChevronRight />
-      </div>
+      <Alert>
+        <CircleAlert className='w-4 h-4' />
+        <AlertTitle>Redeem test token</AlertTitle>
+        <AlertDescription>
+          Test token are used during test phrase for platform experience
+        </AlertDescription>
+      </Alert>
     </Link>
   )
 }

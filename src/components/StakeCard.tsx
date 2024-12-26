@@ -42,7 +42,7 @@ export default function StakeCard() {
     <Link
       to='/stake/$stakeId'
       params={{ stakeId: 'fixed-staking' }}
-      className='flex flex-col items-center gap-6 p-6 border sm:flex-row rounded-3xl'
+      className='flex flex-col items-center gap-6 p-6 bg-white border sm:flex-row rounded-3xl'
     >
       <div className='w-full space-y-6 sm:w-8/12'>
         <div className='flex items-center gap-3'>

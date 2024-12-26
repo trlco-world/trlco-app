@@ -183,7 +183,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
           <img src={membershipStyle.iconBig} />
         </div>
         {/* Benefits card */}
-        <div className='p-6 border rounded-3xl space-y-1 *:flex *:justify-between *:items-center'>
+        <div className='p-6 border rounded-3xl space-y-1 *:flex *:justify-between *:items-center bg-white'>
           <div>
             <span className='text-xs'>Membership Benefits</span>
             <button className='text-sm font-medium text-red-500'>
@@ -250,7 +250,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
     <div
       className={cn(
         isActive ? 'border-red-500' : 'border-[#E0E0E0]',
-        'border-2 rounded-3xl overflow-clip',
+        'border rounded-3xl overflow-clip bg-white',
       )}
     >
       <div
