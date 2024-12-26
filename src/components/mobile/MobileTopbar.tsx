@@ -6,8 +6,8 @@ export const MobileTopbar = () => {
   const { toggleProfile } = useMobileMenu()
 
   return (
-    <div className='h-[72px] border-b flex items-center justify-between px-4'>
-      <img src='./logo.svg' width={54} height={36} alt='TRL' />
+    <div className='h-[60px] border-b flex items-center justify-between px-4'>
+      <img src='./logo.svg' className='w-auto h-auto' alt='TRL' />
       <div className='flex items-center gap-3'>
         <WalletConnect>
           <button>

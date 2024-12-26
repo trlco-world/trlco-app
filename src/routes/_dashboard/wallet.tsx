@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useTRLContract } from '@/hooks/use-contract'
 import { createFileRoute, Link } from '@tanstack/react-router'
@@ -150,29 +149,5 @@ function WalletPage() {
         </div>
       </div>
     </div>
-  )
-}
-
-const WalletCard = ({
-  title,
-  value,
-  priceValue,
-}: {
-  title: string
-  value: string
-  priceValue: string
-}) => {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div>
-          <span>{value}</span>
-          <span>{priceValue}</span>
-        </div>
-      </CardContent>
-    </Card>
   )
 }
