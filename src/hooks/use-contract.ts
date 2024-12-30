@@ -63,9 +63,15 @@ export function useTRLContract() {
         ...stakingConfig,
         functionName: 'totalStaked',
       },
+      {
+        ...stakingConfig,
+        functionName: 'getMembershipInfo',
+        args: [address!],
+      },
     ],
     query: {
       refetchInterval: 5_000,
+      staleTime: 0,
     },
   })
 
@@ -119,6 +125,10 @@ export function useTRLContract() {
     balance: data?.[3].result,
     allowance: data?.[4].result,
     totalStaked: data?.[5].result,
+    membership: {
+      name: data?.[6].result?.[0],
+      multiplier: data?.[6].result?.[1],
+    },
     refetch,
     approve,
     stake,

@@ -3,12 +3,13 @@ import { cn } from '@/lib/utils'
 import { useMemo } from 'react'
 import { FaCrown, FaLock } from 'react-icons/fa6'
 import { FaRegCheckCircle } from 'react-icons/fa'
+import { useTRLContract } from '@/hooks/use-contract'
+import { formatEther } from 'viem'
 
 type Membership = 'Basic' | 'Bronze' | 'Silver' | 'Gold' | 'Platinum'
 
 interface MembershipCardProps {
   membership?: Membership
-  stakedAmount: number
   isActive?: boolean
   isMobile?: boolean
 }
@@ -28,8 +29,7 @@ type Details = Record<
   {
     min: number
     max: number
-    trlcoRate: number
-    trlxRate: number
+    multiplier: number
     revenueShare: number
     isMarketplace: boolean
   }
@@ -72,50 +72,47 @@ const details: Details = {
   Basic: {
     min: 1,
     max: 999,
-    trlcoRate: 0,
-    trlxRate: 0,
+    multiplier: 0,
     revenueShare: 0,
     isMarketplace: false,
   },
   Bronze: {
     min: 1000,
     max: 1999,
-    trlcoRate: 1.1,
-    trlxRate: 1.1,
+    multiplier: 1.1,
     revenueShare: 0,
     isMarketplace: false,
   },
   Silver: {
     min: 2000,
     max: 4999,
-    trlcoRate: 1.15,
-    trlxRate: 1.15,
+    multiplier: 1.15,
     revenueShare: 5,
     isMarketplace: false,
   },
   Gold: {
     min: 5000,
     max: 9999,
-    trlcoRate: 1.2,
-    trlxRate: 1.2,
+    multiplier: 1.2,
     revenueShare: 10,
     isMarketplace: false,
   },
   Platinum: {
     min: 10000,
     max: Infinity,
-    trlcoRate: 1.2,
-    trlxRate: 1.2,
+    multiplier: 1.2,
     revenueShare: 15,
     isMarketplace: true,
   },
 }
 
 const MembershipCard: React.FC<MembershipCardProps> = ({
-  stakedAmount,
   isActive,
   isMobile = false,
 }) => {
+  const bc = useTRLContract()
+  const stakedAmount = +formatEther(bc.stakes.amount ?? 0n)
+
   const membership: Membership = useMemo(() => {
     return (
       (Object.entries(details).find(
@@ -205,24 +202,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
                 $TRLCO
               </span>
             </h6>
-            <span>{membershipDetail.trlcoRate}</span>
-          </div>
-          <div>
-            <h6 className='text-sm text-[#17271F]'>
-              Staking Multiplier{' '}
-              <span
-                style={{
-                  backgroundColor: membershipStyle.secondary,
-                  color: membershipStyle.primary,
-                  fontSize: 12,
-                  padding: '0 5px',
-                  borderRadius: 4,
-                }}
-              >
-                $TRLX
-              </span>
-            </h6>
-            <span>{membershipDetail.trlcoRate}</span>
+            <span>{membershipDetail.multiplier}</span>
           </div>
           <div>
             <h6 className='text-sm text-[#17271F]'>Revenue sharing</h6>
@@ -301,34 +281,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
         </div>
         <div>
           <span>Staking multiplier</span>
-        </div>
-        <div>
-          <span
-            style={{
-              backgroundColor: membershipStyle.secondary,
-              color: membershipStyle.primary,
-              fontSize: 12,
-              padding: '0 5px',
-              borderRadius: 4,
-            }}
-          >
-            $TRLCO
-          </span>
-          <span>{membershipDetail.trlcoRate}x</span>
-        </div>
-        <div>
-          <span
-            style={{
-              backgroundColor: membershipStyle.secondary,
-              color: membershipStyle.primary,
-              fontSize: 12,
-              padding: '0 5px',
-              borderRadius: 4,
-            }}
-          >
-            $TRLX
-          </span>
-          <span>{membershipDetail.trlxRate}x</span>
+          <span>{membershipDetail.multiplier}</span>
         </div>
         <div>
           <span>Revenue sharing</span>

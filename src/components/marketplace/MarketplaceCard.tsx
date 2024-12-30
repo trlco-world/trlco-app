@@ -49,7 +49,7 @@ export default function MarketplaceCard(props: MarketplaceProps) {
       disabled={props.isLocked}
       to='/marketplace/$marketplaceId'
       params={{ marketplaceId: props.id }}
-      className='flex flex-col text-sm shadow rounded-3xl overflow-clip'
+      className='flex flex-col text-sm bg-white shadow rounded-3xl overflow-clip'
     >
       <AspectRatio ratio={16 / 9} className='overflow-clip'>
         <img

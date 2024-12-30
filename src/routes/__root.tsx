@@ -1,4 +1,5 @@
 import { Toaster } from '@/components/ui/sonner'
+import { useIsMobile } from '@/hooks/use-mobile'
 import { createRootRoute, Outlet, redirect } from '@tanstack/react-router'
 // import React, { Suspense } from 'react'
 
@@ -20,13 +21,14 @@ export const Route = createRootRoute({
 })
 
 function RootLayout() {
+  const isMobile = useIsMobile()
   return (
     <>
       <Outlet />
       {/* <Suspense>
         <TanStackRouterDevTools />
       </Suspense> */}
-      <Toaster richColors />
+      <Toaster richColors position={isMobile ? 'top-center' : 'bottom-right'} />
     </>
   )
 }

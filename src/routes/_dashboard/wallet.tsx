@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { useTRLContract } from '@/hooks/use-contract'
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { formatEther } from 'viem'
 
 export const Route = createFileRoute('/_dashboard/wallet')({
@@ -18,7 +18,6 @@ const tokenPrice = 0
 
 function WalletPage() {
   const ct = useTRLContract()
-  const nagivate = useNavigate()
 
   const balance = +formatEther(ct.balance ?? 0n)
   const balancePrice = balance * tokenPrice
@@ -29,7 +28,7 @@ function WalletPage() {
 
   return (
     <div className='space-y-6'>
-      <h4 className='text-lg font-semibold sm:text-xl'>My Wallet</h4>
+      <h4 className='text-lg font-semibold sm:text-2xl'>My Wallet</h4>
       <Card className='shadow-none'>
         <CardHeader>
           <div className='flex flex-col justify-between gap-6 sm:items-center sm:flex-row'>

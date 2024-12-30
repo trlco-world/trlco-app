@@ -1,7 +1,8 @@
 import MarketplaceCard, {
   MarketplaceProps,
 } from '@/components/marketplace/MarketplaceCard'
-import * as Tabs from '@radix-ui/react-tabs'
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { createFileRoute } from '@tanstack/react-router'
 
 const inProgress: MarketplaceProps[] = [
@@ -49,63 +50,52 @@ const comingSoon: MarketplaceProps[] = [
   },
 ]
 
-const subscribed: MarketplaceProps[] = []
+const completed: MarketplaceProps[] = []
 
 export const Route = createFileRoute('/_dashboard/marketplace/')({
   component: MarketplacePage,
 })
 
-const tabTriggerStyle =
-  'px-6 py-3 data-[state="active"]:border-b-2 data-[state="active"]:border-red-500 data-[state="active"]:font-semibold'
-
 function MarketplacePage() {
   return (
-    <div className='p-6 space-y-6 overflow-hidden bg-white sm:p-10 rounded-3xl'>
+    <div className='space-y-6'>
       <h4 className='text-lg font-semibold sm:text-2xl'>Properties</h4>
-      <div>
-        <Tabs.Root defaultValue='progress'>
-          <Tabs.List className='flex gap-3 overflow-x-auto text-sm sm:text-base text-nowrap'>
-            <Tabs.Trigger value='progress' className={tabTriggerStyle}>
-              In Progress
-            </Tabs.Trigger>
-            <Tabs.Trigger value='coming' className={tabTriggerStyle}>
-              Coming Soon
-            </Tabs.Trigger>
-            <Tabs.Trigger value='subscribed' className={tabTriggerStyle}>
-              Fully Subscribed
-            </Tabs.Trigger>
-          </Tabs.List>
-          <Tabs.Content value='progress'>
-            <div className='grid gap-6 py-6 sm:grid-cols-4'>
-              {inProgress ? (
-                inProgress.map((u, i) => <MarketplaceCard key={i} {...u} />)
-              ) : (
-                <NoContentFound />
-              )}
-            </div>
-          </Tabs.Content>
-          <Tabs.Content value='coming'>
-            <div className='grid gap-6 py-6 sm:grid-cols-4'>
-              {comingSoon ? (
-                comingSoon.map((u, i) => <MarketplaceCard key={i} {...u} />)
-              ) : (
-                <NoContentFound />
-              )}
-            </div>
-          </Tabs.Content>
-          <Tabs.Content value='subscribed'>
-            {subscribed.length > 0 ? (
-              <div className='grid grid-cols-4 gap-6 py-6'>
-                {subscribed.map((u, i) => (
-                  <MarketplaceCard key={i} {...u} />
-                ))}
-              </div>
+      <Tabs defaultValue='progress'>
+        <TabsList>
+          <TabsTrigger value='progress'>In Progress</TabsTrigger>
+          <TabsTrigger value='coming'>Coming Soon</TabsTrigger>
+          <TabsTrigger value='completed'>Completed</TabsTrigger>
+        </TabsList>
+        <TabsContent value='progress'>
+          <div className='grid gap-6 py-6 sm:grid-cols-4'>
+            {inProgress ? (
+              inProgress.map((u, i) => <MarketplaceCard key={i} {...u} />)
             ) : (
               <NoContentFound />
             )}
-          </Tabs.Content>
-        </Tabs.Root>
-      </div>
+          </div>
+        </TabsContent>
+        <TabsContent value='coming'>
+          <div className='grid gap-6 py-6 sm:grid-cols-4'>
+            {comingSoon ? (
+              comingSoon.map((u, i) => <MarketplaceCard key={i} {...u} />)
+            ) : (
+              <NoContentFound />
+            )}
+          </div>
+        </TabsContent>
+        <TabsContent value='completed'>
+          {completed.length > 0 ? (
+            <div className='grid grid-cols-4 gap-6 py-6'>
+              {completed.map((u, i) => (
+                <MarketplaceCard key={i} {...u} />
+              ))}
+            </div>
+          ) : (
+            <NoContentFound />
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }
