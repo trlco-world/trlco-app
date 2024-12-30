@@ -6,9 +6,7 @@ export const config = createConfig({
   chains: [base, baseSepolia],
   transports: {
     [base.id]: http(),
-    [baseSepolia.id]: http(
-      'https://base-sepolia.g.alchemy.com/v2/uubtUlSWAHQZXuaJ3_kJvlAJwo_y4ShV',
-    ),
+    [baseSepolia.id]: http(),
   },
   connectors: [
     coinbaseWallet({ appName: 'TRLCO' }),

@@ -5,6 +5,7 @@ import { RiContractLine } from 'react-icons/ri'
 import * as svg from '@/assets/svg'
 import KycCard from '@/components/KycCard'
 import InvestCard from '@/components/InvestCard'
+import { Badge } from '@/components/ui/badge'
 
 export const Route = createFileRoute('/_dashboard/marketplace/$marketplaceId')({
   component: PropertyDetailPage,
@@ -72,29 +73,28 @@ const data = {
 
 function PropertyDetails() {
   return (
-    <div className='p-12 space-y-12 bg-white rounded-3xl overflow-clip'>
-      <BackButton />
+    <div className='space-y-12'>
       {/* Head */}
       <div className='space-y-3'>
         <div className='flex items-center gap-3'>
-          <h5 className='text-2xl font-semibold'>{data.name}</h5>
+          <h5 className='text-lg font-semibold sm:text-2xl'>{data.name}</h5>
           <span className='border border-[#FF4A3F] text-[#FF4A3F] px-2.5 py-0.5 rounded-lg'>
             {data.symbol}
           </span>
         </div>
         <div className='flex gap-3'>
-          <span className='flex items-center gap-1.5 bg-[#F6F6F2] rounded-full px-3 py-0.5 text-[#565656]'>
+          <Badge className='flex gap-1'>
             <BiHome />
             {data.properties} properties
-          </span>
-          <span className='flex items-center gap-1.5 bg-[#F6F6F2] rounded-full px-3 py-0.5 text-[#565656]'>
+          </Badge>
+          <Badge className='flex gap-1'>
             <BiBuildings />
             {data.type}
-          </span>
-          <span className='flex items-center gap-1.5 bg-[#F6F6F2] rounded-full px-3 py-0.5 text-[#565656]'>
+          </Badge>
+          <Badge className='flex gap-1'>
             <RiContractLine />
             {data.lease}
-          </span>
+          </Badge>
         </div>
       </div>
       {/* Photo & Video */}
@@ -148,7 +148,7 @@ function PropertyDetailPage() {
       <div className='overflow-y-scroll'>
         <PropertyDetails />
       </div>
-      <div className='w-[400px] space-y-3'>
+      <div className='w-[400px] space-y-3 hidden sm:block'>
         <KycCard />
         <InvestCard />
       </div>
