@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { useTRLContract } from '@/hooks/use-contract'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { formatEther } from 'viem'
 
 export const Route = createFileRoute('/_dashboard/wallet')({
@@ -18,6 +18,7 @@ const tokenPrice = 0
 
 function WalletPage() {
   const ct = useTRLContract()
+  const navigate = useNavigate()
 
   const balance = +formatEther(ct.balance ?? 0n)
   const balancePrice = balance * tokenPrice
@@ -32,25 +33,21 @@ function WalletPage() {
       <Card className='shadow-none'>
         <CardHeader>
           <div className='flex flex-col justify-between gap-6 sm:items-center sm:flex-row'>
-            <div className='flex items-center gap-3'>
-              <img width={30} height={30} src='./trlco.svg' alt='TRLCO' />
-              <div>
-                <CardTitle>$TRLCO</CardTitle>
-                <CardDescription>
-                  The Real Lifestyle Utility Token
-                </CardDescription>
+            <div className='flex items-center justify-between flex-1'>
+              <div className='flex items-center gap-3'>
+                <img className='w-8 h-8' src='./trlco.svg' alt='TRLCO' />
+                <div>
+                  <CardTitle>$TRLCO</CardTitle>
+                  <CardDescription>Utility Token</CardDescription>
+                </div>
               </div>
+              <span className='text-lg text-gray-500'>$ 0.29</span>
             </div>
-            <div className='flex gap-3'>
-              <Link to='/stake/$stakeId' params={{ stakeId: 'fixed-staking' }}>
-                <Button>Stake</Button>
-              </Link>
-              <Link to='/swap'>
-                <Button>Swap</Button>
-              </Link>
-              <Link to='.'>
-                <Button disabled>Buy</Button>
-              </Link>
+            <div className='grid w-full grid-cols-2 gap-3 sm:flex sm:w-auto'>
+              <Button onClick={() => navigate({ to: '/stake/membership' })}>
+                Stake
+              </Button>
+              <Button onClick={() => navigate({ to: '/buy' })}>Buy</Button>
             </div>
           </div>
         </CardHeader>

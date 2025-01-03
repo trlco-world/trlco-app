@@ -1,6 +1,6 @@
 import { useTRLContract } from '@/hooks/use-contract'
 import { Link } from '@tanstack/react-router'
-import { RadialChart } from './RadialChart'
+
 import { Skeleton } from './ui/skeleton'
 import { formatEther } from 'viem'
 
@@ -40,8 +40,7 @@ export default function StakeCard() {
 
   return (
     <Link
-      to='/stake/$stakeId'
-      params={{ stakeId: 'fixed-staking' }}
+      to='/stake/membership'
       className='flex flex-col items-center gap-6 p-6 bg-white border sm:flex-row rounded-3xl'
     >
       <div className='w-full space-y-6 sm:w-8/12'>
@@ -67,29 +66,26 @@ export default function StakeCard() {
           </div>
         </div>
       </div>
-      <div className='w-full sm:w-auto'>
-        <FixedTermProgress />
-      </div>
     </Link>
   )
 }
 
-const FixedTermProgress = () => {
-  return (
-    <div className='rounded-3xl bg-[#FFF1E9] overflow-clip w-full'>
-      <div className='flex justify-between px-4 py-3'>
-        <div className='flex flex-col gap-1'>
-          <span className='text-sm text-neutral-500'>Remaining</span>
-          <span className='font-medium'>10,000,000</span>
-        </div>
-        <div>
-          <RadialChart value={75} />
-        </div>
-      </div>
-      <div className='bg-[#F36C24]/15 flex gap-3 justify-between py-3 px-4 text-neutral-500 text-sm'>
-        <span>Total pool cap</span>
-        <span>139,294,024</span>
-      </div>
-    </div>
-  )
-}
+// const FixedTermProgress = () => {
+//   return (
+//     <div className='rounded-3xl bg-[#FFF1E9] overflow-clip w-full'>
+//       <div className='flex justify-between px-4 py-3'>
+//         <div className='flex flex-col gap-1'>
+//           <span className='text-sm text-neutral-500'>Remaining</span>
+//           <span className='font-medium'>10,000,000</span>
+//         </div>
+//         <div>
+//           <RadialChart value={75} />
+//         </div>
+//       </div>
+//       <div className='bg-[#F36C24]/15 flex gap-3 justify-between py-3 px-4 text-neutral-500 text-sm'>
+//         <span>Total pool cap</span>
+//         <span>139,294,024</span>
+//       </div>
+//     </div>
+//   )
+// }

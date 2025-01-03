@@ -1,11 +1,10 @@
-import BackButton from '@/components/BackButton'
+import * as svg from '@/assets/svg'
+import InvestCard from '@/components/InvestCard'
+import KycCard from '@/components/KycCard'
+import { Badge } from '@/components/ui/badge'
 import { createFileRoute } from '@tanstack/react-router'
 import { BiBuildings, BiHome } from 'react-icons/bi'
 import { RiContractLine } from 'react-icons/ri'
-import * as svg from '@/assets/svg'
-import KycCard from '@/components/KycCard'
-import InvestCard from '@/components/InvestCard'
-import { Badge } from '@/components/ui/badge'
 
 export const Route = createFileRoute('/_dashboard/marketplace/$marketplaceId')({
   component: PropertyDetailPage,

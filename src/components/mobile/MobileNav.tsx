@@ -17,11 +17,11 @@ const items = [
     href: '/stake',
   },
   {
-    title: 'Swap',
-    key: 'swap',
-    icon: <Icon.Swap />,
-    iconActive: <Icon.SwapActive />,
-    href: '/swap',
+    title: 'Buy',
+    key: 'buy',
+    icon: <Icon.Trade />,
+    iconActive: <Icon.TradeActive />,
+    href: '/buy',
   },
   {
     title: 'Marketplace',
@@ -51,9 +51,9 @@ export const MobileNav = () => {
         >
           {location.pathname.includes(item.href) ? item.iconActive : item.icon}
           <span
-            className={`text-xs ${location.pathname.includes(item.href) ? 'text-red-500' : null}`}
+            className={`${location.pathname.includes(item.href) ? 'text-red-500' : null}`}
           >
-            {item.title}
+            {/* {item.title} */}
           </span>
         </Link>
       ))}

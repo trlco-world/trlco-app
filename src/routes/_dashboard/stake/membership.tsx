@@ -1,4 +1,3 @@
-import Banner from '@/components/Banner'
 import ClaimDrawer from '@/components/blockchain/ClaimDrawer'
 import StakeDrawer from '@/components/blockchain/StakeDrawer'
 import WithdrawDrawer from '@/components/blockchain/WithdrawDrawer'
@@ -17,23 +16,16 @@ import { useTRLContract } from '@/hooks/use-contract'
 import { createFileRoute } from '@tanstack/react-router'
 import { formatEther } from 'viem'
 
-export const Route = createFileRoute('/_dashboard/stake/$stakeId')({
+export const Route = createFileRoute('/_dashboard/stake/membership')({
   component: StakeDetailsPage,
 })
 
 function StakeDetailsPage() {
   return (
-    <div className='space-y-6'>
-      <Banner>
-        <h2 className='font-semibold text-white sm:text-lg'>
-          Membership Staking
-        </h2>
-        <p className='text-sm text-neutral-200'>
-          Enjoy yield by Membership Staking through a flexible or a locked pool.
-        </p>
-      </Banner>
+    <div className="space-y-6">
+      <h4 className="text-lg font-semibold sm:text-2xl">Membership Staking</h4>
 
-      <div className='grid gap-6 sm:grid-cols-4'>
+      <div className="grid gap-6 sm:grid-cols-4">
         <MembershipCard />
         <StakeCard />
         <RewardCard />
@@ -45,28 +37,28 @@ function StakeDetailsPage() {
 function StakeCard() {
   const bc = useTRLContract()
   return (
-    <Card className='flex flex-col shadow-none rounded-3xl'>
+    <Card className="flex flex-col shadow-none rounded-3xl">
       <CardHeader>
         <CardTitle>Staking</CardTitle>
         <CardDescription>Stake TRLCO, Get TRLCO</CardDescription>
       </CardHeader>
-      <Separator className='mb-3' />
-      <CardContent className='flex-1 space-y-2 text-sm font-medium'>
-        <div className='flex items-center justify-between'>
+      <Separator className="mb-3" />
+      <CardContent className="flex-1 space-y-2 text-sm font-medium">
+        <div className="flex items-center justify-between">
           <span>Stake Limit</span>
           <span>{formatEther(bc.allowance ?? 0n)}</span>
         </div>
-        <div className='flex items-center justify-between'>
+        <div className="flex items-center justify-between">
           <span>Total Staked</span>
           <span>{formatEther(bc.stakes.amount ?? 0n)}</span>
         </div>
       </CardContent>
-      <CardFooter className='grid grid-cols-2 gap-2'>
+      <CardFooter className="grid grid-cols-2 gap-2">
         <StakeDrawer>
           <Button>Stake</Button>
         </StakeDrawer>
         <WithdrawDrawer>
-          <Button variant='destructive'>Withdraw</Button>
+          <Button variant="destructive">Withdraw</Button>
         </WithdrawDrawer>
       </CardFooter>
     </Card>
@@ -84,35 +76,35 @@ function RewardCard() {
   ).toFixed(8)
 
   return (
-    <Card className='flex flex-col shadow-none rounded-3xl'>
+    <Card className="flex flex-col shadow-none rounded-3xl">
       <CardHeader>
         <CardTitle>Rewards</CardTitle>
         <CardDescription>Rewards generated from staking</CardDescription>
       </CardHeader>
-      <Separator className='mb-3' />
-      <CardContent className='flex-1 space-y-2 text-sm font-medium'>
-        <div className='flex items-center justify-between'>
+      <Separator className="mb-3" />
+      <CardContent className="flex-1 space-y-2 text-sm font-medium">
+        <div className="flex items-center justify-between">
           <span>Base APY</span>
           <span>{bc.baseRate?.toString()}%</span>
         </div>
-        <div className='flex items-center justify-between'>
+        <div className="flex items-center justify-between">
           <span>Yield / Month</span>
           <span>{rewardPerMonth}</span>
         </div>
-        <div className='flex items-center justify-between'>
+        <div className="flex items-center justify-between">
           <span>Membership</span>
           <span>{bc.membership.name}</span>
         </div>
-        <div className='flex items-center justify-between'>
+        <div className="flex items-center justify-between">
           <span>Multiplier</span>
           <span>{multiplier}</span>
         </div>
-        <div className='flex items-center justify-between'>
+        <div className="flex items-center justify-between">
           <span>Total Unclaimed</span>
           <span>{Number(formatEther(bc.reward ?? 0n)).toFixed(8)}</span>
         </div>
       </CardContent>
-      <CardFooter className='grid'>
+      <CardFooter className="grid">
         <ClaimDrawer>
           <Button>Claim</Button>
         </ClaimDrawer>

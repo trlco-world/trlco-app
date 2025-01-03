@@ -1,4 +1,3 @@
-import Banner from '@/components/Banner'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_dashboard/swap')({
@@ -7,14 +6,15 @@ export const Route = createFileRoute('/_dashboard/swap')({
 
 function SwapPage() {
   return (
-    <div className='overflow-hidden bg-white rounded-3xl'>
-      <Banner>
+    <div className='space-y-6'>
+      {/* <Banner>
         <h2 className='text-2xl font-semibold text-white'>Swap</h2>
         <p className='font-light text-neutral-100'>
           Trade your $TRLX and $TRLCO tokens via our Swap feature, powered by
           Uniswap.
         </p>
-      </Banner>
+      </Banner> */}
+      <h4 className='text-lg font-semibold sm:text-2xl'>Swap</h4>
       <div className=''>
         <iframe
           src='https://app.uniswap.org/#/swap?theme=light&outputCurrency=0xdAC17F958D2ee523a2206206994597C13D831ec7'

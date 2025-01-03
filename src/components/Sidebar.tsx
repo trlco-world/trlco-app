@@ -18,11 +18,11 @@ const items = [
     href: '/stake',
   },
   {
-    title: 'Swap',
-    key: 'swap',
-    icon: <Icon.Swap />,
-    iconActive: <Icon.SwapActive />,
-    href: '/swap',
+    title: 'Buy',
+    key: 'buy',
+    icon: <Icon.Trade />,
+    iconActive: <Icon.TradeActive />,
+    href: '/buy',
   },
   {
     title: 'Wallet',
