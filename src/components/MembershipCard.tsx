@@ -230,7 +230,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
     <div
       className={cn(
         isActive ? 'border-red-500' : 'border-[#E0E0E0]',
-        'border rounded-3xl overflow-clip bg-white',
+        'border rounded-xl overflow-clip bg-white',
       )}
     >
       <div
@@ -264,7 +264,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
             </span>
           </div>
         </div>
-        <div className='flex items-center justify-center flex-auto'>
+        <div className='flex items-center justify-center'>
           <img
             src={membershipStyle.iconSmall}
             alt={`${membership} icon`}

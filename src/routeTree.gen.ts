@@ -26,7 +26,6 @@ import { Route as AuthSignupImport } from './routes/_auth/signup'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as DashboardStakeIndexImport } from './routes/_dashboard/stake/index'
 import { Route as DashboardMarketplaceIndexImport } from './routes/_dashboard/marketplace/index'
-import { Route as DashboardStakeMembershipImport } from './routes/_dashboard/stake/membership'
 import { Route as DashboardPropertyPropertyIdImport } from './routes/_dashboard/property/$propertyId'
 import { Route as DashboardMarketplaceMarketplaceIdImport } from './routes/_dashboard/marketplace/$marketplaceId'
 
@@ -118,12 +117,6 @@ const DashboardStakeIndexRoute = DashboardStakeIndexImport.update({
 const DashboardMarketplaceIndexRoute = DashboardMarketplaceIndexImport.update({
   id: '/marketplace/',
   path: '/marketplace/',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardStakeMembershipRoute = DashboardStakeMembershipImport.update({
-  id: '/stake/membership',
-  path: '/stake/membership',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -250,13 +243,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardPropertyPropertyIdImport
       parentRoute: typeof DashboardImport
     }
-    '/_dashboard/stake/membership': {
-      id: '/_dashboard/stake/membership'
-      path: '/stake/membership'
-      fullPath: '/stake/membership'
-      preLoaderRoute: typeof DashboardStakeMembershipImport
-      parentRoute: typeof DashboardImport
-    }
     '/_dashboard/marketplace/': {
       id: '/_dashboard/marketplace/'
       path: '/marketplace'
@@ -287,7 +273,6 @@ interface DashboardRouteChildren {
   DashboardWalletRoute: typeof DashboardWalletRoute
   DashboardMarketplaceMarketplaceIdRoute: typeof DashboardMarketplaceMarketplaceIdRoute
   DashboardPropertyPropertyIdRoute: typeof DashboardPropertyPropertyIdRoute
-  DashboardStakeMembershipRoute: typeof DashboardStakeMembershipRoute
   DashboardMarketplaceIndexRoute: typeof DashboardMarketplaceIndexRoute
   DashboardStakeIndexRoute: typeof DashboardStakeIndexRoute
 }
@@ -304,7 +289,6 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardMarketplaceMarketplaceIdRoute:
     DashboardMarketplaceMarketplaceIdRoute,
   DashboardPropertyPropertyIdRoute: DashboardPropertyPropertyIdRoute,
-  DashboardStakeMembershipRoute: DashboardStakeMembershipRoute,
   DashboardMarketplaceIndexRoute: DashboardMarketplaceIndexRoute,
   DashboardStakeIndexRoute: DashboardStakeIndexRoute,
 }
@@ -329,7 +313,6 @@ export interface FileRoutesByFullPath {
   '/wallet': typeof DashboardWalletRoute
   '/marketplace/$marketplaceId': typeof DashboardMarketplaceMarketplaceIdRoute
   '/property/$propertyId': typeof DashboardPropertyPropertyIdRoute
-  '/stake/membership': typeof DashboardStakeMembershipRoute
   '/marketplace': typeof DashboardMarketplaceIndexRoute
   '/stake': typeof DashboardStakeIndexRoute
 }
@@ -350,7 +333,6 @@ export interface FileRoutesByTo {
   '/wallet': typeof DashboardWalletRoute
   '/marketplace/$marketplaceId': typeof DashboardMarketplaceMarketplaceIdRoute
   '/property/$propertyId': typeof DashboardPropertyPropertyIdRoute
-  '/stake/membership': typeof DashboardStakeMembershipRoute
   '/marketplace': typeof DashboardMarketplaceIndexRoute
   '/stake': typeof DashboardStakeIndexRoute
 }
@@ -372,7 +354,6 @@ export interface FileRoutesById {
   '/_dashboard/wallet': typeof DashboardWalletRoute
   '/_dashboard/marketplace/$marketplaceId': typeof DashboardMarketplaceMarketplaceIdRoute
   '/_dashboard/property/$propertyId': typeof DashboardPropertyPropertyIdRoute
-  '/_dashboard/stake/membership': typeof DashboardStakeMembershipRoute
   '/_dashboard/marketplace/': typeof DashboardMarketplaceIndexRoute
   '/_dashboard/stake/': typeof DashboardStakeIndexRoute
 }
@@ -395,7 +376,6 @@ export interface FileRouteTypes {
     | '/wallet'
     | '/marketplace/$marketplaceId'
     | '/property/$propertyId'
-    | '/stake/membership'
     | '/marketplace'
     | '/stake'
   fileRoutesByTo: FileRoutesByTo
@@ -415,7 +395,6 @@ export interface FileRouteTypes {
     | '/wallet'
     | '/marketplace/$marketplaceId'
     | '/property/$propertyId'
-    | '/stake/membership'
     | '/marketplace'
     | '/stake'
   id:
@@ -435,7 +414,6 @@ export interface FileRouteTypes {
     | '/_dashboard/wallet'
     | '/_dashboard/marketplace/$marketplaceId'
     | '/_dashboard/property/$propertyId'
-    | '/_dashboard/stake/membership'
     | '/_dashboard/marketplace/'
     | '/_dashboard/stake/'
   fileRoutesById: FileRoutesById
@@ -487,7 +465,6 @@ export const routeTree = rootRoute
         "/_dashboard/wallet",
         "/_dashboard/marketplace/$marketplaceId",
         "/_dashboard/property/$propertyId",
-        "/_dashboard/stake/membership",
         "/_dashboard/marketplace/",
         "/_dashboard/stake/"
       ]
@@ -542,10 +519,6 @@ export const routeTree = rootRoute
     },
     "/_dashboard/property/$propertyId": {
       "filePath": "_dashboard/property/$propertyId.tsx",
-      "parent": "/_dashboard"
-    },
-    "/_dashboard/stake/membership": {
-      "filePath": "_dashboard/stake/membership.tsx",
       "parent": "/_dashboard"
     },
     "/_dashboard/marketplace/": {

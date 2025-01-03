@@ -40,7 +40,7 @@ export default function StakeCard() {
 
   return (
     <Link
-      to='/stake/membership'
+      to='/stake'
       className='flex flex-col items-center gap-6 p-6 bg-white border sm:flex-row rounded-3xl'
     >
       <div className='w-full space-y-6 sm:w-8/12'>

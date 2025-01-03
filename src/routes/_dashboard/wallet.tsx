@@ -44,9 +44,7 @@ function WalletPage() {
               <span className='text-lg text-gray-500'>$ 0.29</span>
             </div>
             <div className='grid w-full grid-cols-2 gap-3 sm:flex sm:w-auto'>
-              <Button onClick={() => navigate({ to: '/stake/membership' })}>
-                Stake
-              </Button>
+              <Button onClick={() => navigate({ to: '/stake' })}>Stake</Button>
               <Button onClick={() => navigate({ to: '/buy' })}>Buy</Button>
             </div>
           </div>

@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -74,21 +73,15 @@ export default function UserChecklist() {
         <ul className='grid space-y-4 sm:grid-cols-3'>
           {checklist.map((item) => (
             <li key={item.id} className='flex items-center space-x-3'>
-              <Button
-                variant={item.completed ? 'default' : 'outline'}
-                size='icon'
-                disabled={item.completed}
-              >
-                {item.completed ? <Check className='w-4 h-4' /> : item.icon}
-              </Button>
-              <div>
+              <button className='flex gap-3 px-4 py-2 border rounded-sm'>
                 <h3 className='text-sm font-medium leading-none'>
                   {item.title}
                 </h3>
                 <p className='text-sm text-muted-foreground'>
                   {item.description}
                 </p>
-              </div>
+                {item.completed ? <Check className='w-4 h-4' /> : item.icon}
+              </button>
             </li>
           ))}
         </ul>
