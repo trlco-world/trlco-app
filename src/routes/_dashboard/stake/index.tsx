@@ -1,12 +1,10 @@
 // import StakeCard from '@/components/StakeCard'
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
 import { useTRLContract } from '@/hooks/use-contract'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { formatEther } from 'viem'
