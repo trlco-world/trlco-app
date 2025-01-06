@@ -108,7 +108,7 @@ function LoginPage() {
           <p>Join us today to revolutionize property transactions.</p>
         </div>
 
-        <button
+        {/* <button
           onClick={() =>
             window.open('https://api-stg.trlco.world/auth/google', '_self')
           }
@@ -116,7 +116,7 @@ function LoginPage() {
         >
           <FcGoogle className='w-6 h-6' />
           Continue with Google
-        </button>
+        </button> */}
 
         <div className='relative'>
           <div className='absolute inset-0 flex items-center'>
