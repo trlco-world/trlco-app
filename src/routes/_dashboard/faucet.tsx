@@ -21,7 +21,7 @@ function FaucetPage() {
       <BackButton />
       <Card className='max-w-sm'>
         <CardHeader>
-          <CardTitle className='text-lg'>Redeem your test token</CardTitle>
+          <CardTitle>Redeem your test token</CardTitle>
           <CardDescription>
             Due to limited supply. You can only redeem once every 24 hours.
           </CardDescription>

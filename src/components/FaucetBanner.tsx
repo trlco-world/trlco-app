@@ -1,17 +1,23 @@
 import { Link } from '@tanstack/react-router'
-import { CircleAlert } from 'lucide-react'
-import { Alert, AlertDescription, AlertTitle } from './ui/alert'
+import { Card, CardDescription, CardHeader, CardTitle } from './ui/card'
+import { AlertCircleIcon } from 'lucide-react'
 
 export default function FaucetBanner() {
   return (
     <Link to='/faucet'>
-      <Alert>
-        <CircleAlert className='w-4 h-4' />
-        <AlertTitle>Redeem test token</AlertTitle>
-        <AlertDescription>
-          Test token are used during test phrase for platform experience
-        </AlertDescription>
-      </Alert>
+      <Card className='shadow-none'>
+        <CardHeader>
+          <div className='flex items-center gap-3'>
+            <AlertCircleIcon className='text-red-500' />
+            <div>
+              <CardTitle>Redeem test token</CardTitle>
+              <CardDescription>
+                Test token are used during test phrase for platform experience
+              </CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+      </Card>
     </Link>
   )
 }

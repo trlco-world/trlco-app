@@ -15,7 +15,9 @@ function RouteComponent() {
 
   return (
     <div className='space-y-6'>
-      <h4 className='text-lg font-semibold sm:text-2xl'>Hi, {user?.name}</h4>
+      <h4 className='text-lg font-semibold sm:text-2xl'>
+        Hi, {user?.name ?? user?.email}
+      </h4>
 
       <div>
         <FaucetBanner />

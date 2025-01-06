@@ -1,5 +1,5 @@
 import { useIsMobile } from '@/hooks/use-mobile'
-import { CopyIcon, LoaderCircle, Wallet } from 'lucide-react'
+import { CopyIcon, LoaderCircle } from 'lucide-react'
 import { PropsWithChildren } from 'react'
 import { toast } from 'sonner'
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
@@ -90,12 +90,7 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
   if (isConnected) {
     return (
       <Drawer>
-        <DrawerTrigger asChild>
-          <button className='py-1.5 px-4 rounded-full border border-red-500 flex items-center bg-white'>
-            <Wallet className='w-4 h-4 mr-2' />
-            <span className='text-sm font-bold text-red-500'>{`0x...${address.slice(-4)}`}</span>
-          </button>
-        </DrawerTrigger>
+        <DrawerTrigger asChild>{children}</DrawerTrigger>
         <DrawerContent>
           <div className='w-full max-w-sm mx-auto space-y-6'>
             <DrawerHeader>

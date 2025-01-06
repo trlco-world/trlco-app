@@ -47,42 +47,35 @@ function StakingDataCard() {
   const bc = useTRLContract()
 
   const totalStaked = formatEther(bc.totalStaked ?? 0n)
-  const apy = 'Up to 25%'
-  const minStake = '100'
-  const multiplier = '1.0x ~ 1.25x'
   const totalRewardDistributed = '11000,00'
+  const totalSupplyStaked = (
+    bc.totalStaked && bc.totalSupply
+      ? (+formatEther(bc.totalStaked) / +formatEther(bc.totalSupply)) * 100
+      : 0
+  ).toFixed(8)
+
   return (
-    <div className='p-6 bg-white border rounded-xl'>
-      <div className='flex flex-col justify-around gap-6 sm:gap-16 sm:items-center sm:flex-row'>
-        <div className='flex items-center justify-between sm:flex-col'>
-          <span className='text-sm font-medium text-neutral-500'>
-            Total Staked
-          </span>
-          <span className='font-medium'>{totalStaked}</span>
-        </div>
-        <div className='flex items-center justify-between sm:flex-col'>
-          <span className='text-sm font-medium text-neutral-500'>
-            Total Reward Distributed
-          </span>
-          <span className='font-medium'>{totalRewardDistributed}</span>
-        </div>
-        <div className='flex items-center justify-between sm:flex-col'>
-          <span className='text-sm font-medium text-neutral-500'>
-            Minimum Stake
-          </span>
-          <span className='font-medium'>{minStake}</span>
-        </div>
-        <div className='flex items-center justify-between sm:flex-col'>
-          <span className='text-sm font-medium text-neutral-500'>
-            Multiplier
-          </span>
-          <span className='font-medium'>{multiplier}</span>
-        </div>
-        <div className='flex items-center justify-between sm:flex-col'>
-          <span className='text-sm font-medium text-neutral-500'>APY</span>
-          <span className='font-medium'>{apy}</span>
-        </div>
-      </div>
+    <div className='flex flex-col justify-around gap-6 sm:items-center sm:flex-row'>
+      <StatsCard title='Total Staked' value={totalStaked} />
+      <StatsCard
+        title='Total Reward Distributed'
+        value={totalRewardDistributed}
+      />
+      <StatsCard
+        title='Total Staked (% of Total Supply)'
+        value={`${totalSupplyStaked} %`}
+      />
+
+      <StatsCard title='Total Value Locked (TVL)' value={`N/A`} />
+    </div>
+  )
+}
+
+function StatsCard(props: { title: string; value: string }) {
+  return (
+    <div className='flex flex-col items-center w-full py-2 border border-orange-500 bg-orange-500/25 rounded-xl overflow-clip'>
+      <span className='text-xs text-orange-800'>{props.title}</span>
+      <span className='text-lg font-light'>{props.value}</span>
     </div>
   )
 }

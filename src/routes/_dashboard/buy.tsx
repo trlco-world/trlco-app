@@ -22,7 +22,7 @@ type LaunchPad = {
 
 const launchpad: LaunchPad[] = [
   {
-    title: 'Buy TRLCO at LaunchPad',
+    title: 'TRLCO (IDO)',
     description: 'ENJINSTARTER',
     target: '50,000 USD',
     price: '0.035 USDT',

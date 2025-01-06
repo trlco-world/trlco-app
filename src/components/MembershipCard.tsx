@@ -139,7 +139,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
     return (
       <div className='grid gap-6 sm:grid-cols-2'>
         <div
-          className='flex rounded-3xl overflow-clip'
+          className='flex rounded-xl overflow-clip'
           style={{ backgroundColor: membershipStyle.secondary }}
         >
           <div className='flex flex-col flex-1 p-6'>
@@ -180,7 +180,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
           <img src={membershipStyle.iconBig} />
         </div>
         {/* Benefits card */}
-        <div className='p-6 border rounded-3xl space-y-1 *:flex *:justify-between *:items-center bg-white'>
+        <div className='p-6 border rounded-xl space-y-1 *:flex *:justify-between *:items-center bg-white'>
           <div>
             <span className='text-xs'>Membership Benefits</span>
             <button className='text-sm font-medium text-red-500'>

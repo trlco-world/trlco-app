@@ -7,40 +7,47 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { useAuth } from '@/hooks/user-auth'
-import { Check, UserCheck, UserCircle, Wallet } from 'lucide-react'
+import { CircleCheck, UserCheck, UserCircle, Wallet } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
+import { CompleteProfileModal } from './CompleteProfileModal'
+import KYCConnect from './KYCConnect'
+import WalletConnect from './WalletConnect'
 
 type Checklist = {
-  id: number
+  key: 'wallet' | 'profile' | 'kyc'
   title: string
   description: string
   icon: React.ReactNode
-  completed: boolean
+  isCompleted: boolean
+  Modal: React.ComponentType<{ children: React.ReactNode }>
 }
 
 export default function UserChecklist() {
   const [checklist, setChecklist] = useState<Checklist[]>([
     {
-      id: 1,
+      key: 'profile',
       title: 'Setup Profile',
       description: 'Create your profile to personalize your experience',
       icon: <UserCircle className='w-6 h-6' />,
-      completed: false,
+      isCompleted: false,
+      Modal: CompleteProfileModal,
     },
     {
-      id: 2,
+      key: 'wallet',
       title: 'Connect Wallet',
       description: 'Connect your wallet to get started',
       icon: <Wallet className='w-6 h-6' />,
-      completed: false,
+      isCompleted: false,
+      Modal: WalletConnect,
     },
     {
-      id: 3,
+      key: 'kyc',
       title: 'Verify KYC',
       description: 'Complete the Know Your Customer process',
       icon: <UserCheck className='w-6 h-6' />,
-      completed: false,
+      isCompleted: false,
+      Modal: KYCConnect,
     },
   ])
 
@@ -50,18 +57,18 @@ export default function UserChecklist() {
   useEffect(() => {
     setChecklist((prevChecklist) =>
       prevChecklist.map((checklist) => {
-        if (user && user.is_profile_filled && checklist.id === 1) {
-          return { ...checklist, completed: true }
+        if (user && user.is_profile_filled && checklist.key === 'profile') {
+          return { ...checklist, isCompleted: true }
         }
-        if (isConnected && checklist.id === 2) {
-          return { ...checklist, completed: true }
+        if (isConnected && checklist.key === 'wallet') {
+          return { ...checklist, isCompleted: true }
         }
         return checklist
       }),
     )
   }, [isConnected, user])
 
-  const allCompleted = checklist.every((item) => item.completed)
+  const allCompleted = checklist.every((item) => item.isCompleted)
 
   return (
     <Card className='w-full shadow-none'>
@@ -70,29 +77,48 @@ export default function UserChecklist() {
         <CardDescription>Complete these steps to get started</CardDescription>
       </CardHeader>
       <CardContent>
-        <ul className='grid space-y-4 sm:grid-cols-3'>
+        <div className='grid gap-6 sm:grid-cols-3'>
           {checklist.map((item) => (
-            <li key={item.id} className='flex items-center space-x-3'>
-              <button className='flex gap-3 px-4 py-2 border rounded-sm'>
-                <h3 className='text-sm font-medium leading-none'>
-                  {item.title}
-                </h3>
-                <p className='text-sm text-muted-foreground'>
-                  {item.description}
-                </p>
-                {item.completed ? <Check className='w-4 h-4' /> : item.icon}
-              </button>
-            </li>
+            <ChecklistCard
+              key={item.key}
+              title={item.title}
+              description={item.description}
+              icon={item.icon}
+              isCompleted={item.isCompleted}
+              Modal={item.Modal}
+            />
           ))}
-        </ul>
+        </div>
       </CardContent>
       <CardFooter>
         <p className='text-sm font-medium'>
           {allCompleted
             ? 'All completed!'
-            : `${checklist.filter((m) => m.completed).length} of ${checklist.length} completed`}
+            : `${checklist.filter((m) => m.isCompleted).length} of ${checklist.length} completed`}
         </p>
       </CardFooter>
     </Card>
+  )
+}
+
+function ChecklistCard({
+  title,
+  description,
+  icon,
+  isCompleted,
+  Modal,
+}: Omit<Checklist, 'key'> & {
+  Modal: React.ComponentType<{ children: React.ReactNode }>
+}) {
+  return (
+    <Modal>
+      <div className='flex items-center justify-between p-3 border rounded-xl'>
+        <div className='flex flex-col'>
+          <span className='text-sm font-medium'>{title}</span>
+          <span className='text-xs text-neutral-500'>{description}</span>
+        </div>
+        {isCompleted ? <CircleCheck className='text-green-500' /> : icon}
+      </div>
+    </Modal>
   )
 }

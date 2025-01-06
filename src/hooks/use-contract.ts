@@ -68,6 +68,10 @@ export function useTRLContract() {
         functionName: 'getMembershipInfo',
         args: [address!],
       },
+      {
+        ...RewardTokenConfig,
+        functionName: 'totalSupply',
+      },
     ],
     query: {
       refetchInterval: 5_000,
@@ -125,6 +129,7 @@ export function useTRLContract() {
     balance: data?.[3].result,
     allowance: data?.[4].result,
     totalStaked: data?.[5].result,
+    totalSupply: data?.[7].result,
     membership: {
       name: data?.[6].result?.[0],
       multiplier: data?.[6].result?.[1],
