@@ -5,6 +5,15 @@ import { FaCrown, FaLock } from 'react-icons/fa6'
 import { FaRegCheckCircle } from 'react-icons/fa'
 import { useTRLContract } from '@/hooks/use-contract'
 import { formatEther } from 'viem'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from './ui/card'
+import { Button } from './ui/button'
+import { useNavigate } from '@tanstack/react-router'
 
 export type Membership = 'Basic' | 'Bronze' | 'Silver' | 'Gold' | 'Platinum'
 
@@ -111,6 +120,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
   isMobile = false,
 }) => {
   const bc = useTRLContract()
+  const navigate = useNavigate()
   const stakedAmount = +formatEther(bc.stakes.amount ?? 0n)
 
   const membership: Membership = useMemo(() => {
@@ -180,48 +190,46 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
           <img src={membershipStyle.iconBig} />
         </div>
         {/* Benefits card */}
-        <div className='p-6 border rounded-xl space-y-1 *:flex *:justify-between *:items-center bg-white'>
-          <div>
-            <span className='text-xs'>Membership Benefits</span>
-            <button className='text-sm font-medium text-red-500'>
-              View details
-            </button>
-          </div>
-          <div>
-            <h6 className='text-sm text-[#17271F]'>
-              Staking Multiplier{' '}
-              <span
-                style={{
-                  backgroundColor: membershipStyle.secondary,
-                  color: membershipStyle.primary,
-                  fontSize: 12,
-                  padding: '0 5px',
-                  borderRadius: 4,
-                }}
+        <Card className='shadow-none'>
+          <CardHeader>
+            <div className='flex justify-between'>
+              <div>
+                <CardTitle>Membership Benefits</CardTitle>
+                <CardDescription>Get higher multiplier bonus</CardDescription>
+              </div>
+              <Button
+                size='sm'
+                variant='secondary'
+                onClick={() => navigate({ to: '/stake' })}
               >
-                $TRLCO
+                View More
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className='*:flex *:justify-between'>
+            <div>
+              <span className='text-neutral-600'>Multiplier</span>
+              <span>{membershipDetail.multiplier}</span>
+            </div>
+            <div>
+              <span className='text-neutral-600'>Revenue sharing</span>
+              <span>{membershipDetail.revenueShare}%</span>
+            </div>
+            <div>
+              <span className='text-neutral-600'>Asset marketplace</span>
+              <span>
+                {membershipDetail.isMarketplace ? (
+                  <FaRegCheckCircle className='text-green-500' />
+                ) : (
+                  <span className='flex items-center gap-2'>
+                    <FaLock />
+                    Locked
+                  </span>
+                )}
               </span>
-            </h6>
-            <span>{membershipDetail.multiplier}</span>
-          </div>
-          <div>
-            <h6 className='text-sm text-[#17271F]'>Revenue sharing</h6>
-            <span>{membershipDetail.revenueShare}%</span>
-          </div>
-          <div>
-            <h6 className='text-sm text-[#17271F]'>Asset marketplace</h6>
-            <span>
-              {membershipDetail.isMarketplace ? (
-                <FaRegCheckCircle className='text-green-500' />
-              ) : (
-                <span className='flex items-center gap-2'>
-                  <FaLock />
-                  Locked
-                </span>
-              )}
-            </span>
-          </div>
-        </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     )
   }
