@@ -15,7 +15,7 @@ import {
 import { toast } from 'sonner'
 
 export default function StakeDrawer({ children }: React.PropsWithChildren) {
-  const [amount, setAmount] = React.useState('')
+  const [amount, setAmount] = React.useState('100')
   const [open, setOpen] = React.useState<boolean>()
 
   const ct = useTRLContract()
@@ -40,12 +40,15 @@ export default function StakeDrawer({ children }: React.PropsWithChildren) {
   }
 
   async function handleStake() {
-    try {
-      if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
-        toast.warning('Please enter a valid amount to stake.')
-        return
-      }
+    if (!amount || isNaN(Number(amount))) {
+      return toast.warning('Please enter a valid amount to stake.')
+    }
 
+    if (Number(amount) < 100) {
+      return toast.warning('Please enter stake minimum of 100 or above.')
+    }
+
+    try {
       await ct.stake(amount).then(() => {
         setOpen(false)
         setAmount('')
@@ -62,7 +65,7 @@ export default function StakeDrawer({ children }: React.PropsWithChildren) {
     if (ct.stakes.amount && ct.stakes.amount > 0) {
       setAmount(balance)
     } else {
-      toast.error('Cannot withdraw 0 token')
+      toast.error('Cannot stake 0 token')
     }
   }
 
@@ -107,7 +110,7 @@ export default function StakeDrawer({ children }: React.PropsWithChildren) {
             <div className='flex items-center w-full gap-3'>
               <span>Stakes:</span>
               <input
-                min={0}
+                min={100}
                 placeholder='0'
                 className='flex-1 font-medium rounded text-end focus:outline-none'
                 value={amount}

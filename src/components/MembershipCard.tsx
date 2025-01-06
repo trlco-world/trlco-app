@@ -6,7 +6,7 @@ import { FaRegCheckCircle } from 'react-icons/fa'
 import { useTRLContract } from '@/hooks/use-contract'
 import { formatEther } from 'viem'
 
-type Membership = 'Basic' | 'Bronze' | 'Silver' | 'Gold' | 'Platinum'
+export type Membership = 'Basic' | 'Bronze' | 'Silver' | 'Gold' | 'Platinum'
 
 interface MembershipCardProps {
   membership?: Membership
@@ -24,7 +24,7 @@ type Styles = Record<
   }
 >
 
-type Details = Record<
+export type MembershipDetails = Record<
   Membership,
   {
     min: number
@@ -68,7 +68,7 @@ const styles: Styles = {
   },
 }
 
-const details: Details = {
+export const membershipDetails: MembershipDetails = {
   Basic: {
     min: 1,
     max: 999,
@@ -115,7 +115,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
 
   const membership: Membership = useMemo(() => {
     return (
-      (Object.entries(details).find(
+      (Object.entries(membershipDetails).find(
         ([, value]) =>
           stakedAmount >= value.min &&
           (value.max === Infinity || stakedAmount < value.max),
@@ -123,7 +123,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
     )
   }, [stakedAmount])
 
-  const membershipDetail = details[membership]
+  const membershipDetail = membershipDetails[membership]
   const membershipStyle = styles[membership]
 
   const progress = useMemo(() => {

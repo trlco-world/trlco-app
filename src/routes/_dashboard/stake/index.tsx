@@ -2,7 +2,10 @@
 import ClaimDrawer from '@/components/blockchain/ClaimDrawer'
 import StakeDrawer from '@/components/blockchain/StakeDrawer'
 import WithdrawDrawer from '@/components/blockchain/WithdrawDrawer'
-import MembershipCard from '@/components/MembershipCard'
+import MembershipCard, {
+  Membership,
+  membershipDetails,
+} from '@/components/MembershipCard'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -82,6 +85,11 @@ function StatsCard(props: { title: string; value: string }) {
 
 function StakeCard() {
   const bc = useTRLContract()
+  const nextTier = membershipDetails[bc.membership.name as Membership]
+  const nextTierRemaining = nextTier
+    ? nextTier.max + 1 - +formatEther(bc.stakes.amount ?? 0n)
+    : 0
+
   return (
     <Card className='flex flex-col shadow-none'>
       <CardHeader>
@@ -97,6 +105,14 @@ function StakeCard() {
         <div className='flex items-center justify-between'>
           <span>Total Staked</span>
           <span>{formatEther(bc.stakes.amount ?? 0n)}</span>
+        </div>
+        <div className='flex items-center justify-between'>
+          <span>Minimum Stake</span>
+          <span>100</span>
+        </div>
+        <div className='flex items-center justify-between'>
+          <span>Stake to Next Tier</span>
+          <span>{nextTierRemaining}</span>
         </div>
       </CardContent>
       <CardFooter className='grid grid-cols-2 gap-2'>
