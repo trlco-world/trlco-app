@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/badge'
 import {
   Card,
   CardContent,
@@ -118,11 +119,25 @@ function BuyCard(project: LaunchPad) {
     price,
     startDate,
     endDate,
+    status,
   } = project
   return (
     <Link to={url} target='_blank'>
       <Card className='transition-all ease-in-out shadow-none overflow-clip hover:scale-95'>
-        <img src={imageUrl} />
+        <div className='relative'>
+          <div className='absolute inset-0 flex items-start justify-start p-3'>
+            {status === 'completed' ? (
+              <span className='px-3 py-0.5 text-sm text-white border bg-white/50 rounded-xl'>
+                COMPLETED
+              </span>
+            ) : status === 'upcoming' ? (
+              <span className='px-3 py-0.5 text-sm text-white border bg-white/50 rounded-xl'>
+                UPCOMING
+              </span>
+            ) : null}
+          </div>
+          <img src={imageUrl} />
+        </div>
         <CardHeader>
           <CardTitle>{title}</CardTitle>
           <CardDescription>{description}</CardDescription>
