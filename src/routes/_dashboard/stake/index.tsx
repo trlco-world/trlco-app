@@ -129,12 +129,15 @@ function StakeCard() {
 
 function RewardCard() {
   const bc = useTRLContract()
-
+  const membership = membershipDetails[bc.membership.name as Membership]
   const multiplier = Number(bc.membership.multiplier) / 100
+  const multiplierBonus =
+    Number(formatEther(bc.reward ?? 0n)) * (membership?.multiplier - 1)
 
   const rewardPerMonth = (
     +formatEther(bc.stakes.amount ?? 0n) *
-    (Number(bc.baseRate) / 100 / 12)
+    (Number(bc.baseRate) / 100 / 12) *
+    membership?.multiplier
   ).toFixed(8)
 
   return (
@@ -150,16 +153,20 @@ function RewardCard() {
           <span>{bc.baseRate?.toString()}%</span>
         </div>
         <div className='flex items-center justify-between'>
-          <span>Yield / Month</span>
-          <span>{rewardPerMonth}</span>
-        </div>
-        <div className='flex items-center justify-between'>
           <span>Membership</span>
           <span>{bc.membership.name}</span>
         </div>
         <div className='flex items-center justify-between'>
           <span>Multiplier</span>
-          <span>{multiplier}</span>
+          <span>{multiplier}x</span>
+        </div>
+        <div className='flex items-center justify-between'>
+          <span>Yield / Month</span>
+          <span>{rewardPerMonth}</span>
+        </div>
+        <div className='flex items-center justify-between'>
+          <span>Multiplier Bonus</span>
+          <span>{multiplierBonus.toFixed(8)}</span>
         </div>
         <div className='flex items-center justify-between'>
           <span>Total Unclaimed</span>
