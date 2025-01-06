@@ -1,19 +1,19 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useAuth } from '@/hooks/user-auth'
-import { LogOut } from 'lucide-react'
+import { useNavigate } from '@tanstack/react-router'
+import { Cog, LogOut } from 'lucide-react'
 
 export default function UserButton() {
   const { user, logout } = useAuth()
-
-  const handleLogout = async (e: React.MouseEvent) => {
-    e.preventDefault(), e.stopPropagation(), logout()
-  }
+  const navigate = useNavigate()
 
   return (
     <DropdownMenu>
@@ -24,18 +24,17 @@ export default function UserButton() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
-        <form>
-          <DropdownMenuItem>
-            <button
-              onClick={handleLogout}
-              type='submit'
-              className='flex items-center w-full'
-            >
-              <LogOut className='w-4 h-4 mr-2' />
-              <span>Log out</span>
-            </button>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem onClick={() => navigate({ to: '/preference' })}>
+            <Cog />
+            Settings
           </DropdownMenuItem>
-        </form>
+        </DropdownMenuGroup>
+        <DropdownMenuItem onClick={() => logout()}>
+          <LogOut />
+          Log out
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
