@@ -91,7 +91,7 @@ export function CompleteProfileModal({ children }: PropsWithChildren) {
             />
           </div>
           <div className='grid w-full max-w-sm items-center gap-1.5'>
-            <Label htmlFor='username'>Phone Mumber</Label>
+            <Label htmlFor='username'>Phone Number</Label>
             <Input
               type='tel'
               {...register('mobile_number')}
