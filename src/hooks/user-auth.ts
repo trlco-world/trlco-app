@@ -20,7 +20,7 @@ export function useAuth() {
   })
 
   const { mutateAsync: logout } = useMutation({
-    mutationFn: async () => await logoutFn(authorization),
+    mutationFn: async (authorization: string) => await logoutFn(authorization),
     onSuccess: (data) => {
       if (data.status === 200) {
         removeCookie(authorization)

@@ -10,10 +10,17 @@ import {
 import { useAuth } from '@/hooks/user-auth'
 import { useNavigate } from '@tanstack/react-router'
 import { Cog, LogOut } from 'lucide-react'
+import { useCookies } from 'react-cookie'
 
 export default function UserButton() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const [cookies, _, removeCookie] = useCookies(['trlco-at'])
+
+  function handleLogout() {
+    removeCookie('trlco-at')
+    logout(cookies['trlco-at'])
+  }
 
   return (
     <DropdownMenu>
@@ -31,7 +38,7 @@ export default function UserButton() {
             Settings
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuItem onClick={() => logout()}>
+        <DropdownMenuItem onClick={handleLogout}>
           <LogOut />
           Log out
         </DropdownMenuItem>
