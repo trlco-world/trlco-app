@@ -1,4 +1,4 @@
-import { CopyIcon, LoaderCircle } from 'lucide-react'
+import { CopyIcon, ExternalLink, LoaderCircle } from 'lucide-react'
 import { PropsWithChildren } from 'react'
 import { toast } from 'sonner'
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
@@ -28,11 +28,11 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
     isReconnecting,
     address,
     connector,
-    status,
     chain,
   } = useAccount()
   const { connectors, connect } = useConnect()
   const { disconnect } = useDisconnect()
+  const explorerUrl = import.meta.env.VITE_EXPLORER_LINK
 
   //   Display loading State when connecting or reconencting
   if (isConnecting || isReconnecting) {
@@ -99,29 +99,33 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
             </DrawerHeader>
             <div className='grid gap-3'>
               <div className='grid p-4 border rounded-xl'>
-                <span className='text-sm text-gray-500'>Status</span>
-                <span className='capitalize'>{status}</span>
-              </div>
-              <div className='grid p-4 border rounded-xl'>
-                <span className='text-sm text-gray-500'>Network</span>
-                <span className='capitalize'>{chain?.name}</span>
-              </div>
-              <div className='grid p-4 border rounded-xl'>
                 <span className='text-sm text-gray-500'>Address</span>
                 <span className='font-mono'>{address}</span>
-                <div className='flex items-center justify-between'>
-                  <span className='font-mono'>{`${address.slice(0, 7)}...${address.slice(-5)}`}</span>
+                <div className='grid grid-cols-2 gap-3 mt-3'>
                   <Button
-                    size='sm'
+                    variant='secondary'
                     onClick={() => {
                       navigator.clipboard.writeText(address),
                         toast.success('Copied Wallet Address')
                     }}
                   >
-                    <CopyIcon className='w-4 h-4' />
                     Copy
+                    <CopyIcon className='w-4 h-4' />
+                  </Button>
+                  <Button
+                    variant='secondary'
+                    onClick={() =>
+                      window.open(`${explorerUrl}/address/${address}`, '_blank')
+                    }
+                  >
+                    View Explorer
+                    <ExternalLink className='w-4 h-4' />
                   </Button>
                 </div>
+              </div>
+              <div className='grid p-4 border rounded-xl'>
+                <span className='text-sm text-gray-500'>Network</span>
+                <span className='capitalize'>{chain?.name}</span>
               </div>
               <div className='grid p-4 border rounded-xl'>
                 <span className='text-sm text-gray-500'>Wallet type</span>
@@ -131,13 +135,15 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
                   alt={connector.name}
                 />
               </div>
+              <DrawerFooter className='grid grid-cols-2'>
+                <Button variant='destructive' onClick={() => disconnect()}>
+                  Disconnect
+                </Button>
+                <DrawerClose asChild>
+                  <Button>Cancel</Button>
+                </DrawerClose>
+              </DrawerFooter>
             </div>
-            <DrawerFooter>
-              <Button onClick={() => disconnect()}>Disconnect</Button>
-              <DrawerClose asChild>
-                <Button variant='destructive'>Cancel</Button>
-              </DrawerClose>
-            </DrawerFooter>
           </div>
         </DrawerContent>
       </Drawer>
