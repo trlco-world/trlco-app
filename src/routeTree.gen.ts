@@ -11,7 +11,6 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as TestImport } from './routes/test'
 import { Route as DashboardImport } from './routes/_dashboard'
 import { Route as DashboardWalletImport } from './routes/_dashboard/wallet'
 import { Route as DashboardTradeImport } from './routes/_dashboard/trade'
@@ -32,12 +31,6 @@ import { Route as DashboardPropertyPropertyIdImport } from './routes/_dashboard/
 import { Route as DashboardMarketplaceMarketplaceIdImport } from './routes/_dashboard/marketplace/$marketplaceId'
 
 // Create/Update Routes
-
-const TestRoute = TestImport.update({
-  id: '/test',
-  path: '/test',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const DashboardRoute = DashboardImport.update({
   id: '/_dashboard',
@@ -157,13 +150,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof DashboardImport
-      parentRoute: typeof rootRoute
-    }
-    '/test': {
-      id: '/test'
-      path: '/test'
-      fullPath: '/test'
-      preLoaderRoute: typeof TestImport
       parentRoute: typeof rootRoute
     }
     '/_auth/auth': {
@@ -327,7 +313,6 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 
 export interface FileRoutesByFullPath {
   '': typeof DashboardRouteWithChildren
-  '/test': typeof TestRoute
   '/auth': typeof AuthAuthRoute
   '/login': typeof AuthLoginRoute
   '/reset': typeof AuthResetRoute
@@ -349,7 +334,6 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '': typeof DashboardRouteWithChildren
-  '/test': typeof TestRoute
   '/auth': typeof AuthAuthRoute
   '/login': typeof AuthLoginRoute
   '/reset': typeof AuthResetRoute
@@ -372,7 +356,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_dashboard': typeof DashboardRouteWithChildren
-  '/test': typeof TestRoute
   '/_auth/auth': typeof AuthAuthRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/reset': typeof AuthResetRoute
@@ -396,7 +379,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | ''
-    | '/test'
     | '/auth'
     | '/login'
     | '/reset'
@@ -417,7 +399,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
-    | '/test'
     | '/auth'
     | '/login'
     | '/reset'
@@ -438,7 +419,6 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_dashboard'
-    | '/test'
     | '/_auth/auth'
     | '/_auth/login'
     | '/_auth/reset'
@@ -461,7 +441,6 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRouteWithChildren
-  TestRoute: typeof TestRoute
   AuthAuthRoute: typeof AuthAuthRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthResetRoute: typeof AuthResetRoute
@@ -471,7 +450,6 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRouteWithChildren,
-  TestRoute: TestRoute,
   AuthAuthRoute: AuthAuthRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthResetRoute: AuthResetRoute,
@@ -490,7 +468,6 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/_dashboard",
-        "/test",
         "/_auth/auth",
         "/_auth/login",
         "/_auth/reset",
@@ -514,9 +491,6 @@ export const routeTree = rootRoute
         "/_dashboard/marketplace/",
         "/_dashboard/stake/"
       ]
-    },
-    "/test": {
-      "filePath": "test.tsx"
     },
     "/_auth/auth": {
       "filePath": "_auth/auth.tsx"

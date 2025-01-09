@@ -1,15 +1,22 @@
 import { useMobileMenu } from '@/hooks/use-mobile-menu'
 import { useAuth } from '@/hooks/user-auth'
 import { useNavigate } from '@tanstack/react-router'
+import { useCookies } from 'react-cookie'
 import { IoChevronForward } from 'react-icons/io5'
 
 const MobileProfileMenu = () => {
   const { user, logout } = useAuth()
   const { toggleProfile } = useMobileMenu()
   const nagivate = useNavigate()
+  const [cookies, _, removeCookie] = useCookies(['trlco-at'])
 
   function onClickNagivate(to: string) {
     nagivate({ to }).then(() => toggleProfile())
+  }
+
+  function onClickLogout() {
+    removeCookie('trlco-at')
+    logout(cookies['trlco-at'])
   }
 
   return (
@@ -28,7 +35,7 @@ const MobileProfileMenu = () => {
         </span>
         <button
           className='flex items-center justify-between font-medium'
-          onClick={() => logout()}
+          onClick={onClickLogout}
         >
           Logout
           <IoChevronForward />
