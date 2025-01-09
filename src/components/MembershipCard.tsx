@@ -81,7 +81,7 @@ export const membershipDetails: MembershipDetails = {
   Basic: {
     min: 1,
     max: 999,
-    multiplier: 0,
+    multiplier: 1,
     revenueShare: 0,
     isMarketplace: false,
   },
@@ -109,7 +109,7 @@ export const membershipDetails: MembershipDetails = {
   Platinum: {
     min: 10000,
     max: Infinity,
-    multiplier: 1.2,
+    multiplier: 1.25,
     revenueShare: 15,
     isMarketplace: true,
   },
@@ -209,7 +209,7 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
           <CardContent className='*:flex *:justify-between'>
             <div>
               <span className='text-neutral-600'>Multiplier</span>
-              <span>{membershipDetail.multiplier}</span>
+              <span>{membershipDetail.multiplier}x</span>
             </div>
             <div>
               <span className='text-neutral-600'>Revenue sharing</span>
@@ -289,14 +289,14 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
         </div>
         <div>
           <span>Staking multiplier</span>
-          <span>{membershipDetail.multiplier}</span>
+          <span>{membershipDetail.multiplier}x</span>
         </div>
         <div>
           <span>Revenue sharing</span>
           <span>{membershipDetail.revenueShare}%</span>
         </div>
         <div>
-          <span>Asset Marketplace</span>
+          <span>Asset marketplace</span>
           <span></span>
         </div>
       </div>

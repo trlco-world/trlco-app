@@ -41,7 +41,7 @@ function WalletPage() {
                   <CardDescription>Utility Token</CardDescription>
                 </div>
               </div>
-              <span className='text-lg text-gray-500'>$ 0.29</span>
+              <span className='text-lg font-medium'>$ 0.0168</span>
             </div>
             <div className='grid w-full grid-cols-2 gap-3 sm:flex sm:w-auto'>
               <Button onClick={() => navigate({ to: '/stake' })}>Stake</Button>

@@ -1,4 +1,3 @@
-import { useIsMobile } from '@/hooks/use-mobile'
 import { CopyIcon, LoaderCircle } from 'lucide-react'
 import { PropsWithChildren } from 'react'
 import { toast } from 'sonner'
@@ -34,7 +33,6 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
   } = useAccount()
   const { connectors, connect } = useConnect()
   const { disconnect } = useDisconnect()
-  const isMobile = useIsMobile()
 
   //   Display loading State when connecting or reconencting
   if (isConnecting || isReconnecting) {
@@ -110,12 +108,9 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
               </div>
               <div className='grid p-4 border rounded-xl'>
                 <span className='text-sm text-gray-500'>Address</span>
+                <span className='font-mono'>{address}</span>
                 <div className='flex items-center justify-between'>
-                  <span className='text-sm text-gray-500'>
-                    {isMobile
-                      ? `${address.slice(0, 12)}...${address.slice(-4)}`
-                      : `${address.slice(0, 30)}...`}
-                  </span>
+                  <span className='font-mono'>{`${address.slice(0, 7)}...${address.slice(-5)}`}</span>
                   <Button
                     size='sm'
                     onClick={() => {

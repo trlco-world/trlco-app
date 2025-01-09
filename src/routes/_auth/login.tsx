@@ -3,24 +3,23 @@ import { encryptData } from '@/lib/encrypt'
 import { useForm } from '@tanstack/react-form'
 import { useMutation } from '@tanstack/react-query'
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
+import { Eye, EyeOff } from 'lucide-react'
+import React, { useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { FcGoogle } from 'react-icons/fc'
 import { z } from 'zod'
 
-const loginSearchSchema = z.object({
-  redirectTo: z.string().optional(),
-})
-
 export const Route = createFileRoute('/_auth/login')({
-  validateSearch: loginSearchSchema,
+  validateSearch: z.object({
+    redirectTo: z.string().optional(),
+  }),
   component: LoginPage,
 })
 
 function LoginButton({ isLoading }: { isLoading: boolean }) {
   return (
     <button
-      className='py-3 text-white bg-red-500 rounded-full'
+      className='py-2.5 text-white bg-red-500 rounded-xl'
       type='submit'
       disabled={isLoading}
     >
@@ -102,21 +101,21 @@ function LoginPage() {
       </div>
 
       {/* Right column */}
-      <div className='grid gap-10 p-6 place-content-center'>
+      <div className='grid max-w-sm gap-10 mx-auto place-content-center'>
         <div className='space-y-2 text-center'>
           <h1 className='text-3xl font-bold'>Let's get started</h1>
           <p>Join us today to revolutionize property transactions.</p>
         </div>
 
-        {/* <button
+        <button
           onClick={() =>
             window.open('https://api-stg.trlco.world/auth/google', '_self')
           }
-          className='flex items-center justify-center gap-3 py-3 text-lg font-medium rounded-full bg-neutral-100 text-neutral-500'
+          className='flex items-center justify-center gap-3 py-2.5 rounded-xl bg-neutral-100 text-neutral-500'
         >
           <FcGoogle className='w-6 h-6' />
           Continue with Google
-        </button> */}
+        </button>
 
         <div className='relative'>
           <div className='absolute inset-0 flex items-center'>
@@ -142,7 +141,7 @@ function LoginPage() {
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
-                className='px-6 py-3 border rounded-full bg-neutral-100'
+                className='px-4 py-2.5 border rounded-xl bg-neutral-100'
                 placeholder='Enter your email'
                 autoComplete='username'
               />
@@ -151,13 +150,12 @@ function LoginPage() {
           <form.Field
             name='password'
             children={(field) => (
-              <input
-                type='password'
+              <PasswordInput
                 name={field.name}
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
-                className='px-6 py-3 border rounded-full bg-neutral-100'
+                className='px-4 py-2.5 border rounded-xl bg-neutral-100 w-full'
                 placeholder='Enter your password'
                 autoComplete='current-password'
               />
@@ -174,14 +172,14 @@ function LoginPage() {
           </div>
         )}
 
-        <div className='space-y-3 text-sm text-center'>
+        <div className='space-y-3 text-center'>
           <div className='text-neutral-700'>
             Don't have an account?{' '}
             <Link className='text-red-500' href='/signup'>
               Sign Up
             </Link>
           </div>
-          <div className='text-neutral-500'>
+          <div className='text-sm text-neutral-500'>
             By continuing, you are agreeing to our{' '}
             <Link className='text-red-500' href=''>
               Terms of Use
@@ -193,6 +191,30 @@ function LoginPage() {
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+function PasswordInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible((prev) => !prev)
+  }
+
+  return (
+    <div className='relative'>
+      <input type={isPasswordVisible ? 'text' : 'password'} {...props} />
+      <span
+        onClick={togglePasswordVisibility}
+        className='absolute top-0 bottom-0 right-0 flex items-center justify-end px-4 cursor-pointer'
+      >
+        {isPasswordVisible ? (
+          <Eye className='w-4 h-4' />
+        ) : (
+          <EyeOff className='w-4 h-4' />
+        )}
+      </span>
     </div>
   )
 }

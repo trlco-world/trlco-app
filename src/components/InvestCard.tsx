@@ -61,7 +61,7 @@ export default function InvestCard() {
               <span className='font-medium text-black'>50 USD</span>
             </h6>
             <h6 className='text-[#565656] text-sm'>
-              Collected: <span className='font-medium'>27.32 %</span>
+              Progress: <span className='font-medium'>27.32 %</span>
             </h6>
           </div>
           {/* progress bar */}

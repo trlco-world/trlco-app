@@ -59,7 +59,7 @@ export const Route = createFileRoute('/_dashboard/marketplace/')({
 function MarketplacePage() {
   return (
     <div className='space-y-6'>
-      <h4 className='text-lg font-semibold sm:text-2xl'>Marketplace</h4>
+      <h4 className='text-lg font-semibold sm:text-2xl'>Asset Marketplace</h4>
       <Tabs defaultValue='progress'>
         <TabsList>
           <TabsTrigger value='progress'>In Progress</TabsTrigger>

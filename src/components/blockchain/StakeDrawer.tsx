@@ -15,7 +15,7 @@ import {
 import { toast } from 'sonner'
 
 export default function StakeDrawer({ children }: React.PropsWithChildren) {
-  const [amount, setAmount] = React.useState('100')
+  const [amount, setAmount] = React.useState('')
   const [open, setOpen] = React.useState<boolean>()
 
   const ct = useTRLContract()
@@ -43,11 +43,6 @@ export default function StakeDrawer({ children }: React.PropsWithChildren) {
     if (!amount || isNaN(Number(amount))) {
       return toast.warning('Please enter a valid amount to stake.')
     }
-
-    if (Number(amount) < 100) {
-      return toast.warning('Please enter stake minimum of 100 or above.')
-    }
-
     try {
       await ct.stake(amount).then(() => {
         setOpen(false)
@@ -93,7 +88,7 @@ export default function StakeDrawer({ children }: React.PropsWithChildren) {
             <DrawerTitle>Stake</DrawerTitle>
             <DrawerDescription>
               If you do not have sufficient stake limit, you will need to
-              approve your limit. Before you stake
+              approve your limit before you stake.
             </DrawerDescription>
           </DrawerHeader>
           <div className='p-4 space-y-6'>
@@ -108,9 +103,9 @@ export default function StakeDrawer({ children }: React.PropsWithChildren) {
               </span>
             </div>
             <div className='flex items-center w-full gap-3'>
-              <span>Stakes:</span>
+              <span>Stake:</span>
               <input
-                min={100}
+                min={0}
                 placeholder='0'
                 className='flex-1 font-medium rounded text-end focus:outline-none'
                 value={amount}

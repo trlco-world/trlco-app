@@ -5,6 +5,7 @@ import { signUpFn } from '@/lib/api'
 import { encryptData } from '@/lib/encrypt'
 import { useState } from 'react'
 import { useCookies } from 'react-cookie'
+import { Eye, EyeOff } from 'lucide-react'
 
 export const Route = createFileRoute('/_auth/signup')({
   component: SignUpPage,
@@ -46,6 +47,18 @@ export default function SignUpPage() {
       confirmPassword: '',
     },
     onSubmit: async ({ value }) => {
+      const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{6,}$/
+      if (!passwordRegex.test(value.password)) {
+        setError(
+          'Password must contain at least one capital letter, one number, and be at least 6 characters long.',
+        )
+        return
+      }
+      if (value.password !== value.confirmPassword) {
+        setError('Passwords do not match.')
+        return
+      }
+
       const password = encryptData(value.password)
       const password_confirmation = encryptData(value.confirmPassword)
 
@@ -71,7 +84,7 @@ export default function SignUpPage() {
         />
       </div>
       {/* right column */}
-      <div className='grid gap-10 p-6 place-content-center'>
+      <div className='grid max-w-sm gap-10 mx-auto place-content-center'>
         <div className='space-y-3 text-center'>
           <h1 className='text-3xl font-semibold'>Let's get started</h1>
           <p className='text-gray-500'>
@@ -93,7 +106,7 @@ export default function SignUpPage() {
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
-                className='px-6 py-3 border rounded-full bg-neutral-100'
+                className='px-6 py-2.5 border rounded-xl bg-neutral-100'
                 placeholder='Enter your name'
                 required
               />
@@ -108,7 +121,7 @@ export default function SignUpPage() {
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
-                className='px-6 py-3 border rounded-full bg-neutral-100'
+                className='px-6 py-2.5 border rounded-xl bg-neutral-100'
                 placeholder='Enter your email'
                 required
               />
@@ -117,27 +130,30 @@ export default function SignUpPage() {
           <form.Field
             name='password'
             children={(field) => (
-              <input
-                type='password'
-                name={field.name}
-                value={field.state.value}
-                onChange={(e) => field.handleChange(e.target.value)}
-                className='px-6 py-3 border rounded-full bg-neutral-100'
-                placeholder='Enter your password'
-                required
-              />
+              <div>
+                <PasswordInput
+                  name={field.name}
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  className='w-full px-6 py-2.5 border rounded-xl bg-neutral-100'
+                  placeholder='Enter your password'
+                  required
+                />
+                <span className='text-xs text-neutral-400 ms-2'>
+                  At least 1 uppercase, 1 number, and min 6 characters.
+                </span>
+              </div>
             )}
           />
           <form.Field
             name='confirmPassword'
             children={(field) => (
-              <input
-                type='password'
+              <PasswordInput
                 name={field.name}
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(e) => field.handleChange(e.target.value)}
-                className='px-6 py-3 border rounded-full bg-neutral-100'
+                className='w-full px-6 py-2.5 border rounded-xl bg-neutral-100'
                 placeholder='Confirm your password'
                 required
               />
@@ -145,14 +161,14 @@ export default function SignUpPage() {
           />
           {signUpMutation.isPending ? (
             <button
-              className='px-6 py-3 font-medium text-white bg-gray-500 rounded-full'
+              className='px-6 py-2.5 font-medium text-white bg-gray-500 rounded-xl'
               disabled
             >
               Signing Up...
             </button>
           ) : (
             <button
-              className='px-6 py-3 font-medium text-white bg-red-500 rounded-full'
+              className='px-6 py-2.5 font-medium text-white bg-red-500 rounded-xl'
               type='submit'
             >
               Sign Up
@@ -160,7 +176,7 @@ export default function SignUpPage() {
           )}
           {/* Display error messages */}
           {error && (
-            <div className='p-4 text-red-500 bg-red-100'>
+            <div className='p-4 text-red-500 bg-red-100 rounded-xl'>
               <p>{error}</p>
             </div>
           )}
@@ -185,6 +201,30 @@ export default function SignUpPage() {
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+function PasswordInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible((prev) => !prev)
+  }
+
+  return (
+    <div className='relative'>
+      <input type={isPasswordVisible ? 'text' : 'password'} {...props} />
+      <span
+        onClick={togglePasswordVisibility}
+        className='absolute top-0 bottom-0 right-0 flex items-center justify-end px-4 cursor-pointer'
+      >
+        {isPasswordVisible ? (
+          <Eye className='w-4 h-4' />
+        ) : (
+          <EyeOff className='w-4 h-4' />
+        )}
+      </span>
     </div>
   )
 }

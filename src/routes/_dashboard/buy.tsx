@@ -87,7 +87,9 @@ function BuyPage() {
 
   return (
     <div className='space-y-6'>
-      <h4 className='text-lg font-semibold sm:text-2xl'>Buy at LaunchPad</h4>
+      <h4 className='text-lg font-semibold sm:text-2xl'>
+        Buy $TRLCO at LaunchPad
+      </h4>
       <Tabs defaultValue='running' className='space-y-6'>
         <TabsList>
           <TabsTrigger value='running'>Running</TabsTrigger>
@@ -143,19 +145,19 @@ function BuyCard(project: LaunchPad) {
         </CardHeader>
         <CardContent className='space-y-3 text-sm *:flex *:justify-between *:items-center'>
           <div>
-            <span>Target Raise: </span>
+            <span>Target raise: </span>
             <span className='font-medium'>{target}</span>
           </div>
           <div>
-            <span>Launch Price: </span>
+            <span>Launch price: </span>
             <span className='font-medium'>{price}</span>
           </div>
           <div>
-            <span>Start Date: </span>
+            <span>Start date: </span>
             <span className='font-medium'>{startDate}</span>
           </div>
           <div>
-            <span>End Date:</span>
+            <span>End date:</span>
             <span className='font-medium'>{endDate}</span>
           </div>
         </CardContent>

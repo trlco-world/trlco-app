@@ -76,9 +76,9 @@ function StakingDataCard() {
 
 function StatsCard(props: { title: string; value: string }) {
   return (
-    <div className='flex flex-col items-center w-full py-2 border border-orange-500 bg-orange-500/25 rounded-xl overflow-clip'>
-      <span className='text-xs text-orange-800'>{props.title}</span>
-      <span className='text-lg font-light'>{props.value}</span>
+    <div className='flex flex-col items-center w-full py-2 border sm:py-4 border-neutral-200 bg-neutral-200 rounded-xl overflow-clip'>
+      <span className='text-sm font-light text-black'>{props.title}</span>
+      <span className='text-lg font-medium text-black'>{props.value}</span>
     </div>
   )
 }
@@ -117,10 +117,10 @@ function StakeCard() {
       </CardContent>
       <CardFooter className='grid grid-cols-2 gap-2'>
         <StakeDrawer>
-          <Button>Stake</Button>
+          <Button variant={'destructive'}>Stake</Button>
         </StakeDrawer>
         <WithdrawDrawer>
-          <Button variant='destructive'>Withdraw</Button>
+          <Button>Withdraw</Button>
         </WithdrawDrawer>
       </CardFooter>
     </Card>
@@ -161,15 +161,15 @@ function RewardCard() {
           <span>{multiplier}x</span>
         </div>
         <div className='flex items-center justify-between'>
-          <span>Yield / Month</span>
+          <span>Monthly reward</span>
           <span>{rewardPerMonth}</span>
         </div>
         <div className='flex items-center justify-between'>
-          <span>Multiplier Bonus</span>
+          <span>Multiplier bonus</span>
           <span>{multiplierBonus.toFixed(8)}</span>
         </div>
         <div className='flex items-center justify-between'>
-          <span>Total Unclaimed</span>
+          <span>Total unclaimed</span>
           <span>{Number(formatEther(bc.reward ?? 0n)).toFixed(8)}</span>
         </div>
       </CardContent>

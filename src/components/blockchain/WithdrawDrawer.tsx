@@ -71,8 +71,9 @@ export default function WithdrawDrawer({ children }: React.PropsWithChildren) {
           <DrawerHeader>
             <DrawerTitle>Withdraw</DrawerTitle>
             <DrawerDescription>
-              Withdrawing with affect your membership tier, and you will
-              received rewards from your current multiplier.
+              Withdrawal impacts your membership tier, so rewards will be
+              finalized instantly. Your next reward will calculate according to
+              your latest tier.
             </DrawerDescription>
           </DrawerHeader>
           <div className='p-4 space-y-6'>

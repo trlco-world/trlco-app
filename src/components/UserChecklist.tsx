@@ -44,7 +44,7 @@ export default function UserChecklist() {
     {
       key: 'kyc',
       title: 'Verify KYC',
-      description: 'Complete the Know Your Customer process',
+      description: 'Complete your personal verification',
       icon: <UserCheck className='w-6 h-6' />,
       isCompleted: false,
       Modal: KYCConnect,

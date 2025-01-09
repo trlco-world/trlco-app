@@ -19,12 +19,12 @@ function PreferencePage() {
           <Tabs.Trigger className={triggerStyle} value='account'>
             Account information
           </Tabs.Trigger>
-          <Tabs.Trigger className={triggerStyle} value='preference'>
+          {/* <Tabs.Trigger className={triggerStyle} value='preference'>
             Preferences
           </Tabs.Trigger>
           <Tabs.Trigger className={triggerStyle} value='security'>
             Security and privacy
-          </Tabs.Trigger>
+          </Tabs.Trigger> */}
         </Tabs.List>
         <Tabs.Content value='account'>
           <AccountForm />

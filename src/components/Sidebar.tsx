@@ -34,8 +34,8 @@ const items = [
   {
     title: 'Marketplace',
     key: 'marketplace',
-    icon: <Icon.Search />,
-    iconActive: <Icon.SearchActive />,
+    icon: <Icon.Marketplace />,
+    iconActive: <Icon.MarketplaceActive />,
     href: '/marketplace',
   },
   // {

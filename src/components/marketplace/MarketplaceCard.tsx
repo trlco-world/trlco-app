@@ -28,7 +28,7 @@ export default function MarketplaceCard(props: MarketplaceProps) {
     <div className='bg-[#FFF1E9] rounded-xl overflow-clip text-[#565656]'>
       <div className='p-3 space-y-2'>
         <div className='flex items-center justify-between'>
-          <span>Collected</span>
+          <span>Progress</span>
           <span>27.39%</span>
         </div>
         <div className='h-1.5 overflow-clip rounded-full bg-white'>
@@ -76,14 +76,12 @@ export default function MarketplaceCard(props: MarketplaceProps) {
           ) : null}
           <div className={`space-y-3 ${props.isLocked ? 'blur' : ''}`}>
             <Info
-              props={{ label: 'No. of Properties', value: props.properties }}
+              props={{ label: 'No. of properties', value: props.properties }}
             />
             <Info
               props={{ label: 'Price per token', value: props.tokenPrice }}
             />
-            <Info
-              props={{ label: 'Yearly investment return', value: props.roi }}
-            />
+            <Info props={{ label: 'Yearly return', value: props.roi }} />
             <Info
               props={{ label: 'Current valuation', value: props.valuation }}
             />

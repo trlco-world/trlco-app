@@ -53,8 +53,8 @@ export default function ClaimDrawer({ children }: React.PropsWithChildren) {
           <DrawerHeader>
             <DrawerTitle>Claim</DrawerTitle>
             <DrawerDescription>
-              Claim your rewards, rewards are calculated every seconds. Please
-              stake before claiming token.
+              Rewards are calculated every seconds. Each claim will cost you gas
+              fee.
             </DrawerDescription>
           </DrawerHeader>
           <div className='p-4 space-y-6'>
