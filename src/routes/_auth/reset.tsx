@@ -33,7 +33,7 @@ type FormValues = {
 
 function ResetPage() {
   const [isPasswordVisible, setIsPasswordVisible] = React.useState<boolean>()
-  const { token } = Route.useSearch()
+  //   const { token } = Route.useSearch()
   const { register, getValues } = useForm<FormValues>()
 
   function handleResetPassword() {
