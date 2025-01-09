@@ -110,15 +110,15 @@ function ChecklistCard({
 }: Omit<Checklist, 'key'> & {
   Modal: React.ComponentType<{ children: React.ReactNode }>
 }) {
-  return (
-    <Modal>
-      <div className='flex items-center justify-between p-3 border rounded-xl'>
-        <div className='flex flex-col'>
-          <span className='text-sm font-medium'>{title}</span>
-          <span className='text-xs text-neutral-500'>{description}</span>
-        </div>
-        {isCompleted ? <CircleCheck className='text-green-500' /> : icon}
+  const cardContent = (
+    <div className='flex items-center justify-between p-3 border rounded-xl'>
+      <div className='flex flex-col'>
+        <span className='text-sm font-medium'>{title}</span>
+        <span className='text-xs text-neutral-500'>{description}</span>
       </div>
-    </Modal>
+      {isCompleted ? <CircleCheck className='text-green-500' /> : icon}
+    </div>
   )
+
+  return isCompleted ? cardContent : <Modal>{cardContent}</Modal>
 }
