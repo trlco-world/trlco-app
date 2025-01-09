@@ -23,6 +23,7 @@ import { Route as DashboardDashboardImport } from './routes/_dashboard/dashboard
 import { Route as DashboardBuyImport } from './routes/_dashboard/buy'
 import { Route as AuthVerifyImport } from './routes/_auth/verify'
 import { Route as AuthSignupImport } from './routes/_auth/signup'
+import { Route as AuthResetImport } from './routes/_auth/reset'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthAuthImport } from './routes/_auth/auth'
 import { Route as DashboardStakeIndexImport } from './routes/_dashboard/stake/index'
@@ -103,6 +104,12 @@ const AuthSignupRoute = AuthSignupImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthResetRoute = AuthResetImport.update({
+  id: '/_auth/reset',
+  path: '/reset',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AuthLoginRoute = AuthLoginImport.update({
   id: '/_auth/login',
   path: '/login',
@@ -171,6 +178,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof AuthLoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/_auth/reset': {
+      id: '/_auth/reset'
+      path: '/reset'
+      fullPath: '/reset'
+      preLoaderRoute: typeof AuthResetImport
       parentRoute: typeof rootRoute
     }
     '/_auth/signup': {
@@ -316,6 +330,7 @@ export interface FileRoutesByFullPath {
   '/test': typeof TestRoute
   '/auth': typeof AuthAuthRoute
   '/login': typeof AuthLoginRoute
+  '/reset': typeof AuthResetRoute
   '/signup': typeof AuthSignupRoute
   '/verify': typeof AuthVerifyRoute
   '/buy': typeof DashboardBuyRoute
@@ -337,6 +352,7 @@ export interface FileRoutesByTo {
   '/test': typeof TestRoute
   '/auth': typeof AuthAuthRoute
   '/login': typeof AuthLoginRoute
+  '/reset': typeof AuthResetRoute
   '/signup': typeof AuthSignupRoute
   '/verify': typeof AuthVerifyRoute
   '/buy': typeof DashboardBuyRoute
@@ -359,6 +375,7 @@ export interface FileRoutesById {
   '/test': typeof TestRoute
   '/_auth/auth': typeof AuthAuthRoute
   '/_auth/login': typeof AuthLoginRoute
+  '/_auth/reset': typeof AuthResetRoute
   '/_auth/signup': typeof AuthSignupRoute
   '/_auth/verify': typeof AuthVerifyRoute
   '/_dashboard/buy': typeof DashboardBuyRoute
@@ -382,6 +399,7 @@ export interface FileRouteTypes {
     | '/test'
     | '/auth'
     | '/login'
+    | '/reset'
     | '/signup'
     | '/verify'
     | '/buy'
@@ -402,6 +420,7 @@ export interface FileRouteTypes {
     | '/test'
     | '/auth'
     | '/login'
+    | '/reset'
     | '/signup'
     | '/verify'
     | '/buy'
@@ -422,6 +441,7 @@ export interface FileRouteTypes {
     | '/test'
     | '/_auth/auth'
     | '/_auth/login'
+    | '/_auth/reset'
     | '/_auth/signup'
     | '/_auth/verify'
     | '/_dashboard/buy'
@@ -444,6 +464,7 @@ export interface RootRouteChildren {
   TestRoute: typeof TestRoute
   AuthAuthRoute: typeof AuthAuthRoute
   AuthLoginRoute: typeof AuthLoginRoute
+  AuthResetRoute: typeof AuthResetRoute
   AuthSignupRoute: typeof AuthSignupRoute
   AuthVerifyRoute: typeof AuthVerifyRoute
 }
@@ -453,6 +474,7 @@ const rootRouteChildren: RootRouteChildren = {
   TestRoute: TestRoute,
   AuthAuthRoute: AuthAuthRoute,
   AuthLoginRoute: AuthLoginRoute,
+  AuthResetRoute: AuthResetRoute,
   AuthSignupRoute: AuthSignupRoute,
   AuthVerifyRoute: AuthVerifyRoute,
 }
@@ -471,6 +493,7 @@ export const routeTree = rootRoute
         "/test",
         "/_auth/auth",
         "/_auth/login",
+        "/_auth/reset",
         "/_auth/signup",
         "/_auth/verify"
       ]
@@ -500,6 +523,9 @@ export const routeTree = rootRoute
     },
     "/_auth/login": {
       "filePath": "_auth/login.tsx"
+    },
+    "/_auth/reset": {
+      "filePath": "_auth/reset.tsx"
     },
     "/_auth/signup": {
       "filePath": "_auth/signup.tsx"

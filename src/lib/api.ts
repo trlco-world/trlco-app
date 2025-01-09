@@ -98,6 +98,30 @@ export const getUserFn = async (
   }
 }
 
+export const resetUserPasswordFn = async (
+  token: string,
+  password: string,
+  password_confirmation: string,
+) => {
+  try {
+    const response = await request.post(
+      '/api/reset-password',
+      {
+        password,
+        password_confirmation,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    )
+    if (response.data?.data) {
+      return response.data?.data
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const updateUserFn = async (
   authorization: string,
   first_name: string,
