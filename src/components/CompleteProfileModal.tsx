@@ -46,7 +46,10 @@ export function CompleteProfileModal({ children }: PropsWithChildren) {
         }),
         {
           loading: 'Loading...',
-          success: 'Thank you for completing the profile',
+          success: (data) => {
+            if (data) setOpen(false)
+            return 'Thank you for completing the profile'
+          },
           error: (error) => {
             console.log(error)
             if (error instanceof AxiosError) {

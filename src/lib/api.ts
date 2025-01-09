@@ -129,24 +129,37 @@ export const completeUserProfileFn = async (args: {
   last_name: string
   mobile_number: string
 }) => {
-  const response = (await request.post('/users/me/complete-profile', {
-    headers: { Authorization: `Bearer ${args.authorization}` },
-  })) as {
-    data: {
-      id: string
-      name: string
-      first_name: string
-      last_name: string
-      email: string
-      is_active: boolean
-      email_verified_at: string | null
-      is_profile_filled: boolean
-      created_at: string
+  const { authorization, first_name, last_name, mobile_number } = args
+  try {
+    const response = (await request.post(
+      '/users/me/complete-profile',
+      {
+        first_name,
+        last_name,
+        mobile_number,
+      },
+      {
+        headers: { Authorization: `Bearer ${authorization}` },
+      },
+    )) as {
+      data: {
+        id: string
+        name: string
+        first_name: string
+        last_name: string
+        email: string
+        is_active: boolean
+        email_verified_at: string | null
+        is_profile_filled: boolean
+        created_at: string
+      }
     }
-  }
 
-  if (response.data) {
-    return response.data
+    if (response.data) {
+      return response.data
+    }
+  } catch (error) {
+    console.log(error)
   }
 }
 

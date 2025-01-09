@@ -58,7 +58,7 @@ function StakingDataCard() {
   ).toFixed(8)
 
   return (
-    <div className='flex flex-col justify-around gap-6 sm:items-center sm:flex-row'>
+    <div className='grid gap-6 sm:grid-cols-2 md:grid-cols-4'>
       <StatsCard title='Total Staked' value={totalStaked} />
       <StatsCard
         title='Total Reward Distributed'
