@@ -60,14 +60,14 @@ function MarketplacePage() {
   return (
     <div className='space-y-6'>
       <h4 className='text-lg font-semibold sm:text-2xl'>Asset Marketplace</h4>
-      <Tabs defaultValue='progress'>
+      <Tabs defaultValue='progress' className='space-y-6'>
         <TabsList>
           <TabsTrigger value='progress'>In Progress</TabsTrigger>
           <TabsTrigger value='coming'>Coming Soon</TabsTrigger>
           <TabsTrigger value='completed'>Completed</TabsTrigger>
         </TabsList>
         <TabsContent value='progress'>
-          <div className='grid gap-6 py-6 sm:grid-cols-4'>
+          <div className='grid gap-6 sm:grid-cols-2 xl:grid-cols-3'>
             {inProgress ? (
               inProgress.map((u, i) => <MarketplaceCard key={i} {...u} />)
             ) : (
@@ -76,7 +76,7 @@ function MarketplacePage() {
           </div>
         </TabsContent>
         <TabsContent value='coming'>
-          <div className='grid gap-6 py-6 sm:grid-cols-4'>
+          <div className='grid gap-6 sm:grid-cols-2 xl:grid-cols-3'>
             {comingSoon ? (
               comingSoon.map((u, i) => <MarketplaceCard key={i} {...u} />)
             ) : (
@@ -86,7 +86,7 @@ function MarketplacePage() {
         </TabsContent>
         <TabsContent value='completed'>
           {completed.length > 0 ? (
-            <div className='grid grid-cols-4 gap-6 py-6'>
+            <div className='grid gap-6 sm:grid-cols-2 xl:grid-cols-3'>
               {completed.map((u, i) => (
                 <MarketplaceCard key={i} {...u} />
               ))}
