@@ -25,7 +25,7 @@ export default function UserButton() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className='px-4 py-2 border rounded-full border-neutral-500'>
+        <button className='px-4 py-1.5 border rounded-xl border-neutral-500'>
           {user?.email}
         </button>
       </DropdownMenuTrigger>

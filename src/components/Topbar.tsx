@@ -12,12 +12,12 @@ export default function Topbar() {
         <ToggleChain />
         <WalletConnect>
           {isConnected ? (
-            <button className='py-1.5 px-4 rounded-full border border-red-500 flex items-center bg-white'>
+            <button className='py-1.5 px-4 rounded-xl border border-red-500 flex items-center bg-white'>
               <Wallet className='w-4 h-4 mr-2' />
-              <span className='text-sm font-bold text-red-500'>{`0x...${address?.slice(-4)}`}</span>
+              <span className='text-sm font-medium text-red-500'>{`0x...${address?.slice(-4)}`}</span>
             </button>
           ) : (
-            <button className='py-1.5 px-4 rounded-full bg-red-500 text-white'>
+            <button className='py-1.5 px-4 rounded-xl bg-red-500 text-white'>
               Connect Wallet
             </button>
           )}
