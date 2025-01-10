@@ -11,7 +11,7 @@ import { CircleCheck, UserCheck, UserCircle, Wallet } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import { CompleteProfileModal } from './CompleteProfileModal'
-import KYCConnect from './KYCConnect'
+import KYCButton from './KYCButton'
 import WalletConnect from './WalletConnect'
 
 type Checklist = {
@@ -47,7 +47,7 @@ export default function UserChecklist() {
       description: 'Complete your personal verification',
       icon: <UserCheck className='w-6 h-6' />,
       isCompleted: false,
-      Modal: KYCConnect,
+      Modal: KYCButton,
     },
   ])
 

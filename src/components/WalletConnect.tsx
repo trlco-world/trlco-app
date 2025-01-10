@@ -100,7 +100,9 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
             <div className='grid gap-3'>
               <div className='grid p-4 border rounded-xl'>
                 <span className='text-sm text-gray-500'>Address</span>
-                <span className='font-mono'>{address}</span>
+                <span className='font-mono text-xs sm:text-sm text-wrap'>
+                  {address}
+                </span>
                 <div className='grid grid-cols-2 gap-3 mt-3'>
                   <Button
                     variant='secondary'
@@ -135,15 +137,15 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
                   alt={connector.name}
                 />
               </div>
-              <DrawerFooter className='grid grid-cols-2'>
-                <Button variant='destructive' onClick={() => disconnect()}>
-                  Disconnect
-                </Button>
-                <DrawerClose asChild>
-                  <Button>Cancel</Button>
-                </DrawerClose>
-              </DrawerFooter>
             </div>
+            <DrawerFooter className='grid grid-cols-2'>
+              <Button variant='destructive' onClick={() => disconnect()}>
+                Disconnect
+              </Button>
+              <DrawerClose asChild>
+                <Button>Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
           </div>
         </DrawerContent>
       </Drawer>
