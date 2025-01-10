@@ -1,12 +1,12 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
-import Sidebar from '../components/Sidebar'
-import { getUserFn } from '@/lib/api'
+import { MobileNav } from '@/components/mobile/MobileNav'
+import MobileProfileMenu from '@/components/mobile/MobileProfileMenu'
+import { MobileTopbar } from '@/components/mobile/MobileTopbar'
 import Topbar from '@/components/Topbar'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { MobileTopbar } from '@/components/mobile/MobileTopbar'
-import { MobileNav } from '@/components/mobile/MobileNav'
 import { MobileMenuProvider, useMobileMenu } from '@/hooks/use-mobile-menu'
-import MobileProfileMenu from '@/components/mobile/MobileProfileMenu'
+import { getUserFn } from '@/lib/api'
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import Sidebar from '../components/Sidebar'
 
 const isAuthenticated = async () => {
   const token = document.cookie.split('=')[1]

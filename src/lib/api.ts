@@ -10,6 +10,14 @@ export const request = axios.create({
   },
 })
 
+export const serverless = axios.create({
+  baseURL: '/api',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+})
+
 export const loginFn = async (data: {
   email: Record<string, string>
   password: Record<string, string>
@@ -194,4 +202,20 @@ export const userKYCFn = async (
     headers: { Authorization: `Bearer ${authorization}` },
   })
   return response.data.refId
+}
+
+export const claimFaucet = async (
+  walletAddress: `0x${string}`,
+  token: 'TRLCO' | 'ETH',
+) => {
+  const response = await serverless.get('/faucet', {
+    params: {
+      walletAddress,
+      token,
+    },
+  })
+
+  console.log(response)
+
+  return response.data
 }
