@@ -20,6 +20,14 @@ export default defineConfig(({ mode }) => {
         '/api': {
           target: `${API_URL}`,
           changeOrigin: true,
+          configure: (proxy) => {
+            proxy.on('proxyRes', (proxyRes) => {
+              proxyRes.headers['Cache-Control'] =
+                'no-cache, no-store, must-revalidate'
+              proxyRes.headers['Pragma'] = 'no-cache'
+              proxyRes.headers['Expires'] = '0'
+            })
+          },
         },
       },
     },
