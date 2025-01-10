@@ -1,9 +1,3 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" },
-    {
-      "source": "/api/:path*",
-      "destination": "https://trlco-serverless.vercel.app/:path*"
-    }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }

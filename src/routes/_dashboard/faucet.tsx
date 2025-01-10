@@ -17,8 +17,6 @@ export const Route = createFileRoute('/_dashboard/faucet')({
   component: FaucetPage,
 })
 
-console.log(import.meta.env.VITE_SERVERLESS_URL)
-
 function FaucetPage() {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<{

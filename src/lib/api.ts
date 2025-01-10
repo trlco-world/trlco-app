@@ -11,7 +11,7 @@ export const request = axios.create({
 })
 
 export const serverless = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_SERVERLESS_URL,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
@@ -206,14 +206,12 @@ export const claimFaucet = async (
   walletAddress: `0x${string}`,
   token: 'TRLCO' | 'ETH',
 ) => {
-  const response = await serverless.get('/faucet', {
+  const response = await serverless.get('/api/faucet', {
     params: {
       walletAddress,
       token,
     },
   })
-
-  console.log(response)
 
   return response.data
 }
