@@ -84,7 +84,7 @@ export default function SignUpPage() {
         />
       </div>
       {/* right column */}
-      <div className='grid max-w-sm gap-10 mx-auto place-content-center'>
+      <div className='grid max-w-sm gap-10 px-6 mx-auto place-content-center sm:px-0'>
         <div className='space-y-3 text-center'>
           <h1 className='text-3xl font-semibold'>Let's get started</h1>
           <p className='text-gray-500'>
