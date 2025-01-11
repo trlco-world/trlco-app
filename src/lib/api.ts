@@ -211,6 +211,9 @@ export const claimFaucet = async (
       walletAddress,
       token,
     },
+    headers: {
+      'Cache-Control': 'no-cache',
+    },
   })
 
   return response.data
