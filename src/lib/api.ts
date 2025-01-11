@@ -15,6 +15,7 @@ export const serverless = axios.create({
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
+    'Cache-Control': 'no-store',
   },
 })
 
@@ -210,9 +211,6 @@ export const claimFaucet = async (
     params: {
       walletAddress,
       token,
-    },
-    headers: {
-      'Cache-Control': 'no-cache',
     },
   })
 
