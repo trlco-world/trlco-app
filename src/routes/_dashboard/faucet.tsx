@@ -99,7 +99,7 @@ function FaucetPage() {
             </div>
             <div className='flex flex-col gap-2'>
               <span className='font-medium text-gray-500'>Redeem Base ETH</span>
-              <span className='text-xl'>0.0001</span>
+              <span className='text-xl'>0.00005</span>
               {isConnected ? (
                 <Button onClick={() => handleClaim('ETH')} disabled={loading}>
                   {loading ? 'Processing...' : 'Redeem ETH'}
