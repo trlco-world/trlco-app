@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/card'
 import { claimFaucet } from '@/lib/api'
 import { createFileRoute } from '@tanstack/react-router'
+import axios from 'axios'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { useAccount } from 'wagmi'
@@ -56,9 +57,17 @@ function FaucetPage() {
     }
   }
 
+  async function onClickTest() {
+    const response = await axios.get(
+      'https://trlco-functions.vercel.app/api/faucet',
+    )
+    console.log(response)
+  }
+
   return (
     <div className='max-w-sm space-y-6'>
       <BackButton />
+      <Button onClick={onClickTest}>test</Button>
       {status === 'success' && data ? (
         <div className='p-5 space-y-2 text-sm border border-green-200 bg-green-50 rounded-xl'>
           <h6 className='font-medium text-green-600'>Claim Successful</h6>
