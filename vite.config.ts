@@ -12,5 +12,14 @@ export default defineConfig(() => {
       },
     },
     plugins: [TanStackRouterVite(), react()],
+    server: {
+      proxy: {
+        '/api': {
+          target: 'https://trlco-functions.vercel.app/',
+          changeOrigin: true,
+          // rewrite: (path) => path.replace(/^\/api/, ''),
+        },
+      },
+    },
   }
 })
