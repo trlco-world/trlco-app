@@ -17,6 +17,7 @@ export default defineConfig(() => {
         '/api': {
           target: 'https://trlco-functions.vercel.app',
           changeOrigin: true,
+          secure: false,
           // rewrite: (path) => path.replace(/^\/api/, ''),
         },
       },
