@@ -11,12 +11,7 @@ export const request = axios.create({
 })
 
 export const serverless = axios.create({
-  baseURL: '/api',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-    'Cache-Control': 'no-store',
-  },
+  baseURL: `${import.meta.env.VITE_SERVERLESS_URL}/api`,
 })
 
 export const loginFn = async (data: {
