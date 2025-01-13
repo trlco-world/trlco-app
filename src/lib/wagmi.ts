@@ -1,6 +1,6 @@
 import { base, baseSepolia } from '@wagmi/core/chains'
 import { createConfig, http } from 'wagmi'
-// import { coinbaseWallet, walletConnect } from 'wagmi/connectors'
+import { coinbaseWallet, walletConnect } from 'wagmi/connectors'
 
 const nodeProviderUrl = import.meta.env.VITE_NODE_PROVIDER as string
 
@@ -11,7 +11,7 @@ export const config = createConfig({
     [baseSepolia.id]: http(nodeProviderUrl),
   },
   connectors: [
-    // coinbaseWallet({ appName: 'TRLCO' }),
-    // walletConnect({ projectId: import.meta.env.VITE_PROJECT_ID }),
+    coinbaseWallet({ appName: 'TRLCO' }),
+    walletConnect({ projectId: import.meta.env.VITE_PROJECT_ID }),
   ],
 })

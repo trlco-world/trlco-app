@@ -37,8 +37,8 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
   //   Display loading State when connecting or reconencting
   if (isConnecting || isReconnecting) {
     return (
-      <div className='py-1.5 px-4 rounded-full bg-red-500 text-white inline-flex items-center'>
-        Connecting <LoaderCircle className='ml-1 animate-spin' />
+      <div className='flex items-center px-4 font-medium border rounded-xl'>
+        Connecting <LoaderCircle className='w-5 h-5 ml-2 animate-spin' />
       </div>
     )
   }
