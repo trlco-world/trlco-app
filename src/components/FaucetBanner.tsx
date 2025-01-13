@@ -7,7 +7,7 @@ export default function FaucetBanner() {
     <Link to='/faucet'>
       <Card className='transition-all ease-in-out shadow-none hover:border hover:border-red-400 hover:bg-red-50'>
         <CardHeader>
-          <div className='flex items-center justify-between'>
+          <div className='grid items-center justify-between gap-3 sm:flex'>
             <div className='space-y-2'>
               <CardTitle>Redeem Your Testnet Token</CardTitle>
               <CardDescription>
