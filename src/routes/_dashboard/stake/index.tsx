@@ -51,22 +51,21 @@ function StakingDataCard() {
 
   const totalStaked = formatEther(bc.totalStaked ?? 0n)
   const totalRewardDistributed = '11000,00'
-  const totalSupplyStaked = (
+  const totalSupplyStaked =
     bc.totalStaked && bc.totalSupply
       ? (+formatEther(bc.totalStaked) / +formatEther(bc.totalSupply)) * 100
       : 0
-  ).toFixed(8)
 
   return (
     <div className='grid gap-6 sm:grid-cols-2 md:grid-cols-4'>
-      <StatsCard title='Total Staked' value={totalStaked} />
+      <StatsCard title='Total Staked' value={Number(totalStaked).toFixed(8)} />
       <StatsCard
         title='Total Reward Distributed'
         value={totalRewardDistributed}
       />
       <StatsCard
         title='Total Staked (% of Total Supply)'
-        value={`${totalSupplyStaked} %`}
+        value={`${Number(totalSupplyStaked).toFixed(8)} %`}
       />
 
       <StatsCard title='Total Value Locked (TVL)' value={`N/A`} />
@@ -99,19 +98,19 @@ function StakeCard() {
       <Separator className='mb-3' />
       <CardContent className='flex-1 space-y-2 text-sm font-medium'>
         <div className='flex items-center justify-between'>
-          <span>Stake Limit</span>
+          <span>Stake limit</span>
           <span>{formatEther(bc.allowance ?? 0n)}</span>
         </div>
         <div className='flex items-center justify-between'>
-          <span>Total Staked</span>
+          <span>Total staked</span>
           <span>{formatEther(bc.stakes.amount ?? 0n)}</span>
         </div>
         <div className='flex items-center justify-between'>
-          <span>Minimum Stake</span>
+          <span>Minimum stake</span>
           <span>100</span>
         </div>
         <div className='flex items-center justify-between'>
-          <span>Stake to Next Tier</span>
+          <span>Stake to next tier</span>
           <span>{nextTierRemaining}</span>
         </div>
       </CardContent>
