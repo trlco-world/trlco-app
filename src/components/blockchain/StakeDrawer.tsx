@@ -29,8 +29,8 @@ export default function StakeDrawer({ children }: React.PropsWithChildren) {
         toast.warning('Please enter a valid amount to stake.')
         return
       }
-
-      await ct.approve(amount)
+      // temp large amount for approve one time
+      await ct.approve('100000')
     } catch (e) {
       toast.dismiss('loading')
       const error = e as WriteContractErrorType
