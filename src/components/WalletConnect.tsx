@@ -13,6 +13,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from './ui/drawer'
+import { baseSepolia } from 'viem/chains'
 
 const walletIcon: { [key: string]: string } = {
   MetaMask: '/metamask.svg',
@@ -61,7 +62,9 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
                 {connectors.map((connector) => (
                   <button
                     key={connector.uid}
-                    onClick={() => connect({ connector })}
+                    onClick={() =>
+                      connect({ connector, chainId: baseSepolia.id })
+                    }
                     className='relative flex items-center justify-center border h-14 rounded-xl'
                   >
                     <img

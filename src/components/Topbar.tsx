@@ -1,5 +1,5 @@
 import { useAccount } from 'wagmi'
-import ToggleChain from './SwitchChainButton'
+// import ToggleChain from './SwitchChainButton'
 import UserButton from './UserButton'
 import WalletConnect from './WalletConnect'
 import { Wallet } from 'lucide-react'
@@ -9,7 +9,7 @@ export default function Topbar() {
   return (
     <div className='flex items-center justify-end h-16'>
       <div className='flex gap-3'>
-        <ToggleChain />
+        {/* <ToggleChain /> */}
         <WalletConnect>
           {isConnected ? (
             <button className='py-1.5 px-4 rounded-xl border border-red-500 flex items-center bg-white'>
