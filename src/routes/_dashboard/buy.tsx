@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -21,30 +22,30 @@ type LaunchPad = {
 }
 
 const launchpad: LaunchPad[] = [
-  {
-    title: 'TRLCO (IDO)',
-    description: 'ENJINSTARTER',
-    target: '50,000 USD',
-    price: '0.035 USDT',
-    startDate: '16 Dec 2024 10:00 AM',
-    endDate: '18 Dec 2024 10:00 AM',
-    imageUrl:
-      'https://storage.enjinstarter.com/project-images/5bb5bca8-eb64-4bee-a256-778cf2a66f33/42b77c53379447f1b7deaebf001e2972.png',
-    url: 'https://launchpad.enjinstarter.com/projects/5bb5bca8-eb64-4bee-a256-778cf2a66f33/idos/e0e2c577-16d9-48c1-9fb7-218af5d67ab0',
-    status: 'running',
-  },
-  {
-    title: 'Super Meme',
-    description: 'ENJINSTARTER',
-    target: '250,000 USDT',
-    startDate: '6 Dec 2024 1:00 PM',
-    endDate: '8 Dec 2024 1:00 PM',
-    price: '0.015 USDT',
-    imageUrl:
-      'https://storage.enjinstarter.com/project-images/5c0a01d8-f7b1-4418-9c92-53533fde9eb8/174e865ed3ad4023b8acb4561a899410.png',
-    url: 'https://launchpad.enjinstarter.com/projects/5c0a01d8-f7b1-4418-9c92-53533fde9eb8/idos/e84a117d-8302-4afa-9139-fa16032d8ea8',
-    status: 'running',
-  },
+  // {
+  //   title: 'TRLCO (IDO)',
+  //   description: 'ENJINSTARTER',
+  //   target: '50,000 USD',
+  //   price: '0.035 USDT',
+  //   startDate: '16 Dec 2024 10:00 AM',
+  //   endDate: '18 Dec 2024 10:00 AM',
+  //   imageUrl:
+  //     'https://storage.enjinstarter.com/project-images/5bb5bca8-eb64-4bee-a256-778cf2a66f33/42b77c53379447f1b7deaebf001e2972.png',
+  //   url: 'https://launchpad.enjinstarter.com/projects/5bb5bca8-eb64-4bee-a256-778cf2a66f33/idos/e0e2c577-16d9-48c1-9fb7-218af5d67ab0',
+  //   status: 'running',
+  // },
+  // {
+  //   title: 'Super Meme',
+  //   description: 'ENJINSTARTER',
+  //   target: '250,000 USDT',
+  //   startDate: '6 Dec 2024 1:00 PM',
+  //   endDate: '8 Dec 2024 1:00 PM',
+  //   price: '0.015 USDT',
+  //   imageUrl:
+  //     'https://storage.enjinstarter.com/project-images/5c0a01d8-f7b1-4418-9c92-53533fde9eb8/174e865ed3ad4023b8acb4561a899410.png',
+  //   url: 'https://launchpad.enjinstarter.com/projects/5c0a01d8-f7b1-4418-9c92-53533fde9eb8/idos/e84a117d-8302-4afa-9139-fa16032d8ea8',
+  //   status: 'running',
+  // },
   {
     title: 'Pink Moon Studios',
     description: 'ENJINSTARTER',
@@ -90,7 +91,7 @@ function BuyPage() {
       <h4 className='text-lg font-semibold sm:text-2xl'>
         Buy $TRLCO at LaunchPad
       </h4>
-      <Tabs defaultValue='running' className='space-y-6'>
+      <Tabs defaultValue='upcoming' className='space-y-6'>
         <TabsList>
           <TabsTrigger value='running'>Running</TabsTrigger>
           <TabsTrigger value='upcoming'>Upcoming</TabsTrigger>
@@ -100,6 +101,7 @@ function BuyPage() {
           {renderProjects(filteredProjects.running)}
         </TabsContent>
         <TabsContent value='upcoming'>
+          <Button>Get Whitelisted</Button>
           {renderProjects(filteredProjects.upcoming)}
         </TabsContent>
         <TabsContent value='completed'>

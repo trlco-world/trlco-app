@@ -1,12 +1,12 @@
 import { Separator } from '@/components/ui/separator'
-import { useAuth } from '@/hooks/user-auth'
+import { useUser } from '@/hooks/auth/use-user'
 import { updateUserFn } from '@/lib/api'
 import { useCookies } from 'react-cookie'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 export default function AccountForm() {
-  const { user } = useAuth()
+  const { data: user } = useUser()
   const { register, handleSubmit } = useForm()
   const [cookies] = useCookies(['trlco-at'])
   const authorization = cookies['trlco-at']

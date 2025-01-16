@@ -9,6 +9,29 @@ export const request = axios.create({
     'Content-Type': 'application/json',
   },
 })
+request.interceptors.request.use(
+  (config) => {
+    const cookies = document.cookie // Use document.cookie to parse cookies
+      .split('; ')
+      .map((cookie) => cookie.split('='))
+      .reduce(
+        (acc, [key, value]) => {
+          acc[key] = decodeURIComponent(value)
+          return acc
+        },
+        {} as Record<string, string>,
+      )
+
+    const authorization = cookies['trlco-at'] // Adjust your cookie name
+    if (authorization) {
+      config.headers.Authorization = `Bearer ${authorization}`
+    }
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  },
+)
 
 export const serverless = axios.create({
   baseURL: `${import.meta.env.VITE_SERVERLESS_URL}/api`,

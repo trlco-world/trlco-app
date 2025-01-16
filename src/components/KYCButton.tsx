@@ -1,8 +1,10 @@
-import { useAuth } from '@/hooks/user-auth'
+import { useUser } from '@/hooks/auth/use-user'
+import { useKYC } from '@/hooks/auth/user-kyc'
 import { PropsWithChildren } from 'react'
 
 export default function KYCButton({ children }: PropsWithChildren) {
-  const { refId, user } = useAuth()
+  const { data: user } = useUser()
+  const { data: refId } = useKYC()
   const url = new URL('https://verify-with.blockpass.org/')
   url.searchParams.append('clientId', import.meta.env.VITE_BLOCKPASS_CLIENTID)
   url.searchParams.append('refId', refId!)

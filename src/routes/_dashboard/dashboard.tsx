@@ -1,7 +1,7 @@
 import FaucetBanner from '@/components/FaucetBanner'
 import MembershipCard from '@/components/MembershipCard'
 import UserChecklist from '@/components/UserChecklist'
-import { useAuth } from '@/hooks/user-auth'
+import { useUser } from '@/hooks/auth/use-user'
 import { createFileRoute } from '@tanstack/react-router'
 import { useAccount } from 'wagmi'
 
@@ -10,7 +10,7 @@ export const Route = createFileRoute('/_dashboard/dashboard')({
 })
 
 function RouteComponent() {
-  const { user } = useAuth()
+  const { data: user } = useUser()
   const { isConnected } = useAccount()
 
   return (

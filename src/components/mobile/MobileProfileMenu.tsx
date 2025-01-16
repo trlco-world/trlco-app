@@ -1,22 +1,26 @@
+import { useLogout } from '@/hooks/auth/use-logout'
+import { useUser } from '@/hooks/auth/use-user'
 import { useMobileMenu } from '@/hooks/use-mobile-menu'
-import { useAuth } from '@/hooks/user-auth'
 import { useNavigate } from '@tanstack/react-router'
 import { useCookies } from 'react-cookie'
 import { IoChevronForward } from 'react-icons/io5'
 
 const MobileProfileMenu = () => {
-  const { user, logout } = useAuth()
+  const { mutateAsync: logout } = useLogout()
+  const { data: user } = useUser()
   const { toggleProfile } = useMobileMenu()
-  const nagivate = useNavigate()
-  const [cookies, _, removeCookie] = useCookies(['trlco-at'])
+  const navigate = useNavigate()
+  const [_, __, removeCookie] = useCookies(['trlco-at'])
 
   function onClickNagivate(to: string) {
-    nagivate({ to }).then(() => toggleProfile())
+    navigate({ to }).then(() => toggleProfile())
   }
 
   function onClickLogout() {
-    removeCookie('trlco-at')
-    logout(cookies['trlco-at'])
+    logout().then(() => {
+      removeCookie('trlco-at')
+      navigate({ to: '/login' })
+    })
   }
 
   return (
@@ -26,7 +30,7 @@ const MobileProfileMenu = () => {
         <button onClick={() => onClickNagivate('/portfolio')}>Portfolio</button>
       </div> */}
       <div>
-        <button onClick={() => onClickNagivate('/preference')}>Settings</button>
+        <button onClick={() => onClickNagivate('/setting')}>Settings</button>
       </div>
       <hr />
       <div className='flex flex-col gap-2'>

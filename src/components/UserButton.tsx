@@ -7,19 +7,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useAuth } from '@/hooks/user-auth'
+import { useLogout } from '@/hooks/auth/use-logout'
+import { useUser } from '@/hooks/auth/use-user'
 import { useNavigate } from '@tanstack/react-router'
 import { Cog, LogOut } from 'lucide-react'
 import { useCookies } from 'react-cookie'
 
 export default function UserButton() {
-  const { user, logout } = useAuth()
+  const { mutateAsync: logout } = useLogout()
+  const { data: user } = useUser()
   const navigate = useNavigate()
-  const [cookies, _, removeCookie] = useCookies(['trlco-at'])
+  const [_, __, removeCookie] = useCookies(['trlco-at'])
 
   function handleLogout() {
-    removeCookie('trlco-at')
-    logout(cookies['trlco-at'])
+    logout().then(() => {
+      removeCookie('trlco-at')
+      navigate({ to: '/login' })
+    })
   }
 
   return (
@@ -33,7 +37,11 @@ export default function UserButton() {
         <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => navigate({ to: '/preference' })}>
+          <DropdownMenuItem
+            onClick={() =>
+              navigate({ to: '/setting', search: { type: 'account' } })
+            }
+          >
             <Cog />
             Settings
           </DropdownMenuItem>

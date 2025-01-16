@@ -8,6 +8,7 @@ import { WagmiProvider } from 'wagmi'
 import { CookiesProvider } from 'react-cookie'
 import { config } from './lib/wagmi.ts'
 import { routeTree } from './routeTree.gen.ts'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const router = createRouter({ routeTree })
 
@@ -25,6 +26,7 @@ createRoot(document.getElementById('root')!).render(
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
+          <ReactQueryDevtools />
         </QueryClientProvider>
       </WagmiProvider>
     </CookiesProvider>

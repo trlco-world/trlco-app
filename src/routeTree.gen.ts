@@ -15,7 +15,7 @@ import { Route as DashboardImport } from './routes/_dashboard'
 import { Route as DashboardWalletImport } from './routes/_dashboard/wallet'
 import { Route as DashboardTradeImport } from './routes/_dashboard/trade'
 import { Route as DashboardSwapImport } from './routes/_dashboard/swap'
-import { Route as DashboardPreferenceImport } from './routes/_dashboard/preference'
+import { Route as DashboardSettingImport } from './routes/_dashboard/setting'
 import { Route as DashboardPortfolioImport } from './routes/_dashboard/portfolio'
 import { Route as DashboardFaucetImport } from './routes/_dashboard/faucet'
 import { Route as DashboardDashboardImport } from './routes/_dashboard/dashboard'
@@ -55,9 +55,9 @@ const DashboardSwapRoute = DashboardSwapImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
-const DashboardPreferenceRoute = DashboardPreferenceImport.update({
-  id: '/preference',
-  path: '/preference',
+const DashboardSettingRoute = DashboardSettingImport.update({
+  id: '/setting',
+  path: '/setting',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -215,11 +215,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardPortfolioImport
       parentRoute: typeof DashboardImport
     }
-    '/_dashboard/preference': {
-      id: '/_dashboard/preference'
-      path: '/preference'
-      fullPath: '/preference'
-      preLoaderRoute: typeof DashboardPreferenceImport
+    '/_dashboard/setting': {
+      id: '/_dashboard/setting'
+      path: '/setting'
+      fullPath: '/setting'
+      preLoaderRoute: typeof DashboardSettingImport
       parentRoute: typeof DashboardImport
     }
     '/_dashboard/swap': {
@@ -281,7 +281,7 @@ interface DashboardRouteChildren {
   DashboardDashboardRoute: typeof DashboardDashboardRoute
   DashboardFaucetRoute: typeof DashboardFaucetRoute
   DashboardPortfolioRoute: typeof DashboardPortfolioRoute
-  DashboardPreferenceRoute: typeof DashboardPreferenceRoute
+  DashboardSettingRoute: typeof DashboardSettingRoute
   DashboardSwapRoute: typeof DashboardSwapRoute
   DashboardTradeRoute: typeof DashboardTradeRoute
   DashboardWalletRoute: typeof DashboardWalletRoute
@@ -296,7 +296,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardDashboardRoute: DashboardDashboardRoute,
   DashboardFaucetRoute: DashboardFaucetRoute,
   DashboardPortfolioRoute: DashboardPortfolioRoute,
-  DashboardPreferenceRoute: DashboardPreferenceRoute,
+  DashboardSettingRoute: DashboardSettingRoute,
   DashboardSwapRoute: DashboardSwapRoute,
   DashboardTradeRoute: DashboardTradeRoute,
   DashboardWalletRoute: DashboardWalletRoute,
@@ -322,7 +322,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardDashboardRoute
   '/faucet': typeof DashboardFaucetRoute
   '/portfolio': typeof DashboardPortfolioRoute
-  '/preference': typeof DashboardPreferenceRoute
+  '/setting': typeof DashboardSettingRoute
   '/swap': typeof DashboardSwapRoute
   '/trade': typeof DashboardTradeRoute
   '/wallet': typeof DashboardWalletRoute
@@ -343,7 +343,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardDashboardRoute
   '/faucet': typeof DashboardFaucetRoute
   '/portfolio': typeof DashboardPortfolioRoute
-  '/preference': typeof DashboardPreferenceRoute
+  '/setting': typeof DashboardSettingRoute
   '/swap': typeof DashboardSwapRoute
   '/trade': typeof DashboardTradeRoute
   '/wallet': typeof DashboardWalletRoute
@@ -365,7 +365,7 @@ export interface FileRoutesById {
   '/_dashboard/dashboard': typeof DashboardDashboardRoute
   '/_dashboard/faucet': typeof DashboardFaucetRoute
   '/_dashboard/portfolio': typeof DashboardPortfolioRoute
-  '/_dashboard/preference': typeof DashboardPreferenceRoute
+  '/_dashboard/setting': typeof DashboardSettingRoute
   '/_dashboard/swap': typeof DashboardSwapRoute
   '/_dashboard/trade': typeof DashboardTradeRoute
   '/_dashboard/wallet': typeof DashboardWalletRoute
@@ -388,7 +388,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/faucet'
     | '/portfolio'
-    | '/preference'
+    | '/setting'
     | '/swap'
     | '/trade'
     | '/wallet'
@@ -408,7 +408,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/faucet'
     | '/portfolio'
-    | '/preference'
+    | '/setting'
     | '/swap'
     | '/trade'
     | '/wallet'
@@ -428,7 +428,7 @@ export interface FileRouteTypes {
     | '/_dashboard/dashboard'
     | '/_dashboard/faucet'
     | '/_dashboard/portfolio'
-    | '/_dashboard/preference'
+    | '/_dashboard/setting'
     | '/_dashboard/swap'
     | '/_dashboard/trade'
     | '/_dashboard/wallet'
@@ -482,7 +482,7 @@ export const routeTree = rootRoute
         "/_dashboard/dashboard",
         "/_dashboard/faucet",
         "/_dashboard/portfolio",
-        "/_dashboard/preference",
+        "/_dashboard/setting",
         "/_dashboard/swap",
         "/_dashboard/trade",
         "/_dashboard/wallet",
@@ -523,8 +523,8 @@ export const routeTree = rootRoute
       "filePath": "_dashboard/portfolio.tsx",
       "parent": "/_dashboard"
     },
-    "/_dashboard/preference": {
-      "filePath": "_dashboard/preference.tsx",
+    "/_dashboard/setting": {
+      "filePath": "_dashboard/setting.tsx",
       "parent": "/_dashboard"
     },
     "/_dashboard/swap": {

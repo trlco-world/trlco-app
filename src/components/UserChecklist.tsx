@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { useAuth } from '@/hooks/user-auth'
+import { useUser } from '@/hooks/auth/use-user'
 import { CircleCheck, UserCheck, UserCircle, Wallet } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
@@ -50,8 +50,7 @@ export default function UserChecklist() {
       Modal: KYCButton,
     },
   ])
-
-  const { user } = useAuth()
+  const { data: user } = useUser()
   const { isConnected } = useAccount()
 
   useEffect(() => {
