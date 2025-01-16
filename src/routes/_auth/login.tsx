@@ -1,18 +1,41 @@
-import { loginFn } from '@/lib/api'
+import { getUserFn, loginFn } from '@/lib/api'
 import { encryptData } from '@/lib/encrypt'
 import { useForm } from '@tanstack/react-form'
 import { useMutation } from '@tanstack/react-query'
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import {
+  createFileRoute,
+  Link,
+  redirect,
+  useNavigate,
+} from '@tanstack/react-router'
 import { Eye, EyeOff } from 'lucide-react'
 import React, { useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { FcGoogle } from 'react-icons/fc'
 import { z } from 'zod'
 
+const isAuthenticated = async () => {
+  const token = document.cookie.split('=')[1]
+  if (!token) return false
+  const user = await getUserFn(token)
+  return Boolean(user)
+}
+
 export const Route = createFileRoute('/_auth/login')({
   validateSearch: z.object({
     redirectTo: z.string().optional(),
   }),
+  beforeLoad: async ({ location }) => {
+    if (await isAuthenticated()) {
+      throw redirect({
+        to: '/dashboard',
+        search: {
+          redirectTo: location.href,
+        },
+        replace: true,
+      })
+    }
+  },
   component: LoginPage,
 })
 

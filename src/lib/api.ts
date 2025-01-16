@@ -11,7 +11,7 @@ export const request = axios.create({
 })
 request.interceptors.request.use(
   (config) => {
-    const cookies = document.cookie // Use document.cookie to parse cookies
+    const cookies = document.cookie
       .split('; ')
       .map((cookie) => cookie.split('='))
       .reduce(
@@ -22,7 +22,7 @@ request.interceptors.request.use(
         {} as Record<string, string>,
       )
 
-    const authorization = cookies['trlco-at'] // Adjust your cookie name
+    const authorization = cookies['trlco-at']
     if (authorization) {
       config.headers.Authorization = `Bearer ${authorization}`
     }
