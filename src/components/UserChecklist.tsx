@@ -8,11 +8,11 @@ import {
 } from '@/components/ui/card'
 import { useUser } from '@/hooks/auth/use-user'
 import { CircleCheck, UserCheck, UserCircle, Wallet } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { PropsWithChildren, useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import { CompleteProfileModal } from './CompleteProfileModal'
-import KYCButton from './KYCButton'
 import WalletConnect from './WalletConnect'
+import { Link } from '@tanstack/react-router'
 
 type Checklist = {
   key: 'wallet' | 'profile' | 'kyc'
@@ -47,7 +47,7 @@ export default function UserChecklist() {
       description: 'Complete your personal verification',
       icon: <UserCheck className='w-6 h-6' />,
       isCompleted: false,
-      Modal: KYCButton,
+      Modal: KYC,
     },
   ])
   const { data: user } = useUser()
@@ -120,4 +120,12 @@ function ChecklistCard({
   )
 
   return isCompleted ? cardContent : <Modal>{cardContent}</Modal>
+}
+
+function KYC({ children }: PropsWithChildren) {
+  return (
+    <Link to='/setting' search={{ type: 'kyc' }}>
+      {children}
+    </Link>
+  )
 }
