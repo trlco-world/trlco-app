@@ -47,15 +47,15 @@ const launchpad: LaunchPad[] = [
   //   status: 'running',
   // },
   {
-    title: 'Pink Moon Studios',
+    title: '$TRLCO',
     description: 'ENJINSTARTER',
     target: '300,000 USDT',
-    startDate: '6 Dec 2024 1:00 PM',
-    endDate: '8 Dec 2024 1:00 PM',
-    price: '0.1 USDT',
+    startDate: '11 Feb 2025 12:00PM',
+    endDate: '13 Feb 2025 12:00PM',
+    price: '$0.0138',
     imageUrl:
-      'https://storage.enjinstarter.com/project-images/8e840efa-eb4b-4f6b-8f88-677dfc770604/243e83ce814a4477b5fedf7afbe3338f.png',
-    url: 'https://launchpad.enjinstarter.com/projects/8e840efa-eb4b-4f6b-8f88-677dfc770604/idos/d8153eb2-0c0b-44b9-8c24-3e387de2eb7d',
+      'https://miro.medium.com/v2/resize:fit:786/format:webp/1*yFrL6sQbGN49VJAUf7fdHA.png',
+    url: '#',
     status: 'upcoming',
   },
 ]
@@ -105,7 +105,7 @@ function BuyPage() {
             <div className='flex flex-col'>
               <span className='text-red-700'>Get whitelisted</span>
               <span className='text-sm font-light text-neutral-600'>
-                Early access to project private round
+                Exclusive early access to our launchpad. Secure your spot now.
               </span>
             </div>
             <CircleArrowRight className='text-red-700' />
