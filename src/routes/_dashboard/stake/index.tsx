@@ -50,7 +50,8 @@ function StakingDataCard() {
   const bc = useTRLContract()
 
   const totalStaked = formatEther(bc.totalStaked ?? 0n)
-  const totalRewardDistributed = '11000,00'
+
+  const totalRewardDistributed = new Intl.NumberFormat().format(12763.8126)
   const totalSupplyStaked =
     bc.totalStaked && bc.totalSupply
       ? (+formatEther(bc.totalStaked) / +formatEther(bc.totalSupply)) * 100
@@ -58,7 +59,10 @@ function StakingDataCard() {
 
   return (
     <div className='grid gap-6 sm:grid-cols-2 md:grid-cols-4'>
-      <StatsCard title='Total Staked' value={Number(totalStaked).toFixed(8)} />
+      <StatsCard
+        title='Total Staked'
+        value={new Intl.NumberFormat().format(+totalStaked)}
+      />
       <StatsCard
         title='Total Reward Distributed'
         value={totalRewardDistributed}
@@ -148,7 +152,7 @@ function RewardCard() {
       <Separator className='mb-3' />
       <CardContent className='flex-1 space-y-2 text-sm font-medium'>
         <div className='flex items-center justify-between'>
-          <span>Base APY</span>
+          <span>Base APR</span>
           <span>{bc.baseRate?.toString()}%</span>
         </div>
         <div className='flex items-center justify-between'>
