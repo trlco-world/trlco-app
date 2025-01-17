@@ -22,15 +22,17 @@ function RouteComponent() {
 
       <div className='grid gap-6 sm:grid-cols-2'>
         <FaucetBanner />
-        <div className='grid items-center justify-between gap-3 p-4 bg-white border border-red-400 sm:flex rounded-xl '>
-          <div className='flex flex-col'>
-            <span className='text-red-700'>Road to TGE Campaign</span>
-            <span className='text-sm font-light text-neutral-600'>
-              Be an Early Contributor and Earn Rewards Worth $300,000.
-            </span>
+        <a href='https://rewards.taskon.xyz/quest/137369143' target='_blank'>
+          <div className='grid items-center justify-between gap-3 p-4 bg-white border border-red-400 sm:flex rounded-xl '>
+            <div className='flex flex-col'>
+              <span className='text-red-700'>Road to TGE Campaign</span>
+              <span className='text-sm font-light text-neutral-600'>
+                Be an Early Contributor and Earn Rewards Worth $300,000.
+              </span>
+            </div>
+            <Button variant='destructive'>Participate</Button>
           </div>
-          <Button variant={'secondary'}>Participate</Button>
-        </div>
+        </a>
       </div>
       <UserChecklist />
       {isConnected ? <MembershipCard isMobile /> : null}

@@ -91,7 +91,7 @@ function FaucetPage() {
               <span className='text-xl'>2,000</span>
               {isConnected ? (
                 <Button onClick={() => handleClaim('TRLCO')} disabled={loading}>
-                  {loading ? 'Processing...' : 'Redeem TRLCO'}
+                  Redeem TRLCO
                 </Button>
               ) : (
                 <Button disabled>Please connect wallet</Button>
@@ -102,7 +102,7 @@ function FaucetPage() {
               <span className='text-xl'>0.0003</span>
               {isConnected ? (
                 <Button onClick={() => handleClaim('ETH')} disabled={loading}>
-                  {loading ? 'Processing...' : 'Redeem ETH'}
+                  Redeem ETH
                 </Button>
               ) : (
                 <Button disabled>Please connect wallet</Button>

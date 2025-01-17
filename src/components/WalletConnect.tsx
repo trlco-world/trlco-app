@@ -1,7 +1,8 @@
 import { CopyIcon, ExternalLink, LoaderCircle } from 'lucide-react'
 import { PropsWithChildren } from 'react'
 import { toast } from 'sonner'
-import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import { baseSepolia } from 'viem/chains'
+import { useAccount, useConnect, useDisconnect, useSwitchChain } from 'wagmi'
 import { Button } from './ui/button'
 import {
   Drawer,
@@ -13,7 +14,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from './ui/drawer'
-import { baseSepolia } from 'viem/chains'
 
 const walletIcon: { [key: string]: string } = {
   MetaMask: '/metamask.svg',
@@ -34,6 +34,7 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
   const { connectors, connect } = useConnect()
   const { disconnect } = useDisconnect()
   const explorerUrl = import.meta.env.VITE_EXPLORER_LINK
+  const { switchChain, isPending } = useSwitchChain()
 
   //   Display loading State when connecting or reconencting
   if (isConnecting || isReconnecting) {
@@ -130,7 +131,18 @@ const WalletConnect = ({ children }: PropsWithChildren) => {
               </div>
               <div className='grid p-4 border rounded-xl'>
                 <span className='text-sm text-gray-500'>Network</span>
-                <span className='capitalize'>{chain?.name}</span>
+                {chain?.name ? (
+                  <span className='capitalize'>{chain?.name}</span>
+                ) : (
+                  <Button
+                    size='sm'
+                    onClick={() => switchChain({ chainId: baseSepolia.id })}
+                  >
+                    {isPending
+                      ? 'Waiting for Confirmation'
+                      : 'Switch to Testnet'}
+                  </Button>
+                )}
               </div>
               <div className='grid p-4 border rounded-xl'>
                 <span className='text-sm text-gray-500'>Wallet type</span>
