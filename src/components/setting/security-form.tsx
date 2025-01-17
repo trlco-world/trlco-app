@@ -1,8 +1,5 @@
-import { useUser } from '@/hooks/auth/use-user'
-import { useUpdateProfile } from '@/hooks/auth/user-update-profile'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { z } from 'zod'
 import { Button } from '../ui/button'
 import {
@@ -16,42 +13,32 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form'
 import { Input } from '../ui/input'
 
 const formSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
+  current_password: z.string(),
+  password: z.string(),
+  password_confirmation: z.string(),
 })
 
-export default function AccountForm() {
-  const { data: user, refetch: refetchUser } = useUser()
-  const { mutateAsync: updateProfile, isPending } = useUpdateProfile()
+export default function SecurityForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
+      current_password: '',
+      password: '',
+      password_confirmation: '',
     },
   })
 
   async function handleUpdateProfile() {
-    const { firstName, lastName } = form.getValues()
-    toast.promise(
-      updateProfile({ first_name: firstName, last_name: lastName }).then(() =>
-        refetchUser(),
-      ),
-      {
-        loading: 'Updating...',
-        success: 'Profile updated',
-        error: 'Failed to update',
-      },
-    )
+    const { current_password, password, password_confirmation } =
+      form.getValues()
+    console.log({ current_password, password, password_confirmation })
   }
 
   return (
     <Card className='max-w-md shadow-none'>
       <CardHeader>
-        <CardTitle>Account Information</CardTitle>
-        <CardDescription>
-          You can update your account information
-        </CardDescription>
+        <CardTitle>Account Security</CardTitle>
+        <CardDescription>You can update your password</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -61,13 +48,14 @@ export default function AccountForm() {
           >
             <FormField
               control={form.control}
-              name='firstName'
+              name='current_password'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>First Name</FormLabel>
+                  <FormLabel>Current password</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder={user?.first_name ?? 'Enter your first name'}
+                      type='password'
+                      placeholder='Enter current password'
                       {...field}
                     />
                   </FormControl>
@@ -76,22 +64,37 @@ export default function AccountForm() {
             />
             <FormField
               control={form.control}
-              name='lastName'
+              name='password'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Last Name</FormLabel>
+                  <FormLabel>New password</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder={user?.last_name ?? 'Enter your last name'}
+                      type='password'
+                      placeholder='Enter new password'
                       {...field}
                     />
                   </FormControl>
                 </FormItem>
               )}
             />
-            <Button type='submit' disabled={isPending}>
-              Save
-            </Button>
+            <FormField
+              control={form.control}
+              name='password_confirmation'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type='password'
+                      placeholder='Confirm new password'
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <Button type='submit'>Save</Button>
           </form>
         </Form>
       </CardContent>

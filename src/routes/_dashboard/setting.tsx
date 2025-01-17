@@ -1,4 +1,6 @@
 import AccountForm from '@/components/setting/account-form'
+import KYCStatus from '@/components/setting/kyc-status'
+import SecurityForm from '@/components/setting/security-form'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { createFileRoute } from '@tanstack/react-router'
 import { z } from 'zod'
@@ -14,19 +16,10 @@ export const Route = createFileRoute('/_dashboard/setting')({
 
 function SettingPage() {
   const { type } = Route.useSearch()
-  const navigate = Route.useNavigate()
-
-  function handleChangeTabs(e: any) {
-    navigate({ search: { type: e }, replace: true })
-  }
 
   return (
     <div className='space-y-6'>
-      <Tabs
-        defaultValue={type}
-        onValueChange={handleChangeTabs}
-        className='space-y-6'
-      >
+      <Tabs defaultValue={type} className='space-y-6'>
         <TabsList>
           <TabsTrigger value='account'>Account</TabsTrigger>
           <TabsTrigger value='security'>Security</TabsTrigger>
@@ -34,6 +27,12 @@ function SettingPage() {
         </TabsList>
         <TabsContent value='account'>
           <AccountForm />
+        </TabsContent>
+        <TabsContent value='security'>
+          <SecurityForm />
+        </TabsContent>
+        <TabsContent value='kyc'>
+          <KYCStatus />
         </TabsContent>
       </Tabs>
     </div>
