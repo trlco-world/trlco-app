@@ -81,7 +81,7 @@ export const membershipDetails: MembershipDetails = {
   Basic: {
     min: 1,
     max: 999,
-    multiplier: 1,
+    multiplier: 1.0,
     revenueShare: 0,
     isMarketplace: false,
   },
@@ -309,7 +309,7 @@ export const OtherMembership = () => {
   const currentMembership = bc.membership.name
 
   return (
-    <div className='grid gap-6 sm:grid-cols-2 xl:grid-cols-5'>
+    <div className='grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4'>
       {Object.entries(membershipDetails).map((m) => {
         const style = styles[m[0] as Membership]
 
@@ -338,7 +338,9 @@ export const OtherMembership = () => {
               </span>
             </div>
             <div className='flex flex-col items-end justify-end'>
-              <span className='text-xl font-bold'>{m[1].multiplier}x</span>
+              <span className='text-xl font-bold'>
+                {m[1].multiplier.toFixed(2)}x
+              </span>
               <span className='text-xs'>Bonus</span>
             </div>
           </div>

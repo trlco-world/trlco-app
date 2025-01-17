@@ -1,6 +1,7 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { Icon } from './icon'
 import logo from '/logo.svg'
+import SocialMedia from './social-media'
 
 const items = [
   {
@@ -67,27 +68,32 @@ const items = [
 export default function Sidebar() {
   const location = useLocation()
   return (
-    <div className='min-w-[270px] h-full rounded-r-[40px] bg-white'>
+    <div className='min-w-[270px] flex flex-col  h-full rounded-r-[40px] bg-white'>
       <div className='p-5'>
         <img src={logo} width={58.78} height={40} alt='TRL' />
       </div>
-      <div className='grid gap-5 py-5 pl-5'>
-        {items.map((item) => (
-          <Link
-            key={item.key}
-            href={item.href}
-            className={`relative pl-5 py-3 font-medium rounded-l-full flex items-center space-x-3 ${
-              location.pathname.includes(item.href)
-                ? 'menu-active'
-                : 'text-gray-700'
-            }`}
-          >
-            {location.pathname.includes(item.href)
-              ? item.iconActive
-              : item.icon}
-            <span>{item.title}</span>
-          </Link>
-        ))}
+      <div className='flex-1'>
+        <div className='grid gap-5 py-5 pl-5'>
+          {items.map((item) => (
+            <Link
+              key={item.key}
+              href={item.href}
+              className={`relative pl-5 py-3 font-medium rounded-l-full flex items-center space-x-3 ${
+                location.pathname.includes(item.href)
+                  ? 'menu-active'
+                  : 'text-gray-700'
+              }`}
+            >
+              {location.pathname.includes(item.href)
+                ? item.iconActive
+                : item.icon}
+              <span>{item.title}</span>
+            </Link>
+          ))}
+        </div>
+      </div>
+      <div className='p-6'>
+        <SocialMedia />
       </div>
 
       {/* Divider */}
