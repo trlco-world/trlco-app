@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useLogout } from '@/hooks/auth/use-logout'
 import { useUser } from '@/hooks/auth/use-user'
+import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { Cog, LogOut } from 'lucide-react'
 import { useCookies } from 'react-cookie'
@@ -18,10 +19,12 @@ export default function UserButton() {
   const { data: user } = useUser()
   const navigate = useNavigate()
   const [_, __, removeCookie] = useCookies(['trlco-at'])
+  const queryClient = useQueryClient()
 
   function handleLogout() {
     logout().then(() => {
       removeCookie('trlco-at')
+      queryClient.removeQueries()
       navigate({ to: '/login' })
     })
   }

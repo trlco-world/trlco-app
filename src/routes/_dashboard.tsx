@@ -7,6 +7,7 @@ import { MobileMenuProvider, useMobileMenu } from '@/hooks/use-mobile-menu'
 import { getUserFn } from '@/lib/api'
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 import Sidebar from '../components/Sidebar'
+import { useCookies } from 'react-cookie'
 
 const isAuthenticated = async () => {
   const token = document.cookie.split('=')[1]
@@ -18,6 +19,8 @@ const isAuthenticated = async () => {
 export const Route = createFileRoute('/_dashboard')({
   beforeLoad: async ({ location }) => {
     if (!(await isAuthenticated())) {
+      const [_, __, removeCookies] = useCookies(['trlco-at'])
+      removeCookies('trlco-at')
       throw redirect({
         to: '/login',
         search: {

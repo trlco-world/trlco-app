@@ -10,6 +10,7 @@ type User = {
   is_active: boolean
   email_verified_at: string
   is_profile_filled: boolean
+  kyc_status: string
   created_at: string
 }
 
@@ -22,5 +23,5 @@ export const useUser = () =>
   useQuery({
     queryKey: ['user'],
     queryFn: getUserFn,
-    staleTime: Infinity,
+    staleTime: 1000 * 60 * 5,
   })

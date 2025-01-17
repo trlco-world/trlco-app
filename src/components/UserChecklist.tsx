@@ -62,6 +62,9 @@ export default function UserChecklist() {
         if (isConnected && checklist.key === 'wallet') {
           return { ...checklist, isCompleted: true }
         }
+        if (user && user.kyc_status === 'APPROVED' && checklist.key === 'kyc') {
+          return { ...checklist, isCompleted: true }
+        }
         return checklist
       }),
     )

@@ -115,7 +115,7 @@ export const membershipDetails: MembershipDetails = {
   },
 }
 
-const MembershipCard: React.FC<MembershipCardProps> = ({
+export const MembershipCard: React.FC<MembershipCardProps> = ({
   isActive,
   isMobile = false,
 }) => {
@@ -304,4 +304,46 @@ const MembershipCard: React.FC<MembershipCardProps> = ({
   )
 }
 
-export default MembershipCard
+export const OtherMembership = () => {
+  const bc = useTRLContract()
+  const currentMembership = bc.membership.name
+
+  return (
+    <div className='grid gap-6 sm:grid-cols-2 xl:grid-cols-5'>
+      {Object.entries(membershipDetails).map((m) => {
+        const style = styles[m[0] as Membership]
+
+        return (
+          <div
+            key={m[0]}
+            className={`relative flex items-center justify-between p-4 rounded-xl ${m[0] === currentMembership ? 'border border-red-400' : ''}`}
+            style={{ backgroundColor: style.secondary }}
+          >
+            {m[0] === currentMembership ? (
+              <div className='absolute inset-x-0 text-center h-6 -top-[12px] flex justify-center items-center'>
+                <span className='px-4 text-xs font-medium text-white bg-red-500 rounded-full py-0.5'>
+                  Active
+                </span>
+              </div>
+            ) : null}
+            <div>
+              <div className='flex items-center gap-2'>
+                <h5 className='font-medium' style={{ color: style.primary }}>
+                  {m[0]}
+                </h5>
+                <FaCrown style={{ color: style.primary }} />
+              </div>
+              <span className='text-sm font-semibold text-neutral-700'>
+                {m[1].min} - {m[1].max}
+              </span>
+            </div>
+            <div className='flex flex-col items-end justify-end'>
+              <span className='text-xl font-bold'>{m[1].multiplier}x</span>
+              <span className='text-xs'>Bonus</span>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}

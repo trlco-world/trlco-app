@@ -19,6 +19,7 @@ function SettingPage() {
 
   return (
     <div className='space-y-6'>
+      <h4 className='text-lg font-semibold sm:text-2xl'>My Profile</h4>
       <Tabs defaultValue={type} className='space-y-6'>
         <TabsList>
           <TabsTrigger value='account'>Account</TabsTrigger>

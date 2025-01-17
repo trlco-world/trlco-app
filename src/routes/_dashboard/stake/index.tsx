@@ -2,9 +2,11 @@
 import ClaimDrawer from '@/components/blockchain/ClaimDrawer'
 import StakeDrawer from '@/components/blockchain/StakeDrawer'
 import WithdrawDrawer from '@/components/blockchain/WithdrawDrawer'
-import MembershipCard, {
+import {
+  MembershipCard,
   Membership,
   membershipDetails,
+  OtherMembership,
 } from '@/components/MembershipCard'
 import { Button } from '@/components/ui/button'
 import {
@@ -41,6 +43,13 @@ function StakePage() {
         <MembershipCard />
         <StakeCard />
         <RewardCard />
+      </div>
+      <div className='col-span-3 p-6 space-y-6 bg-white border rounded-xl'>
+        <h5 className='font-medium text-neutral-900'>Membership Progress</h5>
+        <span className='text-sm text-neutral-500'>
+          Unlock more benefits by upgrading your membership
+        </span>
+        <OtherMembership />
       </div>
     </div>
   )

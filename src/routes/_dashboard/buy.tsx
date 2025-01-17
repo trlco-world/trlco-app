@@ -101,14 +101,14 @@ function BuyPage() {
           {renderProjects(filteredProjects.running)}
         </TabsContent>
         <TabsContent value='upcoming' className='space-y-6'>
-          <div className='flex items-center justify-between max-w-md p-4 transition-all ease-in-out bg-white border border-pink-400 rounded-xl hover:scale-95 '>
+          <div className='flex items-center justify-between max-w-md p-4 transition-all ease-in-out bg-white border border-red-400 rounded-xl hover:scale-95 '>
             <div className='flex flex-col'>
-              <span className='text-pink-700'>Get whitelisted</span>
-              <span className='text-sm font-light text-pink-900'>
+              <span className='text-red-700'>Get whitelisted</span>
+              <span className='text-sm font-light text-neutral-600'>
                 Early access to project private round
               </span>
             </div>
-            <CircleArrowRight className='text-pink-700' />
+            <CircleArrowRight className='text-red-700' />
           </div>
           {renderProjects(filteredProjects.upcoming)}
         </TabsContent>

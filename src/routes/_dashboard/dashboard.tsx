@@ -1,5 +1,6 @@
 import FaucetBanner from '@/components/FaucetBanner'
-import MembershipCard from '@/components/MembershipCard'
+import { MembershipCard } from '@/components/MembershipCard'
+import { Button } from '@/components/ui/button'
 import UserChecklist from '@/components/UserChecklist'
 import { useUser } from '@/hooks/auth/use-user'
 import { createFileRoute } from '@tanstack/react-router'
@@ -19,8 +20,17 @@ function RouteComponent() {
         Hi, {user?.name ?? user?.email}
       </h4>
 
-      <div>
+      <div className='grid gap-6 sm:grid-cols-2'>
         <FaucetBanner />
+        <div className='flex items-center justify-between p-4 bg-white border border-red-400 rounded-xl '>
+          <div className='flex flex-col'>
+            <span className='text-red-700'>Get whitelisted</span>
+            <span className='text-sm font-light text-neutral-600'>
+              Early access to project private round
+            </span>
+          </div>
+          <Button variant={'secondary'}>Participate</Button>
+        </div>
       </div>
       <UserChecklist />
       {isConnected ? <MembershipCard isMobile /> : null}
