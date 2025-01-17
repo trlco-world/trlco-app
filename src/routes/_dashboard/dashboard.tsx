@@ -24,9 +24,9 @@ function RouteComponent() {
         <FaucetBanner />
         <div className='flex items-center justify-between p-4 bg-white border border-red-400 rounded-xl '>
           <div className='flex flex-col'>
-            <span className='text-red-700'>Get whitelisted</span>
+            <span className='text-red-700'>Road to TGE Campaign</span>
             <span className='text-sm font-light text-neutral-600'>
-              Early access to project private round
+              Be an Early Contributor and Earn Rewards Worth $300,000.
             </span>
           </div>
           <Button variant={'secondary'}>Participate</Button>
