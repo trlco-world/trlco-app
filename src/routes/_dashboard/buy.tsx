@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -8,6 +7,7 @@ import {
 } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { CircleArrowRight } from 'lucide-react'
 
 type LaunchPad = {
   title: string
@@ -100,8 +100,16 @@ function BuyPage() {
         <TabsContent value='running'>
           {renderProjects(filteredProjects.running)}
         </TabsContent>
-        <TabsContent value='upcoming'>
-          <Button>Get Whitelisted</Button>
+        <TabsContent value='upcoming' className='space-y-6'>
+          <div className='flex items-center justify-between max-w-md p-4 transition-all ease-in-out bg-white border border-pink-400 rounded-xl hover:scale-95 '>
+            <div className='flex flex-col'>
+              <span className='text-pink-700'>Get whitelisted</span>
+              <span className='text-sm font-light text-pink-900'>
+                Early access to project private round
+              </span>
+            </div>
+            <CircleArrowRight className='text-pink-700' />
+          </div>
           {renderProjects(filteredProjects.upcoming)}
         </TabsContent>
         <TabsContent value='completed'>
