@@ -27,7 +27,11 @@ export default function KYCStatus() {
             <span className='text-sm font-medium'>Status:</span>
             <Badge variant='outline'>{kyc_status}</Badge>
           </div>
-        ) : null}
+        ) : (
+          <span className='text-sm font-medium text-destructive'>
+            Please complete your profile setup first.
+          </span>
+        )}
 
         <div>
           {user?.kyc_status === 'APPROVED' ? (
