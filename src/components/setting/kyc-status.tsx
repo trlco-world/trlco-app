@@ -12,7 +12,7 @@ import {
 
 export default function KYCStatus() {
   const { data: user } = useUser()
-  const kyc_status = user?.kyc_status.replace(/_/g, ' ')
+  const kyc_status = user?.kyc_status?.replace(/_/g, ' ') || ''
   return (
     <Card className='max-w-md shadow-none'>
       <CardHeader>

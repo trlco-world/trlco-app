@@ -10,6 +10,13 @@ export default function KYCButton({ children }: PropsWithChildren) {
   url.searchParams.append('refId', refId!)
   url.searchParams.append('email', user?.email!)
 
+  console.log(refId)
+  console.log(user)
+
+  if (!refId) {
+    return 'Please complete profile setup'
+  }
+
   return (
     <a href={url.toString()} target='_blank' rel='noopener noreferrer'>
       {children}
