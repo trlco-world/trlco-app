@@ -57,7 +57,7 @@ export default function StakeDrawer({ children }: React.PropsWithChildren) {
   }
 
   function handleMaxAmount() {
-    if (ct.stakes.amount && ct.stakes.amount > 0) {
+    if (ct.balance && ct.balance > 0) {
       setAmount(balance)
     } else {
       toast.error('Cannot stake 0 token')
