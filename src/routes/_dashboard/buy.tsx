@@ -108,7 +108,7 @@ function BuyPage() {
                 Exclusive early access to our launchpad. Secure your spot now.
               </span>
             </div>
-            <CircleArrowRight className='text-red-700' />
+            <CircleArrowRight className='text-destructive' />
           </div>
           {renderProjects(filteredProjects.upcoming)}
         </TabsContent>
