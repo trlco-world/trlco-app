@@ -1,9 +1,8 @@
-import FaucetBanner from '@/components/FaucetBanner'
 import { MembershipCard } from '@/components/MembershipCard'
 import { Button } from '@/components/ui/button'
 import UserChecklist from '@/components/UserChecklist'
 import { useUser } from '@/hooks/auth/use-user'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useAccount } from 'wagmi'
 
 export const Route = createFileRoute('/_dashboard/dashboard')({
@@ -21,7 +20,20 @@ function RouteComponent() {
       </h4>
 
       <div className='grid gap-6 sm:grid-cols-2'>
-        <FaucetBanner />
+        {/* <FaucetBanner /> */}
+        <Link to='/faucet'>
+          <div className='grid items-center justify-between gap-3 p-5 bg-white border border-destructive sm:flex rounded-xl '>
+            <div className='flex flex-col'>
+              <span className='text-destructive'>
+                Redeem your testnet token
+              </span>
+              <span className='text-sm font-light text-neutral-600'>
+                Testnet token are used during testnet phase.
+              </span>
+            </div>
+            <Button variant='destructive'>Redeem</Button>
+          </div>
+        </Link>
         <a href='https://rewards.taskon.xyz/quest/137369143' target='_blank'>
           <div className='grid items-center justify-between gap-3 p-5 bg-white border border-destructive sm:flex rounded-xl '>
             <div className='flex flex-col'>

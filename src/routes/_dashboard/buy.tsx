@@ -178,6 +178,6 @@ function BuyCard(project: LaunchPad) {
 
 function EmptyContent() {
   return (
-    <div className='font-medium text-center'>No Projects at the moment</div>
+    <div className='font-medium text-center'>No LaunchPad at the moment</div>
   )
 }
