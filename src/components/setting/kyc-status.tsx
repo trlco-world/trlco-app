@@ -38,7 +38,6 @@ export default function KYCStatus() {
           ) : (
             <KycCard />
           )}
-          <KycCard />
         </div>
       </CardContent>
     </Card>
