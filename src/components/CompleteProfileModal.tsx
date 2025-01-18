@@ -11,6 +11,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { completeUserProfileFn } from '@/lib/api'
+import { useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { PropsWithChildren, useState } from 'react'
 import { useCookies } from 'react-cookie'
@@ -27,6 +28,7 @@ export function CompleteProfileModal({ children }: PropsWithChildren) {
   const [open, setOpen] = useState<boolean>()
   const [cookie] = useCookies(['trlco-at'])
   const authorization = cookie['trlco-at']
+  const queryClient = useQueryClient()
 
   const { register, getValues } = useForm<FormValues>()
 
@@ -58,6 +60,8 @@ export function CompleteProfileModal({ children }: PropsWithChildren) {
           },
         },
       )
+
+      queryClient.invalidateQueries()
     } catch (error) {
       if (error instanceof Error) toast.error(error.message)
     }

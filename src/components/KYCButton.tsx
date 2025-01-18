@@ -1,6 +1,8 @@
 import { useUser } from '@/hooks/auth/use-user'
 import { useKYC } from '@/hooks/auth/user-kyc'
 import { PropsWithChildren } from 'react'
+import { CompleteProfileModal } from './CompleteProfileModal'
+import { Button } from './ui/button'
 
 export default function KYCButton({ children }: PropsWithChildren) {
   const { data: user } = useUser()
@@ -10,11 +12,12 @@ export default function KYCButton({ children }: PropsWithChildren) {
   url.searchParams.append('refId', refId!)
   url.searchParams.append('email', user?.email!)
 
-  console.log(refId)
-  console.log(user)
-
   if (!refId) {
-    return 'Please complete profile setup'
+    return (
+      <CompleteProfileModal>
+        <Button>Setup Profile</Button>
+      </CompleteProfileModal>
+    )
   }
 
   return (

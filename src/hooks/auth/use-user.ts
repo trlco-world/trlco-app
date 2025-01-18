@@ -10,7 +10,7 @@ type User = {
   is_active: boolean
   email_verified_at: string
   is_profile_filled: boolean
-  kyc_status: string
+  kyc_status: string | null
   created_at: string
 }
 
