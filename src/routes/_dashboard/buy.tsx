@@ -101,9 +101,9 @@ function BuyPage() {
           {renderProjects(filteredProjects.running)}
         </TabsContent>
         <TabsContent value='upcoming' className='space-y-6'>
-          <div className='flex items-center justify-between max-w-md p-4 transition-all ease-in-out bg-white border border-red-400 rounded-xl hover:scale-95 '>
+          <div className='flex items-center justify-between max-w-md p-4 transition-all ease-in-out bg-white border border-destructive rounded-xl hover:scale-95 '>
             <div className='flex flex-col'>
-              <span className='text-red-700'>Get whitelisted</span>
+              <span className='text-destructive'>Get whitelisted</span>
               <span className='text-sm font-light text-neutral-600'>
                 Exclusive early access to our launchpad. Secure your spot now.
               </span>
