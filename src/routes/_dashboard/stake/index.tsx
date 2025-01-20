@@ -77,7 +77,7 @@ function StakingDataCard() {
         value={totalRewardDistributed}
       />
       <StatsCard
-        title='Total Staked (% of Total Supply)'
+        title='Total Staked %'
         value={`${Number(totalSupplyStaked).toFixed(8)} %`}
       />
 
