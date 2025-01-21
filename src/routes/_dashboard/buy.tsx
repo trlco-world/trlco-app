@@ -61,7 +61,7 @@ const launchpad: LaunchPad[] = [
   {
     title: '$TRLCO (Private)',
     description: 'ENJINSTARTER',
-    target: '300,000 USDT',
+    target: '50,000 USDT',
     startDate: 'TBA',
     endDate: 'TBA',
     price: 'TBA',
