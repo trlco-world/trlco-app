@@ -47,15 +47,27 @@ const launchpad: LaunchPad[] = [
   //   status: 'running',
   // },
   {
-    title: '$TRLCO',
+    title: '$TRLCO (Public)',
     description: 'ENJINSTARTER',
     target: '300,000 USDT',
-    startDate: '11 Feb 2025 12:00PM',
-    endDate: '13 Feb 2025 12:00PM',
-    price: '$0.0138',
+    startDate: 'TBA',
+    endDate: 'TBA',
+    price: 'TBA',
     imageUrl:
-      'https://miro.medium.com/v2/resize:fit:786/format:webp/1*yFrL6sQbGN49VJAUf7fdHA.png',
-    url: '#',
+      'https://storage.enjinstarter.com/project-images/883cff70-bcfc-499b-8840-756595e67786/21e0f5ec67c94d44a8aeadae1d457515.png',
+    url: 'https://launchpad.enjinstarter.com/projects/883cff70-bcfc-499b-8840-756595e67786/idos/8ee9321a-f21e-4d44-b1a2-eb9296fe29f3',
+    status: 'upcoming',
+  },
+  {
+    title: '$TRLCO (Private)',
+    description: 'ENJINSTARTER',
+    target: '300,000 USDT',
+    startDate: 'TBA',
+    endDate: 'TBA',
+    price: 'TBA',
+    imageUrl:
+      'https://storage.enjinstarter.com/project-images/f4f7a919-046f-4e5e-b0c3-b82db98e9bbb/f6705827179d41b6b965b5bee482bf86.png',
+    url: 'https://launchpad.enjinstarter.com/projects/f4f7a919-046f-4e5e-b0c3-b82db98e9bbb/idos/ef72483b-caee-40a1-8978-c3e3381765d0',
     status: 'upcoming',
   },
 ]
