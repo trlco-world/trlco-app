@@ -15,8 +15,8 @@ const inProgress: MarketplaceProps[] = [
     tokenPrice: '50 USD',
     roi: '15%',
     valuation: '3,000,000 USD',
-    tokenAvailable: '60,000',
-    tokenUnavailable: '43,566',
+    tokenAvailable: '60000',
+    tokenUnavailable: '43566',
     isLocked: false,
   },
 ]
@@ -31,8 +31,8 @@ const comingSoon: MarketplaceProps[] = [
     tokenPrice: '50 USD',
     roi: '15%',
     valuation: '3,000,000 USD',
-    tokenAvailable: '60,000',
-    tokenUnavailable: '43,566',
+    tokenAvailable: '60000',
+    tokenUnavailable: '43566',
     isLocked: true,
   },
   {
@@ -44,13 +44,27 @@ const comingSoon: MarketplaceProps[] = [
     tokenPrice: '50 USD',
     roi: '15%',
     valuation: '3,000,000 USD',
-    tokenAvailable: '60,000',
-    tokenUnavailable: '43,566',
+    tokenAvailable: '60000',
+    tokenUnavailable: '43566',
     isLocked: true,
   },
 ]
 
-const completed: MarketplaceProps[] = []
+const completed: MarketplaceProps[] = [
+  {
+    id: 'johor',
+    name: 'Johor',
+    imgUrl: './images/johor.webp',
+    symbol: '$TRLX0',
+    properties: '1',
+    tokenPrice: '20 USD',
+    roi: '8%',
+    valuation: '160,000 USD',
+    tokenAvailable: '0',
+    tokenUnavailable: '8000',
+    isLocked: false,
+  },
+]
 
 export const Route = createFileRoute('/_dashboard/marketplace/')({
   component: MarketplacePage,

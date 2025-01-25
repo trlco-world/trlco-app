@@ -24,15 +24,22 @@ export default function MarketplaceCard(props: MarketplaceProps) {
     </div>
   )
 
+  const progress = isFinite(+props.tokenUnavailable / +props.tokenAvailable)
+    ? (+props.tokenUnavailable / +props.tokenAvailable) * 100
+    : 100
+
   const ProgressCard = () => (
     <div className='bg-[#FFF1E9] rounded-xl overflow-clip text-[#565656]'>
       <div className='p-3 space-y-2'>
         <div className='flex items-center justify-between'>
           <span>Progress</span>
-          <span>27.39%</span>
+          <span>{progress}%</span>
         </div>
         <div className='h-1.5 overflow-clip rounded-full bg-white'>
-          <div className='h-full bg-red-500' style={{ width: '40%' }} />
+          <div
+            className='h-full bg-red-500'
+            style={{ width: `${progress}%` }}
+          />
         </div>
       </div>
       <div className='flex items-center justify-between p-3 bg-[#FDDDCB]'>

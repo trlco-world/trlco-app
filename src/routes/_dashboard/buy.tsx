@@ -14,6 +14,9 @@ type LaunchPad = {
   description: string
   target: string
   price: string
+  unlock: string
+  cliff: string
+  vesting: string
   startDate: string
   endDate: string
   imageUrl: string
@@ -52,7 +55,10 @@ const launchpad: LaunchPad[] = [
     target: '300,000 USDT',
     startDate: 'TBA',
     endDate: 'TBA',
-    price: 'TBA',
+    price: '$ 0.0138',
+    unlock: '15%',
+    cliff: '0',
+    vesting: '6 months',
     imageUrl:
       'https://storage.enjinstarter.com/project-images/883cff70-bcfc-499b-8840-756595e67786/21e0f5ec67c94d44a8aeadae1d457515.png',
     url: 'https://launchpad.enjinstarter.com/projects/883cff70-bcfc-499b-8840-756595e67786/idos/8ee9321a-f21e-4d44-b1a2-eb9296fe29f3',
@@ -64,7 +70,10 @@ const launchpad: LaunchPad[] = [
     target: '50,000 USDT',
     startDate: 'TBA',
     endDate: 'TBA',
-    price: 'TBA',
+    price: '$ 0.0108',
+    unlock: '0%',
+    cliff: '6 months',
+    vesting: '12 months',
     imageUrl:
       'https://storage.enjinstarter.com/project-images/f4f7a919-046f-4e5e-b0c3-b82db98e9bbb/f6705827179d41b6b965b5bee482bf86.png',
     url: 'https://launchpad.enjinstarter.com/projects/f4f7a919-046f-4e5e-b0c3-b82db98e9bbb/idos/ef72483b-caee-40a1-8978-c3e3381765d0',
@@ -143,6 +152,9 @@ function BuyCard(project: LaunchPad) {
     startDate,
     endDate,
     status,
+    unlock,
+    cliff,
+    vesting,
   } = project
   return (
     <Link to={url} target='_blank'>
@@ -181,6 +193,18 @@ function BuyCard(project: LaunchPad) {
           <div>
             <span>End date:</span>
             <span className='font-medium'>{endDate}</span>
+          </div>
+          <div>
+            <span>TGE unlock:</span>
+            <span className='font-medium'>{unlock}</span>
+          </div>
+          <div>
+            <span>Cliff:</span>
+            <span className='font-medium'>{cliff}</span>
+          </div>
+          <div>
+            <span>Linear Vesting:</span>
+            <span className='font-medium'>{vesting}</span>
           </div>
         </CardContent>
       </Card>
