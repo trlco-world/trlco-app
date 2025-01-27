@@ -79,11 +79,16 @@ export function useTRLContract() {
     },
   })
 
-  const approve = async (amount: string) => {
+  const approve = async () => {
     await writeContractAsync({
       ...RewardTokenConfig,
       functionName: 'approve',
-      args: [StakingContract, parseEther(amount)],
+      args: [
+        StakingContract,
+        BigInt(
+          '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+        ),
+      ],
     })
   }
 

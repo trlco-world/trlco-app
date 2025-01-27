@@ -30,7 +30,7 @@ export default function StakeDrawer({ children }: React.PropsWithChildren) {
         return
       }
       // temp large amount for approve one time
-      await ct.approve('100000')
+      await ct.approve()
     } catch (e) {
       toast.dismiss('loading')
       const error = e as WriteContractErrorType
@@ -83,7 +83,7 @@ export default function StakeDrawer({ children }: React.PropsWithChildren) {
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContent>
-        <div className='w-full max-w-sm mx-auto'>
+        <div className='mx-auto w-full max-w-sm'>
           <DrawerHeader>
             <DrawerTitle>Stake</DrawerTitle>
             <DrawerDescription>
@@ -102,7 +102,7 @@ export default function StakeDrawer({ children }: React.PropsWithChildren) {
                 {balance.length > 25 ? Number(balance).toFixed(4) : balance}
               </span>
             </div>
-            <div className='flex items-center w-full gap-3'>
+            <div className='flex gap-3 items-center w-full'>
               <span>Stake:</span>
               <input
                 min={0}
