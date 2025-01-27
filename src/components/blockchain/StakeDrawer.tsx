@@ -93,10 +93,6 @@ export default function StakeDrawer({ children }: React.PropsWithChildren) {
           </DrawerHeader>
           <div className='p-4 space-y-6'>
             <div className='flex justify-between'>
-              <span>Approved Limit:</span>
-              <span>{allowance}</span>
-            </div>
-            <div className='flex justify-between'>
               <span>Balance:</span>
               <span>
                 {balance.length > 25 ? Number(balance).toFixed(4) : balance}
