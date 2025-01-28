@@ -17,11 +17,11 @@ const items = [
     href: '/stake',
   },
   {
-    title: 'Buy',
-    key: 'buy',
+    title: 'Launchpad',
+    key: 'launchpad',
     icon: <Icon.Trade />,
     iconActive: <Icon.TradeActive />,
-    href: '/buy',
+    href: '/launchpad',
   },
   {
     title: 'Marketplace',
@@ -47,7 +47,7 @@ export const MobileNav = () => {
         <Link
           key={item.key}
           href={item.href}
-          className='flex flex-col items-center justify-center gap-1'
+          className='flex flex-col gap-1 justify-center items-center'
         >
           {location.pathname.includes(item.href) ? item.iconActive : item.icon}
           <span

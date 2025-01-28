@@ -81,7 +81,7 @@ const launchpad: LaunchPad[] = [
   },
 ]
 
-export const Route = createFileRoute('/_dashboard/buy')({
+export const Route = createFileRoute('/_dashboard/launchpad')({
   component: BuyPage,
 })
 
@@ -97,7 +97,7 @@ function BuyPage() {
 
   const renderProjects = (projects: LaunchPad[]) => {
     return projects.length > 0 ? (
-      <div className='grid gap-6 sm:grid-cols-2 xl:grid-cols-3'>
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
         {projects.map((project, index) => (
           <BuyCard key={index} {...project} />
         ))}
@@ -108,32 +108,32 @@ function BuyPage() {
   }
 
   return (
-    <div className='space-y-6'>
-      <h4 className='text-lg font-semibold sm:text-2xl'>
+    <div className="space-y-6">
+      <h4 className="text-lg font-semibold sm:text-2xl">
         Buy $TRLCO at LaunchPad
       </h4>
-      <Tabs defaultValue='upcoming' className='space-y-6'>
+      <Tabs defaultValue="upcoming" className="space-y-6">
         <TabsList>
-          <TabsTrigger value='running'>Running</TabsTrigger>
-          <TabsTrigger value='upcoming'>Upcoming</TabsTrigger>
-          <TabsTrigger value='completed'>Completed</TabsTrigger>
+          <TabsTrigger value="running">Running</TabsTrigger>
+          <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
+          <TabsTrigger value="completed">Completed</TabsTrigger>
         </TabsList>
-        <TabsContent value='running'>
+        <TabsContent value="running">
           {renderProjects(filteredProjects.running)}
         </TabsContent>
-        <TabsContent value='upcoming' className='space-y-6'>
-          <div className='flex items-center justify-between max-w-md p-4 transition-all ease-in-out bg-white border border-destructive rounded-xl hover:scale-95 '>
-            <div className='flex flex-col'>
-              <span className='text-destructive'>Get whitelisted</span>
-              <span className='text-sm font-light text-neutral-600'>
+        <TabsContent value="upcoming" className="space-y-6">
+          <div className="flex items-center justify-between max-w-md p-4 transition-all ease-in-out bg-white border border-destructive rounded-xl hover:scale-95 ">
+            <div className="flex flex-col">
+              <span className="text-destructive">Get whitelisted</span>
+              <span className="text-sm font-light text-neutral-600">
                 Exclusive early access to our launchpad. Secure your spot now.
               </span>
             </div>
-            <CircleArrowRight className='text-destructive' />
+            <CircleArrowRight className="text-destructive" />
           </div>
           {renderProjects(filteredProjects.upcoming)}
         </TabsContent>
-        <TabsContent value='completed'>
+        <TabsContent value="completed">
           {renderProjects(filteredProjects.completed)}
         </TabsContent>
       </Tabs>
@@ -157,16 +157,16 @@ function BuyCard(project: LaunchPad) {
     vesting,
   } = project
   return (
-    <Link to={url} target='_blank'>
-      <Card className='transition-all ease-in-out shadow-none overflow-clip hover:scale-95'>
-        <div className='relative'>
-          <div className='absolute inset-0 flex items-start justify-start p-3'>
+    <Link to={url} target="_blank">
+      <Card className="transition-all ease-in-out shadow-none overflow-clip hover:scale-95">
+        <div className="relative">
+          <div className="absolute inset-0 flex items-start justify-start p-3">
             {status === 'completed' ? (
-              <span className='px-3 py-0.5 text-sm text-white border bg-white/50 rounded-xl'>
+              <span className="px-3 py-0.5 text-sm text-white border bg-white/50 rounded-xl">
                 COMPLETED
               </span>
             ) : status === 'upcoming' ? (
-              <span className='px-3 py-0.5 text-sm text-white border bg-white/50 rounded-xl'>
+              <span className="px-3 py-0.5 text-sm text-white border bg-white/50 rounded-xl">
                 UPCOMING
               </span>
             ) : null}
@@ -177,34 +177,34 @@ function BuyCard(project: LaunchPad) {
           <CardTitle>{title}</CardTitle>
           <CardDescription>{description}</CardDescription>
         </CardHeader>
-        <CardContent className='space-y-3 text-sm *:flex *:justify-between *:items-center'>
+        <CardContent className="space-y-3 text-sm *:flex *:justify-between *:items-center">
           <div>
             <span>Target raise: </span>
-            <span className='font-medium'>{target}</span>
+            <span className="font-medium">{target}</span>
           </div>
           <div>
             <span>Launch price: </span>
-            <span className='font-medium'>{price}</span>
+            <span className="font-medium">{price}</span>
           </div>
           <div>
             <span>Start date: </span>
-            <span className='font-medium'>{startDate}</span>
+            <span className="font-medium">{startDate}</span>
           </div>
           <div>
             <span>End date:</span>
-            <span className='font-medium'>{endDate}</span>
+            <span className="font-medium">{endDate}</span>
           </div>
           <div>
             <span>TGE unlock:</span>
-            <span className='font-medium'>{unlock}</span>
+            <span className="font-medium">{unlock}</span>
           </div>
           <div>
             <span>Cliff:</span>
-            <span className='font-medium'>{cliff}</span>
+            <span className="font-medium">{cliff}</span>
           </div>
           <div>
             <span>Linear Vesting:</span>
-            <span className='font-medium'>{vesting}</span>
+            <span className="font-medium">{vesting}</span>
           </div>
         </CardContent>
       </Card>
@@ -214,6 +214,6 @@ function BuyCard(project: LaunchPad) {
 
 function EmptyContent() {
   return (
-    <div className='font-medium text-center'>No LaunchPad at the moment</div>
+    <div className="font-medium text-center">No LaunchPad at the moment</div>
   )
 }

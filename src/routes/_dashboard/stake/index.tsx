@@ -215,7 +215,8 @@ function ClaimReward() {
     <Alert variant='destructive' className='bg-white'>
       <AlertTitle>Caution</AlertTitle>
       <AlertDescription className='text-gray-600'>
-        Please claim your reward before staking or re-stake your TRLCO
+        Please claim your rewards before staking or re-staking your TRLCO to
+        avoid any loss of earned rewards.
       </AlertDescription>
     </Alert>
   )

@@ -17,9 +17,9 @@ import { Route as DashboardTradeImport } from './routes/_dashboard/trade'
 import { Route as DashboardSwapImport } from './routes/_dashboard/swap'
 import { Route as DashboardSettingImport } from './routes/_dashboard/setting'
 import { Route as DashboardPortfolioImport } from './routes/_dashboard/portfolio'
+import { Route as DashboardLaunchpadImport } from './routes/_dashboard/launchpad'
 import { Route as DashboardFaucetImport } from './routes/_dashboard/faucet'
 import { Route as DashboardDashboardImport } from './routes/_dashboard/dashboard'
-import { Route as DashboardBuyImport } from './routes/_dashboard/buy'
 import { Route as AuthVerifyImport } from './routes/_auth/verify'
 import { Route as AuthSignupImport } from './routes/_auth/signup'
 import { Route as AuthResetImport } from './routes/_auth/reset'
@@ -67,6 +67,12 @@ const DashboardPortfolioRoute = DashboardPortfolioImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
+const DashboardLaunchpadRoute = DashboardLaunchpadImport.update({
+  id: '/launchpad',
+  path: '/launchpad',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
 const DashboardFaucetRoute = DashboardFaucetImport.update({
   id: '/faucet',
   path: '/faucet',
@@ -76,12 +82,6 @@ const DashboardFaucetRoute = DashboardFaucetImport.update({
 const DashboardDashboardRoute = DashboardDashboardImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardBuyRoute = DashboardBuyImport.update({
-  id: '/buy',
-  path: '/buy',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -187,13 +187,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthVerifyImport
       parentRoute: typeof rootRoute
     }
-    '/_dashboard/buy': {
-      id: '/_dashboard/buy'
-      path: '/buy'
-      fullPath: '/buy'
-      preLoaderRoute: typeof DashboardBuyImport
-      parentRoute: typeof DashboardImport
-    }
     '/_dashboard/dashboard': {
       id: '/_dashboard/dashboard'
       path: '/dashboard'
@@ -206,6 +199,13 @@ declare module '@tanstack/react-router' {
       path: '/faucet'
       fullPath: '/faucet'
       preLoaderRoute: typeof DashboardFaucetImport
+      parentRoute: typeof DashboardImport
+    }
+    '/_dashboard/launchpad': {
+      id: '/_dashboard/launchpad'
+      path: '/launchpad'
+      fullPath: '/launchpad'
+      preLoaderRoute: typeof DashboardLaunchpadImport
       parentRoute: typeof DashboardImport
     }
     '/_dashboard/portfolio': {
@@ -277,9 +277,9 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface DashboardRouteChildren {
-  DashboardBuyRoute: typeof DashboardBuyRoute
   DashboardDashboardRoute: typeof DashboardDashboardRoute
   DashboardFaucetRoute: typeof DashboardFaucetRoute
+  DashboardLaunchpadRoute: typeof DashboardLaunchpadRoute
   DashboardPortfolioRoute: typeof DashboardPortfolioRoute
   DashboardSettingRoute: typeof DashboardSettingRoute
   DashboardSwapRoute: typeof DashboardSwapRoute
@@ -292,9 +292,9 @@ interface DashboardRouteChildren {
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
-  DashboardBuyRoute: DashboardBuyRoute,
   DashboardDashboardRoute: DashboardDashboardRoute,
   DashboardFaucetRoute: DashboardFaucetRoute,
+  DashboardLaunchpadRoute: DashboardLaunchpadRoute,
   DashboardPortfolioRoute: DashboardPortfolioRoute,
   DashboardSettingRoute: DashboardSettingRoute,
   DashboardSwapRoute: DashboardSwapRoute,
@@ -318,9 +318,9 @@ export interface FileRoutesByFullPath {
   '/reset': typeof AuthResetRoute
   '/signup': typeof AuthSignupRoute
   '/verify': typeof AuthVerifyRoute
-  '/buy': typeof DashboardBuyRoute
   '/dashboard': typeof DashboardDashboardRoute
   '/faucet': typeof DashboardFaucetRoute
+  '/launchpad': typeof DashboardLaunchpadRoute
   '/portfolio': typeof DashboardPortfolioRoute
   '/setting': typeof DashboardSettingRoute
   '/swap': typeof DashboardSwapRoute
@@ -339,9 +339,9 @@ export interface FileRoutesByTo {
   '/reset': typeof AuthResetRoute
   '/signup': typeof AuthSignupRoute
   '/verify': typeof AuthVerifyRoute
-  '/buy': typeof DashboardBuyRoute
   '/dashboard': typeof DashboardDashboardRoute
   '/faucet': typeof DashboardFaucetRoute
+  '/launchpad': typeof DashboardLaunchpadRoute
   '/portfolio': typeof DashboardPortfolioRoute
   '/setting': typeof DashboardSettingRoute
   '/swap': typeof DashboardSwapRoute
@@ -361,9 +361,9 @@ export interface FileRoutesById {
   '/_auth/reset': typeof AuthResetRoute
   '/_auth/signup': typeof AuthSignupRoute
   '/_auth/verify': typeof AuthVerifyRoute
-  '/_dashboard/buy': typeof DashboardBuyRoute
   '/_dashboard/dashboard': typeof DashboardDashboardRoute
   '/_dashboard/faucet': typeof DashboardFaucetRoute
+  '/_dashboard/launchpad': typeof DashboardLaunchpadRoute
   '/_dashboard/portfolio': typeof DashboardPortfolioRoute
   '/_dashboard/setting': typeof DashboardSettingRoute
   '/_dashboard/swap': typeof DashboardSwapRoute
@@ -384,9 +384,9 @@ export interface FileRouteTypes {
     | '/reset'
     | '/signup'
     | '/verify'
-    | '/buy'
     | '/dashboard'
     | '/faucet'
+    | '/launchpad'
     | '/portfolio'
     | '/setting'
     | '/swap'
@@ -404,9 +404,9 @@ export interface FileRouteTypes {
     | '/reset'
     | '/signup'
     | '/verify'
-    | '/buy'
     | '/dashboard'
     | '/faucet'
+    | '/launchpad'
     | '/portfolio'
     | '/setting'
     | '/swap'
@@ -424,9 +424,9 @@ export interface FileRouteTypes {
     | '/_auth/reset'
     | '/_auth/signup'
     | '/_auth/verify'
-    | '/_dashboard/buy'
     | '/_dashboard/dashboard'
     | '/_dashboard/faucet'
+    | '/_dashboard/launchpad'
     | '/_dashboard/portfolio'
     | '/_dashboard/setting'
     | '/_dashboard/swap'
@@ -478,9 +478,9 @@ export const routeTree = rootRoute
     "/_dashboard": {
       "filePath": "_dashboard.tsx",
       "children": [
-        "/_dashboard/buy",
         "/_dashboard/dashboard",
         "/_dashboard/faucet",
+        "/_dashboard/launchpad",
         "/_dashboard/portfolio",
         "/_dashboard/setting",
         "/_dashboard/swap",
@@ -507,16 +507,16 @@ export const routeTree = rootRoute
     "/_auth/verify": {
       "filePath": "_auth/verify.tsx"
     },
-    "/_dashboard/buy": {
-      "filePath": "_dashboard/buy.tsx",
-      "parent": "/_dashboard"
-    },
     "/_dashboard/dashboard": {
       "filePath": "_dashboard/dashboard.tsx",
       "parent": "/_dashboard"
     },
     "/_dashboard/faucet": {
       "filePath": "_dashboard/faucet.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/launchpad": {
+      "filePath": "_dashboard/launchpad.tsx",
       "parent": "/_dashboard"
     },
     "/_dashboard/portfolio": {
