@@ -45,7 +45,7 @@ function WalletPage() {
             </div>
             <div className='grid w-full grid-cols-2 gap-3 sm:flex sm:w-auto'>
               <Button onClick={() => navigate({ to: '/stake' })}>Stake</Button>
-              <Button onClick={() => navigate({ to: '/buy' })}>Buy</Button>
+              <Button onClick={() => navigate({ to: '/launchpad' })}>Launchpad</Button>
             </div>
           </div>
         </CardHeader>
