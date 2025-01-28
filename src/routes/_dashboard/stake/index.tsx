@@ -41,6 +41,7 @@ function StakePage() {
       </div>
       <StakingDataCard />
       <RewardAlert />
+      <ClaimReward />
       <div className='grid gap-6 sm:grid-cols-2 md:grid-cols-3'>
         <MembershipCard />
         <StakeCard />
@@ -198,12 +199,23 @@ function RewardCard() {
 
 function RewardAlert() {
   return (
-    <Alert>
-      <AlertTitle className='text-red-700'>Reward Notice</AlertTitle>
+    <Alert variant='destructive' className='bg-white'>
+      <AlertTitle>Reward Notice</AlertTitle>
       <AlertDescription className='text-gray-600'>
         Each time you stake or withdraw, your rewards will be calculated and
         automatically claimed to your wallet. To compound your rewards, simply
         stake again.
+      </AlertDescription>
+    </Alert>
+  )
+}
+
+function ClaimReward() {
+  return (
+    <Alert variant='destructive' className='bg-white'>
+      <AlertTitle>Caution</AlertTitle>
+      <AlertDescription className='text-gray-600'>
+        Please claim your reward before staking or re-stake your TRLCO
       </AlertDescription>
     </Alert>
   )
