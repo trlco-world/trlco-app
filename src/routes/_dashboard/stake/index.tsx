@@ -40,7 +40,7 @@ function StakePage() {
         </div>
       </div>
       <StakingDataCard />
-      <RewardAlert />
+
       <ClaimReward />
       <div className='grid gap-6 sm:grid-cols-2 md:grid-cols-3'>
         <MembershipCard />
