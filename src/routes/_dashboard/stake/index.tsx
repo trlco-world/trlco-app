@@ -8,6 +8,7 @@ import {
   membershipDetails,
   OtherMembership,
 } from '@/components/MembershipCard'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -39,6 +40,7 @@ function StakePage() {
         </div>
       </div>
       <StakingDataCard />
+      <RewardAlert />
       <div className='grid gap-6 sm:grid-cols-2 md:grid-cols-3'>
         <MembershipCard />
         <StakeCard />
@@ -191,5 +193,18 @@ function RewardCard() {
         </ClaimDrawer>
       </CardFooter>
     </Card>
+  )
+}
+
+function RewardAlert() {
+  return (
+    <Alert>
+      <AlertTitle className='text-red-700'>Reward Notice</AlertTitle>
+      <AlertDescription className='text-gray-600'>
+        Each time you stake or withdraw, your rewards will be calculated and
+        automatically claimed to your wallet. To compound your rewards, simply
+        stake again.
+      </AlertDescription>
+    </Alert>
   )
 }
