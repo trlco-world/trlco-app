@@ -27,6 +27,7 @@ import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthAuthImport } from './routes/_auth/auth'
 import { Route as DashboardStakeIndexImport } from './routes/_dashboard/stake/index'
 import { Route as DashboardMarketplaceIndexImport } from './routes/_dashboard/marketplace/index'
+import { Route as DashboardStakeV1Import } from './routes/_dashboard/stake/v1'
 import { Route as DashboardPropertyPropertyIdImport } from './routes/_dashboard/property/$propertyId'
 import { Route as DashboardMarketplaceMarketplaceIdImport } from './routes/_dashboard/marketplace/$marketplaceId'
 
@@ -124,6 +125,12 @@ const DashboardStakeIndexRoute = DashboardStakeIndexImport.update({
 const DashboardMarketplaceIndexRoute = DashboardMarketplaceIndexImport.update({
   id: '/marketplace/',
   path: '/marketplace/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardStakeV1Route = DashboardStakeV1Import.update({
+  id: '/stake/v1',
+  path: '/stake/v1',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -257,6 +264,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardPropertyPropertyIdImport
       parentRoute: typeof DashboardImport
     }
+    '/_dashboard/stake/v1': {
+      id: '/_dashboard/stake/v1'
+      path: '/stake/v1'
+      fullPath: '/stake/v1'
+      preLoaderRoute: typeof DashboardStakeV1Import
+      parentRoute: typeof DashboardImport
+    }
     '/_dashboard/marketplace/': {
       id: '/_dashboard/marketplace/'
       path: '/marketplace'
@@ -287,6 +301,7 @@ interface DashboardRouteChildren {
   DashboardWalletRoute: typeof DashboardWalletRoute
   DashboardMarketplaceMarketplaceIdRoute: typeof DashboardMarketplaceMarketplaceIdRoute
   DashboardPropertyPropertyIdRoute: typeof DashboardPropertyPropertyIdRoute
+  DashboardStakeV1Route: typeof DashboardStakeV1Route
   DashboardMarketplaceIndexRoute: typeof DashboardMarketplaceIndexRoute
   DashboardStakeIndexRoute: typeof DashboardStakeIndexRoute
 }
@@ -303,6 +318,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardMarketplaceMarketplaceIdRoute:
     DashboardMarketplaceMarketplaceIdRoute,
   DashboardPropertyPropertyIdRoute: DashboardPropertyPropertyIdRoute,
+  DashboardStakeV1Route: DashboardStakeV1Route,
   DashboardMarketplaceIndexRoute: DashboardMarketplaceIndexRoute,
   DashboardStakeIndexRoute: DashboardStakeIndexRoute,
 }
@@ -328,6 +344,7 @@ export interface FileRoutesByFullPath {
   '/wallet': typeof DashboardWalletRoute
   '/marketplace/$marketplaceId': typeof DashboardMarketplaceMarketplaceIdRoute
   '/property/$propertyId': typeof DashboardPropertyPropertyIdRoute
+  '/stake/v1': typeof DashboardStakeV1Route
   '/marketplace': typeof DashboardMarketplaceIndexRoute
   '/stake': typeof DashboardStakeIndexRoute
 }
@@ -349,6 +366,7 @@ export interface FileRoutesByTo {
   '/wallet': typeof DashboardWalletRoute
   '/marketplace/$marketplaceId': typeof DashboardMarketplaceMarketplaceIdRoute
   '/property/$propertyId': typeof DashboardPropertyPropertyIdRoute
+  '/stake/v1': typeof DashboardStakeV1Route
   '/marketplace': typeof DashboardMarketplaceIndexRoute
   '/stake': typeof DashboardStakeIndexRoute
 }
@@ -371,6 +389,7 @@ export interface FileRoutesById {
   '/_dashboard/wallet': typeof DashboardWalletRoute
   '/_dashboard/marketplace/$marketplaceId': typeof DashboardMarketplaceMarketplaceIdRoute
   '/_dashboard/property/$propertyId': typeof DashboardPropertyPropertyIdRoute
+  '/_dashboard/stake/v1': typeof DashboardStakeV1Route
   '/_dashboard/marketplace/': typeof DashboardMarketplaceIndexRoute
   '/_dashboard/stake/': typeof DashboardStakeIndexRoute
 }
@@ -394,6 +413,7 @@ export interface FileRouteTypes {
     | '/wallet'
     | '/marketplace/$marketplaceId'
     | '/property/$propertyId'
+    | '/stake/v1'
     | '/marketplace'
     | '/stake'
   fileRoutesByTo: FileRoutesByTo
@@ -414,6 +434,7 @@ export interface FileRouteTypes {
     | '/wallet'
     | '/marketplace/$marketplaceId'
     | '/property/$propertyId'
+    | '/stake/v1'
     | '/marketplace'
     | '/stake'
   id:
@@ -434,6 +455,7 @@ export interface FileRouteTypes {
     | '/_dashboard/wallet'
     | '/_dashboard/marketplace/$marketplaceId'
     | '/_dashboard/property/$propertyId'
+    | '/_dashboard/stake/v1'
     | '/_dashboard/marketplace/'
     | '/_dashboard/stake/'
   fileRoutesById: FileRoutesById
@@ -488,6 +510,7 @@ export const routeTree = rootRoute
         "/_dashboard/wallet",
         "/_dashboard/marketplace/$marketplaceId",
         "/_dashboard/property/$propertyId",
+        "/_dashboard/stake/v1",
         "/_dashboard/marketplace/",
         "/_dashboard/stake/"
       ]
@@ -545,6 +568,10 @@ export const routeTree = rootRoute
     },
     "/_dashboard/property/$propertyId": {
       "filePath": "_dashboard/property/$propertyId.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/stake/v1": {
+      "filePath": "_dashboard/stake/v1.tsx",
       "parent": "/_dashboard"
     },
     "/_dashboard/marketplace/": {
