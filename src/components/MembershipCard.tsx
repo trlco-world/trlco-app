@@ -149,7 +149,7 @@ export const MembershipCard: React.FC<MembershipCardProps> = ({
     return (
       <div className='grid gap-6 sm:grid-cols-2'>
         <div
-          className='flex rounded-xl overflow-clip'
+          className='flex overflow-clip rounded-xl'
           style={{ backgroundColor: membershipStyle.secondary }}
         >
           <div className='flex flex-col flex-1 p-6'>
@@ -160,7 +160,7 @@ export const MembershipCard: React.FC<MembershipCardProps> = ({
               Membership
             </span>
             <span
-              className='flex items-center gap-2 text-2xl font-medium'
+              className='flex gap-2 items-center text-2xl font-medium'
               style={{ color: membershipStyle.primary }}
             >
               {membership}
@@ -177,7 +177,7 @@ export const MembershipCard: React.FC<MembershipCardProps> = ({
               ></div>
             </div>
             {/* Stats */}
-            <div className='flex items-center justify-between text-xs'>
+            <div className='flex justify-between items-center text-xs'>
               <span className='text-gray-600'># of TRLCO staked</span>
               <span
                 className='font-semibold'
@@ -221,7 +221,7 @@ export const MembershipCard: React.FC<MembershipCardProps> = ({
                 {membershipDetail.isMarketplace ? (
                   <FaRegCheckCircle className='text-green-500' />
                 ) : (
-                  <span className='flex items-center gap-2'>
+                  <span className='flex gap-2 items-center'>
                     <FaLock />
                     Locked
                   </span>
@@ -247,7 +247,7 @@ export const MembershipCard: React.FC<MembershipCardProps> = ({
       >
         <div className='flex-grow'>
           {/* Title */}
-          <div className='flex items-center gap-3 mb-4'>
+          <div className='flex gap-3 items-center mb-4'>
             <h5 className='text-xl font-semibold'>{membership}</h5>
             <FaCrown style={{ color: membershipStyle.primary }} />
           </div>
@@ -262,7 +262,7 @@ export const MembershipCard: React.FC<MembershipCardProps> = ({
             ></div>
           </div>
           {/* Stats */}
-          <div className='flex items-center justify-between text-xs'>
+          <div className='flex justify-between items-center text-xs'>
             <span className='text-gray-600'># of TRLCO staked</span>
             <span
               className='font-semibold'
@@ -272,7 +272,7 @@ export const MembershipCard: React.FC<MembershipCardProps> = ({
             </span>
           </div>
         </div>
-        <div className='flex items-center justify-center'>
+        <div className='flex justify-center items-center'>
           <img
             src={membershipStyle.iconSmall}
             alt={`${membership} icon`}
@@ -304,9 +304,12 @@ export const MembershipCard: React.FC<MembershipCardProps> = ({
   )
 }
 
-export const OtherMembership = () => {
-  const bc = useTRLContract()
-  const currentMembership = bc.membership.name
+export const OtherMembership = ({
+  membershipName,
+}: {
+  membershipName: string
+}) => {
+  const currentMembership = membershipName
 
   return (
     <div className='grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4'>
@@ -327,7 +330,7 @@ export const OtherMembership = () => {
               </div>
             ) : null}
             <div>
-              <div className='flex items-center gap-2'>
+              <div className='flex gap-2 items-center'>
                 <h5 className='font-medium' style={{ color: style.primary }}>
                   {m[0]}
                 </h5>
@@ -337,7 +340,7 @@ export const OtherMembership = () => {
                 {m[1].min} - {m[1].max}
               </span>
             </div>
-            <div className='flex flex-col items-end justify-end'>
+            <div className='flex flex-col justify-end items-end'>
               <span className='text-xl font-bold'>
                 {m[1].multiplier.toFixed(2)}x
               </span>

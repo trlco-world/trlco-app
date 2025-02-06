@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { useTRLContract } from '@/hooks/use-contract'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { formatEther } from 'viem'
 
 export const Route = createFileRoute('/_dashboard/stake/v1')({
@@ -28,31 +28,37 @@ export const Route = createFileRoute('/_dashboard/stake/v1')({
 })
 
 function StakePage() {
+  const bc = useTRLContract()
   return (
-    <div className="space-y-6">
-      <div className="flex flex-1 gap-3 items-center">
-        <img className="w-10 h-10" src="/trlco.svg" alt="TRLCO" />
-        <div className="flex flex-col">
-          <span className="text-lg font-semibold sm:text-xl">$TRLCO</span>
-          <span className="text-sm font-medium uppercase text-neutral-500">
-            Membership Staking
-          </span>
+    <div className='space-y-6'>
+      <div className='flex justify-between items-center'>
+        <div className='flex flex-1 gap-3 items-center'>
+          <img className='w-10 h-10' src='/trlco.svg' alt='TRLCO' />
+          <div className='flex flex-col'>
+            <span className='text-lg font-semibold sm:text-xl'>$TRLCO</span>
+            <span className='text-sm font-medium uppercase text-neutral-500'>
+              Membership Staking
+            </span>
+          </div>
         </div>
+        <Link to='/stake'>
+          <Button>V2 Staking</Button>
+        </Link>
       </div>
       <StakingDataCard />
 
       <ClaimReward />
-      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+      <div className='grid gap-6 sm:grid-cols-2 md:grid-cols-3'>
         <MembershipCard />
         <StakeCard />
         <RewardCard />
       </div>
-      <div className="col-span-3 p-6 space-y-6 bg-white rounded-xl border">
-        <h5 className="font-medium text-neutral-900">Membership Progress</h5>
-        <span className="text-sm text-neutral-500">
+      <div className='col-span-3 p-6 space-y-6 bg-white rounded-xl border'>
+        <h5 className='font-medium text-neutral-900'>Membership Progress</h5>
+        <span className='text-sm text-neutral-500'>
           Unlock more benefits by upgrading your membership
         </span>
-        <OtherMembership />
+        <OtherMembership membershipName={bc.membership.name ?? 'None'} />
       </div>
     </div>
   )
@@ -70,30 +76,30 @@ function StakingDataCard() {
       : 0
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
+    <div className='grid gap-6 sm:grid-cols-2 md:grid-cols-4'>
       <StatsCard
-        title="Total Staked"
+        title='Total Staked'
         value={new Intl.NumberFormat().format(+totalStaked)}
       />
       <StatsCard
-        title="Total Reward Distributed"
+        title='Total Reward Distributed'
         value={totalRewardDistributed}
       />
       <StatsCard
-        title="Total Staked %"
+        title='Total Staked %'
         value={`${Number(totalSupplyStaked).toFixed(8)} %`}
       />
 
-      <StatsCard title="Total Value Locked (TVL)" value={`N/A`} />
+      <StatsCard title='Total Value Locked (TVL)' value={`N/A`} />
     </div>
   )
 }
 
 function StatsCard(props: { title: string; value: string }) {
   return (
-    <div className="flex flex-col items-center py-2 w-full overflow-clip rounded-xl border sm:py-4 border-neutral-200 bg-neutral-200">
-      <span className="text-sm font-light text-black">{props.title}</span>
-      <span className="text-lg font-medium text-black">{props.value}</span>
+    <div className='flex flex-col items-center py-2 w-full overflow-clip rounded-xl border sm:py-4 border-neutral-200 bg-neutral-200'>
+      <span className='text-sm font-light text-black'>{props.title}</span>
+      <span className='text-lg font-medium text-black'>{props.value}</span>
     </div>
   )
 }
@@ -106,31 +112,31 @@ function StakeCard() {
     : 0
 
   return (
-    <Card className="flex flex-col shadow-none">
+    <Card className='flex flex-col shadow-none'>
       <CardHeader>
         <CardTitle>Staking</CardTitle>
         <CardDescription>Stake TRLCO, Get TRLCO</CardDescription>
       </CardHeader>
-      <Separator className="mb-3" />
-      <CardContent className="flex-1 space-y-2 text-sm font-medium">
-        <div className="flex justify-between items-center">
+      <Separator className='mb-3' />
+      <CardContent className='flex-1 space-y-2 text-sm font-medium'>
+        <div className='flex justify-between items-center'>
           <span>Wallet balance</span>
           <span>{Number(formatEther(bc.balance ?? 0n)).toFixed(8)}</span>
         </div>
-        <div className="flex justify-between items-center">
+        <div className='flex justify-between items-center'>
           <span>Total staked</span>
           <span>{formatEther(bc.stakes.amount ?? 0n)}</span>
         </div>
-        <div className="flex justify-between items-center">
+        <div className='flex justify-between items-center'>
           <span>Minimum stake</span>
           <span>100</span>
         </div>
-        <div className="flex justify-between items-center">
+        <div className='flex justify-between items-center'>
           <span>Stake to next tier</span>
           <span>{nextTierRemaining}</span>
         </div>
       </CardContent>
-      <CardFooter className="grid grid-cols-2 gap-2">
+      <CardFooter className='grid grid-cols-2 gap-2'>
         <StakeDrawer>
           <Button variant={'destructive'}>Stake</Button>
         </StakeDrawer>
@@ -156,39 +162,39 @@ function RewardCard() {
   ).toFixed(8)
 
   return (
-    <Card className="flex flex-col shadow-none">
+    <Card className='flex flex-col shadow-none'>
       <CardHeader>
         <CardTitle>Rewards</CardTitle>
         <CardDescription>Rewards generated from staking</CardDescription>
       </CardHeader>
-      <Separator className="mb-3" />
-      <CardContent className="flex-1 space-y-2 text-sm font-medium">
-        <div className="flex justify-between items-center">
+      <Separator className='mb-3' />
+      <CardContent className='flex-1 space-y-2 text-sm font-medium'>
+        <div className='flex justify-between items-center'>
           <span>Base APR</span>
           <span>{bc.baseRate?.toString()}%</span>
         </div>
-        <div className="flex justify-between items-center">
+        <div className='flex justify-between items-center'>
           <span>Membership</span>
           <span>{bc.membership.name}</span>
         </div>
-        <div className="flex justify-between items-center">
+        <div className='flex justify-between items-center'>
           <span>Multiplier</span>
           <span>{multiplier}x</span>
         </div>
-        <div className="flex justify-between items-center">
+        <div className='flex justify-between items-center'>
           <span>Monthly reward</span>
           <span>{rewardPerMonth}</span>
         </div>
-        <div className="flex justify-between items-center">
+        <div className='flex justify-between items-center'>
           <span>Multiplier bonus</span>
           <span>{multiplierBonus.toFixed(8)}</span>
         </div>
-        <div className="flex justify-between items-center">
+        <div className='flex justify-between items-center'>
           <span>Total unclaimed</span>
           <span>{Number(formatEther(bc.reward ?? 0n)).toFixed(8)}</span>
         </div>
       </CardContent>
-      <CardFooter className="grid">
+      <CardFooter className='grid'>
         <ClaimDrawer>
           <Button>Claim</Button>
         </ClaimDrawer>
@@ -199,9 +205,9 @@ function RewardCard() {
 
 function ClaimReward() {
   return (
-    <Alert variant="destructive" className="bg-white">
+    <Alert variant='destructive' className='bg-white'>
       <AlertTitle>Caution</AlertTitle>
-      <AlertDescription className="text-gray-600">
+      <AlertDescription className='text-gray-600'>
         Please claim your rewards before staking or re-staking your TRLCO to
         avoid any loss of earned rewards.
       </AlertDescription>

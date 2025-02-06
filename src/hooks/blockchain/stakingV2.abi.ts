@@ -527,4 +527,4 @@ export const STAKING_ABI = [
     stateMutability: 'nonpayable',
     type: 'function',
   },
-]
+] as const
