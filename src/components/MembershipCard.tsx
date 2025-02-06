@@ -21,6 +21,7 @@ interface MembershipCardProps {
   membership?: Membership
   isActive?: boolean
   isMobile?: boolean
+  stakedAmount?: number
 }
 
 type Styles = Record<
@@ -118,32 +119,26 @@ export const membershipDetails: MembershipDetails = {
 export const MembershipCard: React.FC<MembershipCardProps> = ({
   isActive,
   isMobile = false,
+  membership = 'Basic',
+  stakedAmount = 0,
 }) => {
-  const bc = useTRLContract()
   const navigate = useNavigate()
-  const stakedAmount = +formatEther(bc.stakes.amount ?? 0n)
 
-  const membership: Membership = useMemo(() => {
-    return (
-      (Object.entries(membershipDetails).find(
-        ([, value]) =>
-          stakedAmount >= value.min &&
-          (value.max === Infinity || stakedAmount < value.max),
-      )?.[0] as Membership) || 'Basic'
-    )
-  }, [stakedAmount])
-
-  const membershipDetail = membershipDetails[membership]
-  const membershipStyle = styles[membership]
+  // Remove the membership calculation useMemo
+  const membershipDetail =
+    membershipDetails[membership] || membershipDetails.Basic
+  const membershipStyle = styles[membership] || styles.Basic
 
   const progress = useMemo(() => {
+    if (!membershipDetail) return '0'
+
     const range = membershipDetail.max - membershipDetail.min
     if (membership === 'Platinum') return '100'
     return Math.min(
       100,
       Math.max(0, ((stakedAmount - membershipDetail.min) / range) * 100),
     ).toString()
-  }, [membershipDetail, stakedAmount])
+  }, [membershipDetail, stakedAmount, membership])
 
   if (isMobile) {
     return (

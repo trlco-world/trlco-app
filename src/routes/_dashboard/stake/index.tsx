@@ -1,5 +1,9 @@
 // import StakeCard from '@/components/StakeCard'
-import { OtherMembership } from '@/components/MembershipCard'
+import {
+  Membership,
+  MembershipCard,
+  OtherMembership,
+} from '@/components/MembershipCard'
 import {
   Accordion,
   AccordionContent,
@@ -12,7 +16,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
@@ -25,7 +28,6 @@ import { useEffect, useState } from 'react'
 
 import { toast } from 'sonner'
 import { formatEther } from 'viem'
-import { useAccount, useBalance } from 'wagmi'
 
 export const Route = createFileRoute('/_dashboard/stake/')({
   component: StakePage,
@@ -62,8 +64,14 @@ function PageTitle() {
 }
 
 function Staking() {
+  const { walletStats } = useStakingV2()
+
   return (
     <div className='grid gap-6 sm:grid-cols-2'>
+      <MembershipCard
+        membership={walletStats?.membership.name as Membership}
+        stakedAmount={+formatEther(walletStats?.stakedAmount ?? 0n)}
+      />
       <StakingCard />
     </div>
   )
@@ -137,6 +145,7 @@ function StakingCard() {
     approve,
     stake,
     withdrawStake,
+    exitMembership,
     isConfirming,
     isPending,
     isSuccess,
@@ -153,6 +162,12 @@ function StakingCard() {
     stakedAmount: formatter(walletStats?.stakedAmount ?? 0n),
     unclaimedReward: formatter(pendingRewards ?? 0n),
     ethBalance: formatter(ethBalance ?? 0n),
+    lifetimeReward: formatter(walletStats?.lifetimeReward ?? 0n),
+    monthlyReward: (
+      +formatEther(walletStats?.stakedAmount ?? 0n) *
+      (10 / 100 / 12) *
+      (Number(walletStats?.membership.multiplier) / 100)
+    ).toFixed(8),
   }
 
   const handleMaxStake = () => {
@@ -200,6 +215,14 @@ function StakingCard() {
 
     try {
       await withdrawStake(withdrawAmount)
+    } catch (error: any) {
+      toast.error(error.message.split('\n')[0])
+    }
+  }
+
+  const handleCancel = async () => {
+    try {
+      await exitMembership()
     } catch (error: any) {
       toast.error(error.message.split('\n')[0])
     }
@@ -255,17 +278,29 @@ function StakingCard() {
       </CardHeader>
       <CardContent className='space-y-6'>
         <div className='p-4 space-y-3 rounded-xl bg-secondary'>
-          <div className='flex justify-between items-center text-sm font-medium text-gray-600'>
-            <span>$ETH Balance:</span>
-            <span>{data.ethBalance}</span>
-          </div>
-          <div className='flex justify-between items-center text-sm font-medium text-gray-600'>
-            <span>$TRLCO Balance:</span>
-            <span>{data.trlcoBalance}</span>
-          </div>
           <div className='flex justify-between items-center text-sm font-medium text-destructive'>
             <span>Staked Amount:</span>
             <span>{data.stakedAmount}</span>
+          </div>
+          <div className='flex justify-between items-center text-sm font-medium'>
+            <span>$ETH Balance:</span>
+            <span>{data.ethBalance}</span>
+          </div>
+          <div className='flex justify-between items-center text-sm font-medium'>
+            <span>$TRLCO Balance:</span>
+            <span>{data.trlcoBalance}</span>
+          </div>
+          <div className='flex justify-between items-center text-sm font-medium'>
+            <span>Monthly Reward:</span>
+            <span>{data.monthlyReward}</span>
+          </div>
+          <div className='flex justify-between items-center text-sm font-medium'>
+            <span>Lifetime Reward:</span>
+            <span>{data.lifetimeReward}</span>
+          </div>
+          <div className='flex justify-between items-center text-sm font-medium'>
+            <span>Unclaimed Reward:</span>
+            <span>{data.unclaimedReward}</span>
           </div>
         </div>
         {isApproved ? (
@@ -338,6 +373,22 @@ function StakingCard() {
                 </div>
               </AccordionContent>
             </AccordionItem>
+            <AccordionItem value='exit'>
+              <AccordionTrigger>Cancel Membership</AccordionTrigger>
+              <AccordionContent>
+                <div className='py-2.5 px-0.5 space-y-3'>
+                  <div className='flex gap-3 justify-between items-center'>
+                    <span>
+                      Canceling membership, all your staked token will be
+                      withdraw and all rewards will be claimed
+                    </span>
+                    <Button variant='destructive' onClick={handleCancel}>
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
           </Accordion>
         ) : (
           <Button variant='destructive' onClick={handleApprove}>
@@ -345,112 +396,6 @@ function StakingCard() {
           </Button>
         )}
       </CardContent>
-    </Card>
-  )
-}
-
-function SummaryCard() {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Membership</CardTitle>
-        <CardDescription>Get higher membership and earn more</CardDescription>
-      </CardHeader>
-      <CardContent></CardContent>
-    </Card>
-  )
-}
-
-function RewardCard() {
-  const {
-    walletStats,
-    pendingRewards,
-    isLoading,
-    isPending,
-    claimRewards,
-    isConfirming,
-    isFailed,
-    isSuccess,
-    isError,
-    refetch,
-  } = useStakingV2()
-
-  const handleClaim = async () => {
-    try {
-      await claimRewards()
-    } catch (error: any) {
-      toast.error(error.message.split('\n')[0])
-    }
-  }
-
-  const rewards = {
-    baseRate: '10%',
-    membership: walletStats?.membership.name,
-    multiplier: Number(walletStats?.membership.multiplier) / 100,
-    monthlyReward: '',
-    totalUnclaimed: Intl.NumberFormat('en-US', {
-      maximumFractionDigits: 8,
-    }).format(+formatEther(pendingRewards ?? 0n)),
-  }
-
-  useEffect(() => {
-    if (isError || isFailed) {
-      toast.dismiss('transaction')
-    }
-
-    if (isPending || isConfirming) {
-      toast.loading('Processing your transaction...', {
-        id: 'transaction',
-        duration: Infinity,
-      })
-    }
-
-    if (isFailed) {
-      toast.error('Transaction Failed')
-    }
-
-    if (isSuccess) {
-      toast.dismiss('transaction')
-      toast.success('Transaction successful!')
-      refetch()
-    }
-  }, [isConfirming, isPending, isSuccess, isError, isFailed, refetch])
-
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Reward</CardTitle>
-        <CardDescription>Rewards generated from staking</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className='p-4 space-y-3 text-sm font-medium text-gray-600 rounded-xl bg-secondary'>
-          <div className='flex justify-between items-center'>
-            <span>Base APR:</span>
-            <span>{rewards.baseRate}</span>
-          </div>
-          <div className='flex justify-between items-center'>
-            <span>Membership:</span>
-            <span>{rewards.membership}</span>
-          </div>
-          <div className='flex justify-between items-center'>
-            <span>Multiplier:</span>
-            <span>{rewards.multiplier}x</span>
-          </div>
-          <div className='flex justify-between items-center'>
-            <span>Unclaimed:</span>
-            <span>{rewards.totalUnclaimed}</span>
-          </div>
-        </div>
-      </CardContent>
-      <CardFooter>
-        <Button
-          className='w-full'
-          onClick={handleClaim}
-          disabled={isLoading || isPending}
-        >
-          Claim
-        </Button>
-      </CardFooter>
     </Card>
   )
 }
