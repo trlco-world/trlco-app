@@ -3,12 +3,13 @@ import {
   useReadContracts,
   useWriteContract,
   useWaitForTransactionReceipt,
+  useBalance,
 } from 'wagmi'
 import { STAKING_ABI } from './stakingV2.abi'
-import { erc20Abi, maxUint256, parseEther } from 'viem'
+import { erc20Abi, formatEther, maxUint256, parseEther } from 'viem'
 
 const TOKEN_ADDRESS = '0x8eA35F3606f274403d23D667b5c5E6038C62FD2c'
-const CONTRACT_ADDRESS = '0x2bEC34ddF812F2AFfc5E07D029B4374CCFDB6ae7'
+const CONTRACT_ADDRESS = '0xE060a7939132c2E76E289409D5247D1A1F8f3Fd0'
 
 const TOKEN_CONFIG = {
   address: TOKEN_ADDRESS,
@@ -22,6 +23,11 @@ const STAKING_CONFIG = {
 
 export const useStakingV2 = () => {
   const { address } = useAccount()
+  const { data: balance } = useBalance({
+    address,
+    query: { enabled: !!address },
+  })
+
   const {
     writeContractAsync,
     data: hash,
@@ -45,9 +51,9 @@ export const useStakingV2 = () => {
         args: [address!],
       },
       {
-        ...STAKING_CONFIG,
-        functionName: 'getAllowance',
-        args: [address!],
+        ...TOKEN_CONFIG,
+        functionName: 'allowance',
+        args: [address!, CONTRACT_ADDRESS],
       },
       {
         ...STAKING_CONFIG,
@@ -74,6 +80,10 @@ export const useStakingV2 = () => {
       {
         ...STAKING_CONFIG,
         functionName: 'totalClaimCount',
+      },
+      {
+        ...TOKEN_CONFIG,
+        functionName: 'totalSupply',
       },
     ],
     query: {
@@ -126,21 +136,21 @@ export const useStakingV2 = () => {
   return {
     // Read States
     refetch,
+    ethBalance: balance?.value,
     balance: data?.[0].result,
     allowance: data?.[1].result,
     totalStaked: data?.[2].result,
     walletStats: data?.[3].result
       ? {
           stakedAmount: data[3].result[0],
-          rewardDebt: data[3].result[1],
+          pendingRewards: data[3].result[1],
           claimedReward: data[3].result[2],
           lifetimeReward: data[3].result[3],
-          lastClaimed: data[3].result[4],
           membership: {
-            name: data[3].result[5].name,
-            min: data[3].result[5].min,
-            max: data[3].result[5].max,
-            multiplier: data[3].result[5].multiplier,
+            name: data[3].result[4].name,
+            min: data[3].result[4].min,
+            max: data[3].result[4].max,
+            multiplier: data[3].result[4].multiplier,
           },
         }
       : undefined,
@@ -150,6 +160,7 @@ export const useStakingV2 = () => {
       totalRewardDistributed: data?.[6].result,
       totalClaimCount: data?.[7].result,
     },
+    totalSupply: data?.[8].result,
 
     // Write Functions
     approve,

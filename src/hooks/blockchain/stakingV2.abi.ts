@@ -239,7 +239,7 @@ export const STAKING_ABI = [
       },
       {
         internalType: 'uint256',
-        name: 'rewardDebt',
+        name: 'pendingRewards',
         type: 'uint256',
       },
       {
@@ -250,11 +250,6 @@ export const STAKING_ABI = [
       {
         internalType: 'uint256',
         name: 'lifetimeReward',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'lastClaimed',
         type: 'uint256',
       },
       {
@@ -281,7 +276,7 @@ export const STAKING_ABI = [
           },
         ],
         internalType: 'struct MembershipStaking.MembershipTier',
-        name: 'membership',
+        name: 'currentTier',
         type: 'tuple',
       },
     ],
@@ -351,6 +346,11 @@ export const STAKING_ABI = [
       {
         internalType: 'uint256',
         name: 'rewardDebt',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'lastUpdate',
         type: 'uint256',
       },
       {
