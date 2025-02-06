@@ -148,21 +148,12 @@ function StakingCard() {
 
   const isApproved = allowance ? allowance > 0n : false
 
-  const trlcoBalance = Intl.NumberFormat('en-US', {
-    maximumFractionDigits: 8,
-  }).format(+formatEther(balance ?? 0n))
-
-  const stakedAmount = Intl.NumberFormat('en-US', {
-    maximumFractionDigits: 8,
-  }).format(+formatEther(walletStats?.stakedAmount ?? 0n))
-
-  const unclaimedReward = Intl.NumberFormat('en-US', {
-    maximumFractionDigits: 8,
-  }).format(+formatEther(pendingRewards ?? 0n))
-
-  const etherBalance = Intl.NumberFormat('en-US', {
-    maximumFractionDigits: 8,
-  }).format(+formatEther(ethBalance ?? 0n))
+  const data = {
+    trlcoBalance: formatter(balance ?? 0n),
+    stakedAmount: formatter(walletStats?.stakedAmount ?? 0n),
+    unclaimedReward: formatter(pendingRewards ?? 0n),
+    ethBalance: formatter(ethBalance ?? 0n),
+  }
 
   const handleMaxStake = () => {
     setStakeAmount(formatEther(balance ?? 0n))
@@ -266,15 +257,15 @@ function StakingCard() {
         <div className='p-4 space-y-3 rounded-xl bg-secondary'>
           <div className='flex justify-between items-center text-sm font-medium text-gray-600'>
             <span>$ETH Balance:</span>
-            <span>{etherBalance}</span>
+            <span>{data.ethBalance}</span>
           </div>
           <div className='flex justify-between items-center text-sm font-medium text-gray-600'>
             <span>$TRLCO Balance:</span>
-            <span>{trlcoBalance}</span>
+            <span>{data.trlcoBalance}</span>
           </div>
           <div className='flex justify-between items-center text-sm font-medium text-destructive'>
             <span>Staked Amount:</span>
-            <span>{stakedAmount}</span>
+            <span>{data.stakedAmount}</span>
           </div>
         </div>
         {isApproved ? (
@@ -283,7 +274,7 @@ function StakingCard() {
               <AccordionTrigger>Stake</AccordionTrigger>
               <AccordionContent>
                 <div className='py-2.5 px-0.5 space-y-3'>
-                  <Badge>Balance: {trlcoBalance}</Badge>
+                  <Badge>Balance: {data.trlcoBalance}</Badge>
                   <div className='flex items-center space-x-2'>
                     <Input
                       placeholder='0'
@@ -308,7 +299,7 @@ function StakingCard() {
               <AccordionTrigger>Withdraw</AccordionTrigger>
               <AccordionContent>
                 <div className='py-2.5 px-0.5 space-y-3'>
-                  <Badge>Staked: {stakedAmount}</Badge>
+                  <Badge>Staked: {data.stakedAmount}</Badge>
                   <div className='flex items-center space-x-2'>
                     <Input
                       placeholder='0'
@@ -339,7 +330,7 @@ function StakingCard() {
               <AccordionContent>
                 <div className='py-2.5 px-0.5 space-y-3'>
                   <div className='flex justify-between items-center space-x-2'>
-                    <Badge>Unclaimed Reward: {unclaimedReward}</Badge>
+                    <Badge>Unclaimed Reward: {data.unclaimedReward}</Badge>
                     <Button variant='destructive' onClick={handleWithdraw}>
                       Claim
                     </Button>
