@@ -68,11 +68,11 @@ function Staking() {
 
   return (
     <div className='grid gap-6 sm:grid-cols-2'>
+      <StakingCard />
       <MembershipCard
         membership={walletStats?.membership.name as Membership}
         stakedAmount={+formatEther(walletStats?.stakedAmount ?? 0n)}
       />
-      <StakingCard />
     </div>
   )
 }
@@ -144,6 +144,7 @@ function StakingCard() {
     pendingRewards,
     approve,
     stake,
+    claimRewards,
     withdrawStake,
     exitMembership,
     isConfirming,
@@ -215,6 +216,14 @@ function StakingCard() {
 
     try {
       await withdrawStake(withdrawAmount)
+    } catch (error: any) {
+      toast.error(error.message.split('\n')[0])
+    }
+  }
+
+  const handleClaim = async () => {
+    try {
+      await claimRewards()
     } catch (error: any) {
       toast.error(error.message.split('\n')[0])
     }
@@ -324,7 +333,7 @@ function StakingCard() {
                       onClick={handleStake}
                       disabled={isLoading || isPending}
                     >
-                      stake
+                      Stake
                     </Button>
                   </div>
                 </div>
@@ -366,8 +375,8 @@ function StakingCard() {
                 <div className='py-2.5 px-0.5 space-y-3'>
                   <div className='flex justify-between items-center space-x-2'>
                     <Badge>Unclaimed Reward: {data.unclaimedReward}</Badge>
-                    <Button variant='destructive' onClick={handleWithdraw}>
-                      Claim
+                    <Button variant='destructive' onClick={handleClaim}>
+                      Claim All
                     </Button>
                   </div>
                 </div>
