@@ -159,16 +159,24 @@ function StakingCard() {
   const isApproved = allowance ? allowance > 0n : false
 
   const data = {
+    baseRate: '10',
     trlcoBalance: formatter(balance ?? 0n),
     stakedAmount: formatter(walletStats?.stakedAmount ?? 0n),
     unclaimedReward: formatter(pendingRewards ?? 0n),
     ethBalance: formatter(ethBalance ?? 0n),
     lifetimeReward: formatter(walletStats?.lifetimeReward ?? 0n),
-    monthlyReward: (
-      +formatEther(walletStats?.stakedAmount ?? 0n) *
-      (10 / 100 / 12) *
-      (Number(walletStats?.membership.multiplier) / 100)
-    ).toFixed(8),
+    monthlyReward:
+      !walletStats?.stakedAmount || !walletStats?.membership.multiplier
+        ? '0'
+        : (
+            +formatEther(walletStats.stakedAmount) *
+            (10 / 100 / 12) *
+            (Number(walletStats.membership.multiplier) / 100)
+          ).toFixed(8),
+    multiplier:
+      (walletStats?.membership.multiplier
+        ? Number(walletStats.membership.multiplier)
+        : 0) / 100,
   }
 
   const handleMaxStake = () => {
@@ -271,16 +279,14 @@ function StakingCard() {
 
   return (
     <Card className='relative overflow-clip shadow-none'>
-      {isLoading ||
-        isPending ||
-        (isConfirming && (
-          <div className='grid absolute inset-0 place-items-center backdrop-blur'>
-            <div className='flex gap-2'>
-              <LoaderCircle className='duration-500 animate-spin' />
-              <span className='font-medium'>Loading</span>
-            </div>
+      {(isLoading || isConfirming || isPending) && (
+        <div className='grid absolute inset-0 place-items-center backdrop-blur'>
+          <div className='flex gap-2'>
+            <LoaderCircle className='duration-500 animate-spin' />
+            <span className='font-medium'>Loading</span>
           </div>
-        ))}
+        </div>
+      )}
       <CardHeader>
         <CardTitle>Staking</CardTitle>
         <CardDescription>Stake TRLCO, Get TRLCO</CardDescription>
@@ -300,7 +306,15 @@ function StakingCard() {
             <span>{data.trlcoBalance}</span>
           </div>
           <div className='flex justify-between items-center text-sm font-medium'>
-            <span>Monthly Reward:</span>
+            <span>Base APY:</span>
+            <span>{data.baseRate}%</span>
+          </div>
+          <div className='flex justify-between items-center text-sm font-medium'>
+            <span>Multiplier:</span>
+            <span>{data.multiplier}x</span>
+          </div>
+          <div className='flex justify-between items-center text-sm font-medium'>
+            <span>Monthly Reward ({data.multiplier ?? '1'}x):</span>
             <span>{data.monthlyReward}</span>
           </div>
           <div className='flex justify-between items-center text-sm font-medium'>

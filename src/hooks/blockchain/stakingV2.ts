@@ -6,10 +6,10 @@ import {
   useBalance,
 } from 'wagmi'
 import { STAKING_ABI } from './stakingV2.abi'
-import { erc20Abi, formatEther, maxUint256, parseEther } from 'viem'
+import { erc20Abi, maxUint256, parseEther } from 'viem'
 
 const TOKEN_ADDRESS = '0x8eA35F3606f274403d23D667b5c5E6038C62FD2c'
-const CONTRACT_ADDRESS = '0xE060a7939132c2E76E289409D5247D1A1F8f3Fd0'
+const CONTRACT_ADDRESS = '0xCA5CCf35264567F1747a781A38153aA2Cf51F486'
 
 const TOKEN_CONFIG = {
   address: TOKEN_ADDRESS,
