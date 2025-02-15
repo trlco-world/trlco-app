@@ -1,26 +1,32 @@
 // import StakeCard from '@/components/StakeCard'
-import ClaimDrawer from '@/components/blockchain/ClaimDrawer'
-import StakeDrawer from '@/components/blockchain/StakeDrawer'
-import WithdrawDrawer from '@/components/blockchain/WithdrawDrawer'
 import {
-  MembershipCard,
   Membership,
-  membershipDetails,
+  MembershipCard,
   OtherMembership,
 } from '@/components/MembershipCard'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
-import { useTRLContract } from '@/hooks/use-contract'
-import { createFileRoute } from '@tanstack/react-router'
+import { Input } from '@/components/ui/input'
+import { useStakingV2 } from '@/hooks/blockchain/stakingV2'
+import { formatter } from '@/lib/utils'
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { LoaderCircle } from 'lucide-react'
+import { useEffect, useState } from 'react'
+
+import { toast } from 'sonner'
 import { formatEther } from 'viem'
 
 export const Route = createFileRoute('/_dashboard/stake/')({
@@ -30,194 +36,389 @@ export const Route = createFileRoute('/_dashboard/stake/')({
 function StakePage() {
   return (
     <div className='space-y-6'>
-      <div className='flex flex-1 gap-3 items-center'>
-        <img className='w-10 h-10' src='./trlco.svg' alt='TRLCO' />
-        <div className='flex flex-col'>
-          <span className='text-lg font-semibold sm:text-xl'>$TRLCO</span>
-          <span className='text-sm font-medium uppercase text-neutral-500'>
-            Membership Staking
-          </span>
+      <PageTitle />
+      <ContractStats />
+      <Staking />
+      <MembershipOverview />
+    </div>
+  )
+}
+
+function PageTitle() {
+  return (
+    <div className='flex justify-between items-center'>
+      <div className='flex gap-3 items-center'>
+        <img className='w-8 h-8' src='/trlco.svg' alt='TRLCO' />
+        <div className='flex gap-2 items-center font-medium sm:text-xl text-nowrap'>
+          <span>Membership Staking</span>
+          <div className='py-0.5 px-2 rounded-lg text-white text-xs bg-destructive'>
+            V2
+          </div>
         </div>
       </div>
-      <StakingDataCard />
-
-      <ClaimReward />
-      <div className='grid gap-6 sm:grid-cols-2 md:grid-cols-3'>
-        <MembershipCard />
-        <StakeCard />
-        <RewardCard />
-      </div>
-      <div className='col-span-3 p-6 space-y-6 bg-white rounded-xl border'>
-        <h5 className='font-medium text-neutral-900'>Membership Progress</h5>
-        <span className='text-sm text-neutral-500'>
-          Unlock more benefits by upgrading your membership
-        </span>
-        <OtherMembership />
-      </div>
+      <Link to='/stake/v1'>
+        <Button>V1 Staking</Button>
+      </Link>
     </div>
   )
 }
 
-function StakingDataCard() {
-  const bc = useTRLContract()
+function Staking() {
+  const { walletStats } = useStakingV2()
 
-  const totalStaked = formatEther(bc.totalStaked ?? 0n)
+  return (
+    <div className='grid gap-6 sm:grid-cols-2'>
+      <StakingCard />
+      <MembershipCard
+        membership={walletStats?.membership.name as Membership}
+        stakedAmount={+formatEther(walletStats?.stakedAmount ?? 0n)}
+      />
+    </div>
+  )
+}
 
-  const totalRewardDistributed = new Intl.NumberFormat().format(12763.8126)
-  const totalSupplyStaked =
-    bc.totalStaked && bc.totalSupply
-      ? (+formatEther(bc.totalStaked) / +formatEther(bc.totalSupply)) * 100
+function ContractStats() {
+  const { stats, totalStaked, totalSupply } = useStakingV2()
+
+  const data = {
+    totalStakedWallet: Number(stats.uniqueStakers),
+    totalStaked: formatter(totalStaked ?? 0n),
+    totalRewardDistribuetd: formatter(stats.totalRewardDistributed ?? 0n),
+    totalStakedPerc: (totalStaked && totalSupply
+      ? (+formatEther(totalStaked) / +formatEther(totalSupply)) * 100
       : 0
+    ).toFixed(8),
+  }
 
   return (
-    <div className='grid gap-6 sm:grid-cols-2 md:grid-cols-4'>
-      <StatsCard
-        title='Total Staked'
-        value={new Intl.NumberFormat().format(+totalStaked)}
-      />
-      <StatsCard
-        title='Total Reward Distributed'
-        value={totalRewardDistributed}
-      />
-      <StatsCard
-        title='Total Staked %'
-        value={`${Number(totalSupplyStaked).toFixed(8)} %`}
-      />
-
-      <StatsCard title='Total Value Locked (TVL)' value={`N/A`} />
+    <div className='grid sm:grid-cols-4 *:bg-neutral-200 *:rounded-xl *:py-3 *:px-4 *:grid *:place-items-center *:text-sm gap-6'>
+      <div>
+        <span className='text-neutral-500'>Total Staked Wallet</span>
+        <span className='text-base font-medium'>{data.totalStakedWallet}</span>
+      </div>
+      <div>
+        <span className='text-neutral-500'>Total Staked</span>
+        <span className='text-base font-medium'>{data.totalStaked}</span>
+      </div>
+      <div>
+        <span className='text-neutral-500'>Total Reward Distributed</span>
+        <span className='text-base font-medium'>
+          {data.totalRewardDistribuetd}
+        </span>
+      </div>
+      <div>
+        <span className='text-neutral-500'>Total Staked %</span>
+        <span className='text-base font-medium'>{data.totalStakedPerc}</span>
+      </div>
     </div>
   )
 }
 
-function StatsCard(props: { title: string; value: string }) {
+function MembershipOverview() {
+  const { walletStats } = useStakingV2()
   return (
-    <div className='flex flex-col items-center py-2 w-full overflow-clip rounded-xl border sm:py-4 border-neutral-200 bg-neutral-200'>
-      <span className='text-sm font-light text-black'>{props.title}</span>
-      <span className='text-lg font-medium text-black'>{props.value}</span>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Membership Progress</CardTitle>
+        <CardDescription>
+          Unlock more benefits by upgrading your membership
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <OtherMembership
+          membershipName={walletStats?.membership.name ?? 'None'}
+        />
+      </CardContent>
+    </Card>
   )
 }
 
-function StakeCard() {
-  const bc = useTRLContract()
-  const nextTier = membershipDetails[bc.membership.name as Membership]
-  const nextTierRemaining = nextTier
-    ? nextTier.max + 1 - +formatEther(bc.stakes.amount ?? 0n)
-    : 0
+function StakingCard() {
+  const [stakeAmount, setStakeAmount] = useState<string>('')
+  const [withdrawAmount, setWithdrawAmount] = useState<string>('')
+  const {
+    ethBalance,
+    balance,
+    allowance,
+    walletStats,
+    pendingRewards,
+    approve,
+    stake,
+    claimRewards,
+    withdrawStake,
+    exitMembership,
+    isConfirming,
+    isPending,
+    isSuccess,
+    isError,
+    isFailed,
+    isLoading,
+    refetch,
+  } = useStakingV2()
+
+  const isApproved = allowance ? allowance > 0n : false
+
+  const data = {
+    baseRate: '10',
+    trlcoBalance: formatter(balance ?? 0n),
+    stakedAmount: formatter(walletStats?.stakedAmount ?? 0n),
+    unclaimedReward: formatter(pendingRewards ?? 0n),
+    ethBalance: formatter(ethBalance ?? 0n),
+    lifetimeReward: formatter(walletStats?.lifetimeReward ?? 0n),
+    monthlyReward:
+      !walletStats?.stakedAmount || !walletStats?.membership.multiplier
+        ? '0'
+        : (
+            +formatEther(walletStats.stakedAmount) *
+            (10 / 100 / 12) *
+            (Number(walletStats.membership.multiplier) / 100)
+          ).toFixed(8),
+    multiplier:
+      (walletStats?.membership.multiplier
+        ? Number(walletStats.membership.multiplier)
+        : 0) / 100,
+  }
+
+  const handleMaxStake = () => {
+    setStakeAmount(formatEther(balance ?? 0n))
+  }
+
+  const handleMaxWithdraw = () => {
+    setWithdrawAmount(formatEther(walletStats?.stakedAmount ?? 0n))
+  }
+
+  const handleStake = async () => {
+    if (!stakeAmount || isNaN(Number(stakeAmount))) {
+      return toast.warning('Please enter a valid amount to stake.')
+    }
+
+    if (stakeAmount && +stakeAmount <= 0) {
+      return toast.warning('Must stake more than 0 $TRLCO')
+    }
+
+    if (+stakeAmount > +formatEther(balance ?? 0n)) {
+      return toast.warning(
+        'Insufficient token, you are staking more than your balance. Please use the MAX amount',
+      )
+    }
+
+    try {
+      await stake(stakeAmount)
+    } catch (error: any) {
+      toast.error(error.message.split('\n')[0])
+    }
+  }
+
+  const handleWithdraw = async () => {
+    if (!withdrawAmount || isNaN(Number(withdrawAmount))) {
+      return toast.warning('Please enter a valid amount to stake.')
+    }
+
+    if (withdrawAmount && +withdrawAmount <= 0) {
+      return toast.warning('Must stake more than 0 $TRLCO')
+    }
+
+    if (+withdrawAmount > +formatEther(walletStats?.stakedAmount ?? 0n)) {
+      return toast.warning('You are withdrawing more than your staked amount.')
+    }
+
+    try {
+      await withdrawStake(withdrawAmount)
+    } catch (error: any) {
+      toast.error(error.message.split('\n')[0])
+    }
+  }
+
+  const handleClaim = async () => {
+    try {
+      await claimRewards()
+    } catch (error: any) {
+      toast.error(error.message.split('\n')[0])
+    }
+  }
+
+  const handleCancel = async () => {
+    try {
+      await exitMembership()
+    } catch (error: any) {
+      toast.error(error.message.split('\n')[0])
+    }
+  }
+
+  const handleApprove = async () => {
+    try {
+      await approve()
+    } catch (error: any) {
+      toast.error(error.message.split('\n')[0])
+    }
+  }
+
+  useEffect(() => {
+    if (isError || isFailed) {
+      toast.dismiss('transaction')
+    }
+
+    if (isPending || isConfirming) {
+      toast.loading('Processing your transaction...', {
+        id: 'transaction',
+        duration: Infinity,
+      })
+    }
+
+    if (isFailed) {
+      toast.error('Transaction Failed')
+    }
+
+    if (isSuccess) {
+      toast.dismiss('transaction')
+      toast.success('Transaction successful!')
+      refetch()
+      setStakeAmount('')
+    }
+  }, [isConfirming, isPending, isSuccess, isError, isFailed])
 
   return (
-    <Card className='flex flex-col shadow-none'>
+    <Card className='relative overflow-clip shadow-none'>
+      {(isLoading || isConfirming || isPending) && (
+        <div className='grid absolute inset-0 place-items-center backdrop-blur'>
+          <div className='flex gap-2'>
+            <LoaderCircle className='duration-500 animate-spin' />
+            <span className='font-medium'>Loading</span>
+          </div>
+        </div>
+      )}
       <CardHeader>
         <CardTitle>Staking</CardTitle>
         <CardDescription>Stake TRLCO, Get TRLCO</CardDescription>
       </CardHeader>
-      <Separator className='mb-3' />
-      <CardContent className='flex-1 space-y-2 text-sm font-medium'>
-        <div className='flex justify-between items-center'>
-          <span>Wallet balance</span>
-          <span>{Number(formatEther(bc.balance ?? 0n)).toFixed(8)}</span>
+      <CardContent className='space-y-6'>
+        <div className='p-4 space-y-3 rounded-xl bg-secondary'>
+          <div className='flex justify-between items-center text-sm font-medium text-destructive'>
+            <span>Staked Amount:</span>
+            <span>{data.stakedAmount}</span>
+          </div>
+          <div className='flex justify-between items-center text-sm font-medium'>
+            <span>$ETH Balance:</span>
+            <span>{data.ethBalance}</span>
+          </div>
+          <div className='flex justify-between items-center text-sm font-medium'>
+            <span>$TRLCO Balance:</span>
+            <span>{data.trlcoBalance}</span>
+          </div>
+          <div className='flex justify-between items-center text-sm font-medium'>
+            <span>Base APY:</span>
+            <span>{data.baseRate}%</span>
+          </div>
+          <div className='flex justify-between items-center text-sm font-medium'>
+            <span>Multiplier:</span>
+            <span>{data.multiplier}x</span>
+          </div>
+          <div className='flex justify-between items-center text-sm font-medium'>
+            <span>Monthly Reward ({data.multiplier ?? '1'}x):</span>
+            <span>{data.monthlyReward}</span>
+          </div>
+          <div className='flex justify-between items-center text-sm font-medium'>
+            <span>Lifetime Reward:</span>
+            <span>{data.lifetimeReward}</span>
+          </div>
+          <div className='flex justify-between items-center text-sm font-medium'>
+            <span>Unclaimed Reward:</span>
+            <span>{data.unclaimedReward}</span>
+          </div>
         </div>
-        <div className='flex justify-between items-center'>
-          <span>Total staked</span>
-          <span>{formatEther(bc.stakes.amount ?? 0n)}</span>
-        </div>
-        <div className='flex justify-between items-center'>
-          <span>Minimum stake</span>
-          <span>100</span>
-        </div>
-        <div className='flex justify-between items-center'>
-          <span>Stake to next tier</span>
-          <span>{nextTierRemaining}</span>
-        </div>
+        {isApproved ? (
+          <Accordion type='multiple'>
+            <AccordionItem value='stake'>
+              <AccordionTrigger>Stake</AccordionTrigger>
+              <AccordionContent>
+                <div className='py-2.5 px-0.5 space-y-3'>
+                  <Badge>Balance: {data.trlcoBalance}</Badge>
+                  <div className='flex items-center space-x-2'>
+                    <Input
+                      placeholder='0'
+                      value={stakeAmount}
+                      onChange={(e) => setStakeAmount(e.target.value)}
+                    />
+                    <Button variant='outline' onClick={handleMaxStake}>
+                      max
+                    </Button>
+                    <Button
+                      variant='destructive'
+                      onClick={handleStake}
+                      disabled={isLoading || isPending}
+                    >
+                      Stake
+                    </Button>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value='withdraw'>
+              <AccordionTrigger>Withdraw</AccordionTrigger>
+              <AccordionContent>
+                <div className='py-2.5 px-0.5 space-y-3'>
+                  <Badge>Staked: {data.stakedAmount}</Badge>
+                  <div className='flex items-center space-x-2'>
+                    <Input
+                      placeholder='0'
+                      value={withdrawAmount}
+                      onChange={(e) => setWithdrawAmount(e.target.value)}
+                      disabled={isLoading || isPending}
+                    />
+                    <Button
+                      variant='outline'
+                      onClick={handleMaxWithdraw}
+                      disabled={isLoading || isPending}
+                    >
+                      max
+                    </Button>
+                    <Button
+                      variant='destructive'
+                      onClick={handleWithdraw}
+                      disabled={isLoading || isPending}
+                    >
+                      Withdraw
+                    </Button>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value='claim'>
+              <AccordionTrigger>Claim</AccordionTrigger>
+              <AccordionContent>
+                <div className='py-2.5 px-0.5 space-y-3'>
+                  <div className='flex justify-between items-center space-x-2'>
+                    <Badge>Unclaimed Reward: {data.unclaimedReward}</Badge>
+                    <Button variant='destructive' onClick={handleClaim}>
+                      Claim All
+                    </Button>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value='exit'>
+              <AccordionTrigger>Cancel Membership</AccordionTrigger>
+              <AccordionContent>
+                <div className='py-2.5 px-0.5 space-y-3'>
+                  <div className='flex gap-3 justify-between items-center'>
+                    <span>
+                      Canceling membership, all your staked token will be
+                      withdraw and all rewards will be claimed
+                    </span>
+                    <Button variant='destructive' onClick={handleCancel}>
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        ) : (
+          <Button variant='destructive' onClick={handleApprove}>
+            Approve Contract
+          </Button>
+        )}
       </CardContent>
-      <CardFooter className='grid grid-cols-2 gap-2'>
-        <StakeDrawer>
-          <Button variant={'destructive'}>Stake</Button>
-        </StakeDrawer>
-        <WithdrawDrawer>
-          <Button>Withdraw</Button>
-        </WithdrawDrawer>
-      </CardFooter>
     </Card>
-  )
-}
-
-function RewardCard() {
-  const bc = useTRLContract()
-  const membership = membershipDetails[bc.membership.name as Membership]
-  const multiplier = Number(bc.membership.multiplier) / 100
-  const multiplierBonus =
-    Number(formatEther(bc.reward ?? 0n)) * (membership?.multiplier - 1)
-
-  const rewardPerMonth = (
-    +formatEther(bc.stakes.amount ?? 0n) *
-    (Number(bc.baseRate) / 100 / 12) *
-    membership?.multiplier
-  ).toFixed(8)
-
-  return (
-    <Card className='flex flex-col shadow-none'>
-      <CardHeader>
-        <CardTitle>Rewards</CardTitle>
-        <CardDescription>Rewards generated from staking</CardDescription>
-      </CardHeader>
-      <Separator className='mb-3' />
-      <CardContent className='flex-1 space-y-2 text-sm font-medium'>
-        <div className='flex justify-between items-center'>
-          <span>Base APR</span>
-          <span>{bc.baseRate?.toString()}%</span>
-        </div>
-        <div className='flex justify-between items-center'>
-          <span>Membership</span>
-          <span>{bc.membership.name}</span>
-        </div>
-        <div className='flex justify-between items-center'>
-          <span>Multiplier</span>
-          <span>{multiplier}x</span>
-        </div>
-        <div className='flex justify-between items-center'>
-          <span>Monthly reward</span>
-          <span>{rewardPerMonth}</span>
-        </div>
-        <div className='flex justify-between items-center'>
-          <span>Multiplier bonus</span>
-          <span>{multiplierBonus.toFixed(8)}</span>
-        </div>
-        <div className='flex justify-between items-center'>
-          <span>Total unclaimed</span>
-          <span>{Number(formatEther(bc.reward ?? 0n)).toFixed(8)}</span>
-        </div>
-      </CardContent>
-      <CardFooter className='grid'>
-        <ClaimDrawer>
-          <Button>Claim</Button>
-        </ClaimDrawer>
-      </CardFooter>
-    </Card>
-  )
-}
-
-function RewardAlert() {
-  return (
-    <Alert variant='destructive' className='bg-white'>
-      <AlertTitle>Reward Notice</AlertTitle>
-      <AlertDescription className='text-gray-600'>
-        Each time you stake or withdraw, your rewards will be calculated and
-        automatically claimed to your wallet. To compound your rewards, simply
-        stake again.
-      </AlertDescription>
-    </Alert>
-  )
-}
-
-function ClaimReward() {
-  return (
-    <Alert variant='destructive' className='bg-white'>
-      <AlertTitle>Caution</AlertTitle>
-      <AlertDescription className='text-gray-600'>
-        Please claim your rewards before staking or re-staking your TRLCO to
-        avoid any loss of earned rewards.
-      </AlertDescription>
-    </Alert>
   )
 }
