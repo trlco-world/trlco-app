@@ -3,8 +3,8 @@ import ClaimDrawer from '@/components/blockchain/ClaimDrawer'
 import StakeDrawer from '@/components/blockchain/StakeDrawer'
 import WithdrawDrawer from '@/components/blockchain/WithdrawDrawer'
 import {
-  MembershipCard,
   Membership,
+  MembershipCard,
   membershipDetails,
   OtherMembership,
 } from '@/components/MembershipCard'
@@ -20,31 +20,12 @@ import {
 } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { useTRLContract } from '@/hooks/use-contract'
-import { createFileRoute, Link } from '@tanstack/react-router'
 import { formatEther } from 'viem'
 
-export const Route = createFileRoute('/_dashboard/stake/v1')({
-  component: StakePage,
-})
-
-function StakePage() {
+export default function StakePage() {
   const bc = useTRLContract()
   return (
     <div className='space-y-6'>
-      <div className='flex justify-between items-center'>
-        <div className='flex flex-1 gap-3 items-center'>
-          <img className='w-10 h-10' src='/trlco.svg' alt='TRLCO' />
-          <div className='flex flex-col'>
-            <span className='text-lg font-semibold sm:text-xl'>$TRLCO</span>
-            <span className='text-sm font-medium uppercase text-neutral-500'>
-              Membership Staking
-            </span>
-          </div>
-        </div>
-        <Link to='/stake'>
-          <Button>V2 Staking</Button>
-        </Link>
-      </div>
       <StakingDataCard />
 
       <ClaimReward />
