@@ -6,6 +6,7 @@ import { z } from 'zod'
 
 const StakingV1 = lazy(() => import('@/components/blockchain/v1'))
 const StakingV2 = lazy(() => import('@/components/blockchain/v2'))
+const StakingV3 = lazy(() => import('@/components/blockchain/v3'))
 
 export const Route = createFileRoute('/_dashboard/stake/')({
   validateSearch: z.object({
@@ -22,7 +23,7 @@ function StakePage() {
       <Suspense fallback={<div>Loading...</div>}>
         {version === 'v1' && <StakingV1 />}
         {version === 'v2' && <StakingV2 />}
-        {version === 'v3' && <div>V3 Component Coming Soon</div>}
+        {version === 'v3' && <StakingV3 />}
       </Suspense>
     </div>
   )

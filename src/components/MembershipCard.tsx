@@ -1,10 +1,10 @@
 import { tokenSvg } from '@/assets/membership'
 import { cn } from '@/lib/utils'
+import { useNavigate } from '@tanstack/react-router'
 import { useMemo } from 'react'
-import { FaCrown, FaLock } from 'react-icons/fa6'
 import { FaRegCheckCircle } from 'react-icons/fa'
-import { useTRLContract } from '@/hooks/use-contract'
-import { formatEther } from 'viem'
+import { FaCrown, FaLock } from 'react-icons/fa6'
+import { Button } from './ui/button'
 import {
   Card,
   CardContent,
@@ -12,8 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from './ui/card'
-import { Button } from './ui/button'
-import { useNavigate } from '@tanstack/react-router'
 
 export type Membership = 'Basic' | 'Bronze' | 'Silver' | 'Gold' | 'Platinum'
 
@@ -81,36 +79,36 @@ const styles: Styles = {
 export const membershipDetails: MembershipDetails = {
   Basic: {
     min: 1,
-    max: 999,
+    max: 1999,
     multiplier: 1.0,
     revenueShare: 0,
     isMarketplace: false,
   },
   Bronze: {
-    min: 1000,
-    max: 1999,
-    multiplier: 1.1,
+    min: 2000,
+    max: 3999,
+    multiplier: 1.5,
     revenueShare: 0,
     isMarketplace: false,
   },
   Silver: {
-    min: 2000,
-    max: 4999,
-    multiplier: 1.15,
+    min: 4000,
+    max: 7999,
+    multiplier: 2.0,
     revenueShare: 5,
     isMarketplace: false,
   },
   Gold: {
-    min: 5000,
-    max: 9999,
-    multiplier: 1.2,
+    min: 8000,
+    max: 11999,
+    multiplier: 2.5,
     revenueShare: 10,
     isMarketplace: false,
   },
   Platinum: {
-    min: 10000,
+    min: 12000,
     max: Infinity,
-    multiplier: 1.25,
+    multiplier: 3.0,
     revenueShare: 15,
     isMarketplace: true,
   },

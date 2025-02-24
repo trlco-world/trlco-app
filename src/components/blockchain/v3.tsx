@@ -19,24 +19,25 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { useStakingV2 } from '@/hooks/blockchain/stakingV2'
+import { useStakingV3 } from '@/hooks/blockchain/stakingV3'
 import { formatter } from '@/lib/utils'
 import { LoaderCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { formatEther } from 'viem'
 
-export default function StakingV2() {
+export default function StakingV3() {
   return (
     <div className='space-y-6'>
       <ContractStats />
       <Staking />
+      <MembershipOverview />
     </div>
   )
 }
 
 function Staking() {
-  const { walletStats } = useStakingV2()
+  const { walletStats } = useStakingV3()
 
   return (
     <div className='grid gap-6 sm:grid-cols-2'>
@@ -50,7 +51,7 @@ function Staking() {
 }
 
 function ContractStats() {
-  const { stats, totalStaked, totalSupply } = useStakingV2()
+  const { stats, totalStaked, totalSupply } = useStakingV3()
 
   const data = {
     totalStakedWallet: Number(stats.uniqueStakers),
@@ -87,7 +88,7 @@ function ContractStats() {
 }
 
 function MembershipOverview() {
-  const { walletStats } = useStakingV2()
+  const { walletStats } = useStakingV3()
   return (
     <Card>
       <CardHeader>
@@ -126,12 +127,12 @@ function StakingCard() {
     isFailed,
     isLoading,
     refetch,
-  } = useStakingV2()
+  } = useStakingV3()
 
   const isApproved = allowance ? allowance > 0n : false
 
   const data = {
-    baseRate: '10',
+    baseRate: '20',
     trlcoBalance: formatter(balance ?? 0n),
     stakedAmount: formatter(walletStats?.stakedAmount ?? 0n),
     unclaimedReward: formatter(pendingRewards ?? 0n),

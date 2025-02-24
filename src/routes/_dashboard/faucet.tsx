@@ -4,10 +4,12 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { claimFaucet } from '@/lib/api'
+import { checkFaucet, claimFaucet } from '@/lib/api'
+import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -19,12 +21,16 @@ export const Route = createFileRoute('/_dashboard/faucet')({
 
 function FaucetPage() {
   const [loading, setLoading] = useState(false)
-  const [data, setData] = useState<{
-    message: string
-    hash: string
-  }>()
-  const [status, setStatus] = useState<'limit' | 'error' | 'success'>()
   const { isConnected, address } = useAccount()
+  const {
+    data: faucet,
+    isLoading: faucetIsLoading,
+    refetch: faucetRefetch,
+  } = useQuery({
+    queryKey: ['faucet'],
+    queryFn: async () => await checkFaucet(address!),
+    enabled: !!address,
+  })
 
   async function handleClaim(token: 'TRLCO' | 'ETH') {
     if (!address) {
@@ -37,14 +43,10 @@ function FaucetPage() {
     try {
       const data = await claimFaucet(address, token)
       if (data.hash) {
-        setData(data)
-        setStatus('success')
         toast.success('Successfully transferred to your wallet', {
           id: 'loading',
         })
       } else {
-        setData(data)
-        setStatus('limit')
         toast.info(data.message, {
           id: 'loading',
         })
@@ -53,63 +55,86 @@ function FaucetPage() {
       if (error instanceof Error) toast.error(error.message, { id: 'loading' })
     } finally {
       setLoading(false)
+      faucetRefetch()
     }
   }
 
+  if (faucetIsLoading) {
+    return 'Loading...'
+  }
   return (
-    <div className='max-w-sm space-y-6'>
+    <div className='space-y-6 max-w-sm'>
       <BackButton />
-      {status === 'success' && data ? (
-        <div className='p-5 space-y-2 text-sm border border-green-200 bg-green-50 rounded-xl'>
-          <h6 className='font-medium text-green-600'>Claim Successful</h6>
-          <a
-            href={`${import.meta.env.VITE_EXPLORER_LINK}/tx/${data.hash}`}
-            target='_blank'
-            className='underline'
-          >
-            Check your transaction at explorer
-          </a>
-        </div>
-      ) : null}
-      {status === 'limit' && data ? (
-        <div className='p-5 space-y-1 text-sm border border-yellow-200 bg-yellow-50 rounded-xl'>
-          <h6 className='font-medium'>Limit Reached</h6>
-          <p className='text-neutral-500'>{data.message}</p>
-        </div>
-      ) : null}
       <Card>
         <CardHeader>
-          <CardTitle>Redeem your test token</CardTitle>
-          <CardDescription>
-            Due to limited supply. You can only redeem once every 24 hours.
-          </CardDescription>
+          <CardTitle>Redeem TRLCO</CardTitle>
+          <CardDescription>Refresh everyday at UTC 00:00</CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className='space-y-6'>
-            <div className='flex flex-col gap-2'>
-              <span className='font-medium text-gray-500'>Redeem TRLCO</span>
-              <span className='text-xl'>2,000</span>
-              {isConnected ? (
-                <Button onClick={() => handleClaim('TRLCO')} disabled={loading}>
-                  Redeem TRLCO
-                </Button>
-              ) : (
-                <Button disabled>Please connect wallet</Button>
-              )}
-            </div>
-            <div className='flex flex-col gap-2'>
-              <span className='font-medium text-gray-500'>Redeem Base ETH</span>
-              <span className='text-xl'>0.0005</span>
-              {isConnected ? (
-                <Button onClick={() => handleClaim('ETH')} disabled={loading}>
-                  Redeem ETH
-                </Button>
-              ) : (
-                <Button disabled>Please connect wallet</Button>
-              )}
-            </div>
-          </div>
+        <CardContent className='flex flex-col'>
+          <span className='text-2xl font-medium'>
+            {faucet?.currentLimit ?? '0'}
+          </span>
+          <span className='text-sm text-blue-700'>
+            Cooldown:{' '}
+            {`${faucet?.claims.TRLCO.timeLeft?.hours ?? '0'} Hours 
+            ${faucet?.claims.TRLCO.timeLeft?.minutes ?? '0'} Minute`}
+          </span>
         </CardContent>
+        <CardFooter className='grid'>
+          {isConnected ? (
+            <Button
+              onClick={() => handleClaim('TRLCO')}
+              disabled={loading || faucet?.claims.TRLCO.claimed}
+            >
+              Redeem TRLCO
+            </Button>
+          ) : (
+            <Button disabled>Please connect wallet</Button>
+          )}
+          {/* <Button variant='link'>
+            <a
+              target='_blank'
+              href={`${import.meta.env.VITE_EXPLORER_LINK}/tx/${faucet?.claims.TRLCO.hash}`}
+            >
+              Check last claimed transaction
+            </a>
+          </Button> */}
+        </CardFooter>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Redeem Base ETH</CardTitle>
+          <CardDescription>Refresh every Saturday at UTC 00:00</CardDescription>
+        </CardHeader>
+        <CardContent className='grid'>
+          <span className='text-2xl font-medium'>0.0005</span>
+          <span className='text-sm text-blue-700'>
+            Cooldown:{' '}
+            {`${faucet?.claims.ETH.timeLeft?.hours ?? '0'} Hours 
+            ${faucet?.claims.ETH.timeLeft?.minutes ?? '0'} Minute`}
+          </span>
+        </CardContent>
+        <CardFooter className='grid'>
+          {isConnected ? (
+            <Button
+              onClick={() => handleClaim('ETH')}
+              disabled={loading || faucet?.claims.ETH.claimed}
+            >
+              Redeem ETH
+            </Button>
+          ) : (
+            <Button disabled>Please connect wallet</Button>
+          )}
+          {/* <Button variant='link'>
+            <a
+              target='_blank'
+              href={`${import.meta.env.VITE_EXPLORER_LINK}/tx/${faucet?.claims.ETH.hash}`}
+            >
+              Check last claimed transaction
+            </a>
+          </Button> */}
+        </CardFooter>
       </Card>
     </div>
   )

@@ -234,3 +234,34 @@ export const claimFaucet = async (
 
   return response.data
 }
+
+export type TimeLeft = {
+  hours: number
+  minutes: number
+}
+
+export type TokenClaim = {
+  claimed: boolean
+  timeLeft?: TimeLeft
+  hash: string
+}
+
+export type FaucetCheckResponse = {
+  isUpsizeDay: boolean
+  currentLimit: string
+  regularLimit: string
+  upsizeLimit: string
+  claims: {
+    TRLCO: TokenClaim
+    ETH: TokenClaim
+  }
+}
+
+export const checkFaucet = async (
+  walletAddress: `0x${string}`,
+): Promise<FaucetCheckResponse> => {
+  const response = await serverless.get('/check-faucet', {
+    params: { walletAddress },
+  })
+  return response.data
+}
